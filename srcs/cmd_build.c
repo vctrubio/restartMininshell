@@ -1,23 +1,52 @@
 #include "../include/minishell.h"
 //this is where it gets interesting
 
-void	build_struct(char *cmd)
+t_cmd	*init_tcmd(char **cmds)
 {
+	t_cmd	*cmd;
 
-	printf("ft_build_struct\n");
-	while(*cmd)
-	{
-		printf("%s--\n", *cmd);
-		(cmd)++;
-	}
+	cmd = malloc(sizeof(t_cmd));
+	cmd->cmd = *cmds;
+	(*cmds)++;
+	printf("cmd->cmd = %s\n", cmd->cmd);
+	printf("%s args... \n", *cmds);
+	cmd->type = NADA;
+	return(cmd);
 }
-
 
 void	build_cmds(char **cmds)
 {
+	t_cmd	*ptr;
+
 	printf("ft_build_cmds\n");
-	while (*cmds)
-	{
-		build_struct(*cmds);
-	}
+	//we return head 
+	ptr = init_tcmd(cmds);
+	g_envp.head = ptr;
+	//while we have cmds, ptr = to init_tcmd and we have to link it to our global head.
 }
+
+
+
+/* EXAMPLE 1: ls -la > text.txt
+t_cmd	*cmd(malloc)
+
+cmd->cmd = ls
+cmd->args = -la
+cmd->type = R_OUT
+cmd->next = NULL
+
+t_file		*file(malloc)
+cmd->next = cmd2;
+
+
+// EXAMPLE 2: pwd|ls
+t_cmd	*t(malloc)
+t->cmd	=pwd
+t->args =NULL;
+t->type = PIPE
+t->next = t2
+
+t_cmd	*t2(malloc)
+t->cmd	=ls
+
+*/

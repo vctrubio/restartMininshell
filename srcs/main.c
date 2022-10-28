@@ -10,7 +10,7 @@ void	add_cmds(char **cmds)
 
 	// print_arrays(cmds);
 	build_cmds(cmds);
-	free_arrays(cmds);
+	// free_arrays(cmds);
 }
 
 void	minishell(void)
@@ -34,6 +34,7 @@ void	minishell(void)
 int main(int ac, char **av, char **ev)
 {
 	printf("ft_main_minishell\n");
+
 	g_envp.exit_code = 0;
 	minishell();
 	return (g_envp.exit_code);

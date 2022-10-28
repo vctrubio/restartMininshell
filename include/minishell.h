@@ -9,21 +9,37 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
-typedef enum	s_type
+typedef struct s_file	t_file;
+typedef struct s_cmd	t_cmd;
+typedef enum s_type		t_type;
+
+enum	s_type
 {
 	NADA,
 	R_OUT,
 	R_IN,
 	R_APP,
 	PIPE,
-}				t_type;
+	HEREDOC,
+};
 
-typedef struct	s_cmd
+struct	s_file
+{
+	char		*filename;
+	int			fd;
+	int			(*create)(int fd[2], char *path, int mode);
+	void		(*close)(int fd[2]);
+	t_type		type;
+};
+
+struct	s_cmd
 {
 	char			*cmd;
 	char			**args;
 	t_type			type;
-}				t_cmd;
+	t_file			*file;
+	t_cmd			*next;
+};
 
 typedef struct s_envp
 {
