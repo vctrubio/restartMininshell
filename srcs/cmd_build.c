@@ -7,9 +7,9 @@ t_cmd	*init_tcmd(char **cmds)
 
 	cmd = malloc(sizeof(t_cmd));
 	cmd->cmd = *cmds;
-	(*cmds)++;
 	printf("cmd->cmd = %s\n", cmd->cmd);
-	printf("%s args... \n", *cmds);
+	// (*cmds)++; // HELP i dont know
+	// printf("%s args... \n", *cmds);
 	cmd->type = NADA;
 	return(cmd);
 }

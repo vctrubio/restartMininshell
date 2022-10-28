@@ -52,8 +52,6 @@ typedef struct s_envp
 
 extern t_envp	g_envp;
 
-
-
 //cmd_build.c
 void	build_cmds(char **cmds);
 
