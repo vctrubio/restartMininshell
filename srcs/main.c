@@ -8,9 +8,8 @@ void	add_cmds(char **matrix)
 	if (g_envp.valid_input == false)
 		printf("INVALID USER INPUT... ERROR IN PARSING... TBD\n");
 
-	// print_arrays(matrix);
 	build_cmds(matrix);
-	// free_matrix(matrix);
+	free_arrays(matrix);
 }
 
 void	minishell(void)
@@ -29,14 +28,12 @@ void	minishell(void)
 		add_cmds(line_to_matrix(line));
 		free(line);
 		line = NULL;
-		//Where do we free the matrix
 	}
 }
 
 int main(int ac, char **av, char **ev)
 {
-	printf("ft_main_minishell\n");
-	init_envp(ev);
+    g_envp.envp= ft_matrix_dup(ev, 0);
 	g_envp.exit_code = 0;
 	minishell();
 	return (g_envp.exit_code);

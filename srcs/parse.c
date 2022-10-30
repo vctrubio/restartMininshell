@@ -104,6 +104,5 @@ char	**line_to_matrix(char *line)
 		matrix[i++] = buffer_to_string(&line);
 	}
 	matrix[i] = 0;
-	// print_arrays(matrix);
 	return (matrix);
 }

@@ -67,6 +67,7 @@ t_cmd	*init_tcmd(char ***matrix)
 		else
 		{
 			set_redir(cmd, &matrix); //*[ls][-la][>][file.txt]
+			//while !is_redir(***matrix) (check for > file1 > file2 >> file3)
 			break;
 		}
 		*(matrix) = *matrix + 1;
@@ -80,7 +81,6 @@ void	build_cmds(char **matrix)
 	t_cmd	*ptr;
 	t_cmd	*ptr_next;
 	
-	// printf("ft_build_cmd\n");
 	ptr = init_tcmd(&matrix);
 	g_envp.head = ptr;
 	while (*matrix != NULL)

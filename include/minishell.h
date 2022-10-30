@@ -96,7 +96,6 @@ char 	*parse_clean(char *str);
 void	dollar_for_money(char **outup, char **input);
 
 //parse_envp.c
-void	init_envp(char **envp);
 int		ft_env(char **argv);
 
 //static.c

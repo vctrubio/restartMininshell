@@ -5,9 +5,8 @@ void	print_tcmd(t_cmd *cmd)
 	int	i;
 
 	i = -1;
-	printf("PRINTING ARRAYs\n\n");
 	if (cmd->cmd)
-		printf("CMD= %s[TYPE %d]\n", cmd->cmd, cmd->type);
+		printf("\nCMD= %s[TYPE %d]\n", cmd->cmd, cmd->type);
 	while (cmd->args[++i])
 		printf("ARGS[%d]= %s\n", i, cmd->args[i]);
 	if (cmd->file)
