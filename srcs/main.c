@@ -34,9 +34,9 @@ void	minishell(void)
 int main(int ac, char **av, char **ev)
 {
 	printf("ft_main_minishell\n");
-
+	init_envp(ev);
 	g_envp.exit_code = 0;
-	minishell();
+	// minishell();
 	return (g_envp.exit_code);
 }
 

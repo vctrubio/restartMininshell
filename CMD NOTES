@@ -1,0 +1,19 @@
+
+// ls|wc
+// ls |cat|wc
+
+// ls|cat
+// ls
+
+
+//<< (HEREDOC) (CMD1)
+//a  () (ARGS)
+
+//| (PIPE NEW CMD2)
+//wc (CMD)
+
+// ls -a > a.txt | wc  > 1.tx //-> wc
+//cmd1- cmd: ls args: -a type: R_OUT file: a.txt next: wc
+//cmd2- wc args: NULL type:PIPE
+//cmd3
+
