@@ -2,9 +2,8 @@
 
 void	ft_strfree(char **str)
 {
-	int	i;
-	
-	i = 0;
+	// int	i;
+	// i = 0;
 	if (str && *str)
 	{
 		free(*str);
