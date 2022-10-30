@@ -12,15 +12,14 @@ int	ft_env(char **argv)
 	if (argc == 1)
 	{
 		i = -1;
-		while (g_envp.envp[++i])
+		while (_shell()->envp[++i])
 		{
-			if (g_envp.envp[i][0] == '?' && g_envp.envp[i][1] == '=')
+			if (_shell()->envp[i][0] == '?' && _shell()->envp[i][1] == '=')
 				continue ;
-			printf("%s\n", g_envp.envp[i]);
+			printf("%s\n", _shell()->envp[i]);
 		}
 	}
 	else
 		printf("env: too many arguments\n");
 	return (0);
 }
-

@@ -1,14 +1,14 @@
 #include "../include/minishell.h"
-//validations of user input 
+//validations of user input
 
 static void	ft_validate_pipe_matrix(char **line, int i, int j)
 {
 	if (i == 0 && j == 0)
-		g_envp.valid_input = false;
+		_shell()->valid_input = false;
 	if (line[i + 1] == 0)
-		g_envp.valid_input = false;
+		_shell()->valid_input = false;
 	if (line[i + 1][0] == '|')
-		g_envp.valid_input = false;
+		_shell()->valid_input = false;
 }
 
 static void	ft_validate_redir_output_matrix(char **line, int i) //>
@@ -17,14 +17,13 @@ static void	ft_validate_redir_output_matrix(char **line, int i) //>
 	{
 		if ((line[i + 1][0] == '>') || (line[i + 1][0] == '<'))
 		{
-				g_envp.valid_input = false;
+			_shell()->valid_input = false;
 		}
 	}
 	else
 	{
-		g_envp.valid_input = false;
+		_shell()->valid_input = false;
 	}
-	
 }
 
 static void	ft_validate_redir_input_matrix(char **line, int i) //<
@@ -33,11 +32,11 @@ static void	ft_validate_redir_input_matrix(char **line, int i) //<
 	{
 		if ((line[i + 1][0] == '>') || (line[i + 1][0] == '<'))
 		{
-				g_envp.valid_input = false;
+			_shell()->valid_input = false;
 		}
 	}
 	else
-		g_envp.valid_input = false;
+		_shell()->valid_input = false;
 }
 
 void	validate_rl(char **matrix)
@@ -50,7 +49,7 @@ void	validate_rl(char **matrix)
 	while (matrix[i])
 	{
 		j = -1;
-		while(matrix[i][++j])
+		while (matrix[i][++j])
 		{
 			if (matrix[i][j] == '\"' || matrix[i][j] == '\'')
 			{
@@ -68,4 +67,3 @@ void	validate_rl(char **matrix)
 		i++;
 	}
 }
-

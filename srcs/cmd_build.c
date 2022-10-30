@@ -3,7 +3,7 @@
 
 t_file	*create_file(char *str, t_type type)
 {
-	t_file *file;
+	t_file	*file;
 
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
@@ -14,29 +14,29 @@ t_file	*create_file(char *str, t_type type)
 
 void	set_redir(t_cmd *cmd, char ****str)
 {
-	// if (ft_strexact(*str, ">") && *(str + 1) && ft_strexact(*(str + 1), "|")) //TO WATCH OUT FOR cat >|ls
-	
+	// if (ft_strexact(*str, ">") && *(str + 1) && ft_strexact(*(str + 1), "|"))
+	//TO WATCH OUT FOR cat >|ls
 	if (ft_strexact(***str, "|"))
 		cmd->type = PIPE;
-	else if (ft_strexact(***str, ">")) 
+	else if (ft_strexact(***str, ">"))
 	{
 		cmd->type = R_OUT;
 		**(str) = **str + 1;
 		cmd->file = create_file(***str, cmd->type);
 	}
-	else if (ft_strexact(***str, ">>")) 
+	else if (ft_strexact(***str, ">>"))
 	{
 		cmd->type = R_APP;
 		**(str) = **str + 1;
 		cmd->file = create_file(***str, cmd->type);
 	}
-	else if (ft_strexact(***str, "<")) 
+	else if (ft_strexact(***str, "<"))
 	{
 		cmd->type = R_IN;
 		**(str) = **str + 1;
 		cmd->file = create_file(***str, cmd->type);
 	}
-	else if (ft_strexact(***str, "<<")) 
+	else if (ft_strexact(***str, "<<"))
 	{
 		cmd->type = HEREDOC;
 		**(str) = **str + 1;
@@ -58,7 +58,7 @@ t_cmd	*init_tcmd(char ***matrix)
 	cmd->fd = -1;
 	cmd->cmd = **matrix;
 	i = 0;
-	cmd->args = malloc((1+ft_matrix_get_num_col(*matrix))*sizeof(char**));
+	cmd->args = malloc((1 + ft_matrix_get_num_col(*matrix)) * sizeof(char **));
 	*(matrix) = *matrix + 1;
 	while (**matrix != NULL)
 	{
@@ -68,21 +68,21 @@ t_cmd	*init_tcmd(char ***matrix)
 		{
 			set_redir(cmd, &matrix); //*[ls][-la][>][file.txt]
 			//while !is_redir(***matrix) (check for > file1 > file2 >> file3)
-			break;
+			break ;
 		}
 		*(matrix) = *matrix + 1;
 	}
-	cmd->args[i]=NULL;
+	cmd->args[i] = NULL;
 	return (cmd);
 }
 
 void	build_cmds(char **matrix)
 {
-	t_cmd	*ptr;
-	t_cmd	*ptr_next;
-	
+	t_cmd *ptr;
+	t_cmd *ptr_next;
+
 	ptr = init_tcmd(&matrix);
-	g_envp.head = ptr;
+	_shell()->head = ptr;
 	while (*matrix != NULL)
 	{
 		ptr_next = init_tcmd(&matrix);
@@ -90,5 +90,5 @@ void	build_cmds(char **matrix)
 		ptr_next->prev = ptr;
 		ptr = ptr->next;
 	}
-	print_tcmd(g_envp.head);
+	print_tcmd(_shell()->head);
 }

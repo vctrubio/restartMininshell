@@ -41,5 +41,9 @@ int					has_newline(char *str);
 int					ft_d_counter(int n);
 int					count_words(char *str, char c);
 int					get_next_line(int fd, char **line);
+char				**ft_split(char const *s, char c);
+void				*ft_memmove(void *dest, const void *src, size_t n);
+int					ft_strncmp(const char *str1, const char *str2, size_t n);
+void				ft_bzero(void *str, size_t l);
 
 #endif
