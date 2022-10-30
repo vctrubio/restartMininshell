@@ -22,9 +22,21 @@ void	set_redir(t_cmd *cmd, char ****str)
 		**(str) = **str + 1;
 		cmd->file = create_file(***str, cmd->type);
 	}
+	else if (ft_strexact(***str, ">>")) 
+	{
+		cmd->type = R_APP;
+		**(str) = **str + 1;
+		cmd->file = create_file(***str, cmd->type);
+	}
 	else if (ft_strexact(***str, "|"))
 		cmd->type = PIPE;
-	//need to implement the rest...
+	// else if (ft_strexact(***str, "<")) 
+	// {
+	// 	cmd->type = R_IN;
+	// 	**(str) = **str + 1;
+	// 	cmd->file = create_file(***str, cmd->type);
+	// }
+	
 	**(str) = **str + 1;
 }
 
@@ -44,14 +56,10 @@ t_cmd	*init_tcmd(char ***matrix)
 	i = 0;
 	cmd->args = malloc((1+ft_matrix_get_num_col(*matrix))*sizeof(char**));
 	*(matrix) = *matrix + 1;
-
 	while (**matrix != NULL)
 	{
 		if (!is_redir(***matrix)) // | >> < << >
-		{
-			// printf("%s args... \n", **matrix);
 			cmd->args[i++] = ft_strdup((**matrix));
-		}
 		else
 		{
 			set_redir(cmd, &matrix); //*[ls][-la][>][file.txt]
