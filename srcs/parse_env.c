@@ -1,9 +1,11 @@
 #include "../include/minishell.h"
 //parsing of envp
 
-void	init_envp(char **ev)
+void	init_envp(char **envp)
 {
-	
+	g_envp.envp= ft_matrix_dup(envp, 0);
+	// print_arrays(g_envp.envp);
+    ft_env(&g_envp.envp[0]);
 }
 
 int	ft_env(char **argv)
@@ -28,3 +30,4 @@ int	ft_env(char **argv)
 		printf("env: too many arguments\n");
 	return (0);
 }
+
