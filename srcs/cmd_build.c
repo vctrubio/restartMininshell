@@ -15,7 +15,7 @@ t_file	*create_file(char *str, t_type type)
 void	set_redir(t_cmd *cmd, char ****str)
 {
 	// if (ft_strexact(*str, ">") && *(str + 1) && ft_strexact(*(str + 1), "|")) //TO WATCH OUT FOR cat >|ls
-
+	
 	if (ft_strexact(***str, ">")) 
 	{
 		cmd->type = R_OUT;
@@ -23,9 +23,8 @@ void	set_redir(t_cmd *cmd, char ****str)
 		cmd->file = create_file(***str, cmd->type);
 	}
 	else if (ft_strexact(***str, "|"))
-	{
 		cmd->type = PIPE;
-	}
+	//need to implement the rest...
 	**(str) = **str + 1;
 }
 
@@ -41,7 +40,7 @@ t_cmd	*init_tcmd(char ***matrix)
 	cmd->prev = NULL;
 	cmd->fd = -1;
 	cmd->cmd = **matrix;
-	printf("COPYING cmd->cmd = %s\n", cmd->cmd);
+	// printf("COPYING cmd->cmd = %s\n", cmd->cmd);
 	i = 0;
 	cmd->args = malloc((1+ft_matrix_get_num_col(*matrix))*sizeof(char**));
 	*(matrix) = *matrix + 1;
@@ -50,7 +49,7 @@ t_cmd	*init_tcmd(char ***matrix)
 	{
 		if (!is_redir(***matrix)) // | >> < << >
 		{
-			printf("%s args... \n", **matrix);
+			// printf("%s args... \n", **matrix);
 			cmd->args[i++] = ft_strdup((**matrix));
 		}
 		else
@@ -59,11 +58,8 @@ t_cmd	*init_tcmd(char ***matrix)
 			break;
 		}
 		*(matrix) = *matrix + 1;
-
 	}
 	cmd->args[i]=NULL;
-	cmd->current_cmd_pos = **matrix;
-	printf("POS = %s\n", **matrix);
 	return (cmd);
 }
 
@@ -72,28 +68,15 @@ void	build_cmds(char **matrix)
 	t_cmd	*ptr;
 	t_cmd	*ptr_next;
 	
-	printf("ft_build_cmd\n");
+	// printf("ft_build_cmd\n");
 	ptr = init_tcmd(&matrix);
 	g_envp.head = ptr;
-
-
-	// *(matrix) = ptr->current_cmd_pos;
 	while (*matrix != NULL)
 	{
-		// printf("in whileloop %s \n", *(matrix));
 		ptr_next = init_tcmd(&matrix);
 		ptr->next = ptr_next;
 		ptr_next->prev = ptr;
 		ptr = ptr->next;
 	}
 	print_tcmd(g_envp.head);
-	//ls
-	//1 cmd
-
-	//ls > t.txt
-	//1 cmd
-
-	//ls | wc
-	//2 cmd
-
 }
