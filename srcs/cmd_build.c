@@ -22,21 +22,21 @@ void	set_redir(t_cmd *cmd, char ****str)
 		**(str) = **str + 1;
 		cmd->file = create_file(***str, cmd->type);
 	}
-	else if (ft_strexact(***str, ">>")) 
-	{
-		cmd->type = R_APP;
-		**(str) = **str + 1;
-		cmd->file = create_file(***str, cmd->type);
-	}
 	else if (ft_strexact(***str, "|"))
 		cmd->type = PIPE;
+	// else if (ft_strexact(***str, ">>")) 
+	// {
+	// 	cmd->type = R_APP;
+	// 	**(str) = **str + 1;
+	// 	cmd->file = create_file(***str, cmd->type);
+	// }
 	// else if (ft_strexact(***str, "<")) 
 	// {
 	// 	cmd->type = R_IN;
 	// 	**(str) = **str + 1;
 	// 	cmd->file = create_file(***str, cmd->type);
 	// }
-	
+
 	**(str) = **str + 1;
 }
 
