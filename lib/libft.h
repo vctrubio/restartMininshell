@@ -16,6 +16,8 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
+void				*ft_realloc(void *ptr, size_t size);
+void				*ft_memcpy(void *dest, const void *src, size_t n);
 bool				ft_strexact(char *s1, char *s2);
 void				ft_stradd(char **str, char *add);
 void				*ft_memset(void *str, char c, size_t l);

@@ -30,7 +30,8 @@ struct	s_file
 	int			fd; //File
 	int			(*create)(int fd[2], char *path, int mode);
 	void		(*close)(int fd[2]);
-	t_type		type; //R_OUT 
+	t_type		type; //R_OUT
+	// t_file		*next;
 };
 
 struct	s_cmd //echo -n hello world > file.txt 
@@ -40,8 +41,9 @@ struct	s_cmd //echo -n hello world > file.txt
 	int				fd; 
 	t_type			type; // R_OUT
 	t_file			*file; // file
-	t_cmd			*next; 
-	t_cmd			*prev; 
+	t_cmd			*next;
+	t_cmd			*prev;
+	char 			*current_cmd_pos;
 };
 
 typedef struct s_envp
@@ -69,10 +71,9 @@ typedef struct s_envp
 extern t_envp	g_envp;
 
 //cmd_build.c
-void	build_cmds(char **cmds);
+void	build_cmds(char **matrix);
 
 //matrix
-void	*ft_realloc(void *ptr, size_t size);
 char	**ft_matrix_dup(char **matrix, int push);
 char	**ft_matrix_push(char **matrix, char *str);
 void	ft_chk_n_exit_if_null_ppchar(char **matrix, char *error_str);
@@ -88,7 +89,7 @@ void	ft_swap2str(char **str1, char **str2);
 
 //parse.c
 int 	ft_strcount_char(char *str, char l);
-char	**line_to_arrays(char *line);
+char	**line_to_matrix(char *line);
 
 //parse_clean.c //for late to remove quotes- but we will do this at the very end
 char 	*parse_clean(char *str);
@@ -107,6 +108,7 @@ int is_redir(int c);
 int r_size(char *s);
 
 //array.c
+void	print_tcmd(t_cmd *cmd);
 void	print_arrays(char **a);
 void	free_arrays(char **arr);
 

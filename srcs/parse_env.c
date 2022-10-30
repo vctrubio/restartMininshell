@@ -3,9 +3,13 @@
 
 void	init_envp(char **envp)
 {
-	g_envp.envp= ft_matrix_dup(envp, 0);
+    g_envp.envp= ft_matrix_dup(envp, 0);
 	// print_arrays(g_envp.envp);
-    ft_env(&g_envp.envp[0]);
+	
+	// char *args[2];
+    // args[0]="l";
+    // args[1]=NULL;
+    // ft_env(args);
 }
 
 int	ft_env(char **argv)

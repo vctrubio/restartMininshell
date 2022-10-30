@@ -39,7 +39,7 @@ char *parse_clean(char *str)
 
 	// printf("intro to parse_clean of (%s)\n", str);
 	i = 0;
-	cpy = calloc(100, 1); // because if we have $PWD, we dont know how long the actual path is....
+	cpy = calloc(100, 1); // because if we have $PWD, we dont know how long the actual path is.... //CALLOC can we use?
 	while (*str)
 	{
 		i = ft_strlen(cpy);

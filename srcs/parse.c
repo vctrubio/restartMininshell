@@ -13,6 +13,8 @@ static void	ft_do_quote(char **output, char c)
 	tmp = ft_strdup(buff);
 	ft_stradd(&(*output), tmp);
 	i += ft_strcount_char(tmp, c);
+	free(buff);
+	free(tmp);
 	if (i % 2 != 0)
 		ft_do_quote(output, c);
 }
@@ -86,7 +88,7 @@ static char	*buffer_to_string(char **buff)
 	return (buffer_scan_for_quotes(str));
 }
 
-char	**line_to_arrays(char *line)
+char	**line_to_matrix(char *line)
 {
 	char	**matrix;
 	int		i;
@@ -102,5 +104,6 @@ char	**line_to_arrays(char *line)
 		matrix[i++] = buffer_to_string(&line);
 	}
 	matrix[i] = 0;
+	// print_arrays(matrix);
 	return (matrix);
 }
