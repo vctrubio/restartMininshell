@@ -28,6 +28,7 @@ char	*ft_get_exec_path(char **argv)
 	free(tmp_str);
 	//matrix = ft_split_line(env_path, ":");
 	matrix = ft_strsplit(env_path, ':');
+	i = 0;
 	while (matrix[i] != NULL)
 	{
 		path = ft_concat3(matrix[i], "/", argv[0]);
