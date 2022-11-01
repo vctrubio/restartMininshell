@@ -90,5 +90,5 @@ void	build_cmds(char **matrix)
 		ptr_next->prev = ptr;
 		ptr = ptr->next;
 	}
-	print_tcmd(_shell()->head);
+	// print_tcmd(_shell()->head);
 }

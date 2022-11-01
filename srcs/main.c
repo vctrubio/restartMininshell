@@ -9,25 +9,52 @@ void	add_cmds(char **matrix)
 	// free_arrays(matrix);
 }
 
+void	pre_execution(t_cmd *ptr)
+{
+}
+
 void	do_execution(void)
 {
 	t_cmd	*ptr;
 	char	**matrix;
 	int		i;
 	int		j;
+	char	*path;
+	int		pid;
+	int		status;
 
+	// if (status / 256 == 127)
+	// {
+	// }
+	//return (status / 256);
+	// pre_execution(_shell()->head);
 	i = 0;
 	ptr = _shell()->head;
-	matrix[i++] = ptr->cmd;
+	matrix = malloc(600);
+	matrix[i++] = ft_strdup(ptr->cmd);
+	// printf("matrix here %s\n", matrix[i - 1]);
 	if (ptr->args)
 	{
 		j = 0;
+		// printf("Args... \n", ptr->args[j]);
 		while (ptr->args[j])
-			matrix[i++] = (ptr->args[j++]);
+			matrix[i++] = ft_strdup((ptr->args[j++]));
 	}
 	matrix[i] = 0;
-	// print_arrays(matrix);
-	printf("\nPATH=%s\n", ft_get_exec_path(matrix));
+	path = ft_get_exec_path(matrix);
+	pid = fork();
+	if (pid == 0)
+	{
+		execve(path, matrix, _shell()->envp);
+		printf("DOESNT SHOW.\n");
+		exit(0);
+	}
+	// else if (pid < 0)
+	// 	perror("minishell");
+	else
+	{
+		waitpid(pid, &status, WUNTRACED);
+	}
 }
 
 void	minishell(void)

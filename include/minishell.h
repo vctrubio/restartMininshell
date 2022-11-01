@@ -37,6 +37,7 @@ struct s_cmd //echo -n hello world > file.txt
 {
 	char *cmd;   // echo
 	char **args; // [-n] [hello] [world] [0]
+	char *exc;
 	int fd;
 	t_type type;  // R_OUT
 	t_file *file; // file
