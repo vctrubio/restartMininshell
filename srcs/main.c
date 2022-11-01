@@ -15,23 +15,33 @@ void	do_execution(void)
 	char	*path;
 	int		pid;
 	int		status;
+	int		saved_stdout;
 
 	ptr = _shell()->head;
 	if (!ptr)
 		return ;
-	if (ptr->file)
-	{
-		printf("WE found a file and need to dup[]\n");
-		ptr->file->fd = open(ptr->file->filename, O_WRONLY | O_CREAT | O_TRUNC,
-				0777);
-		//dup2(ptr->file->fd, 0);
-		dup2(ptr->file->fd, STDOUT_FILENO);
-		close(ptr->file->fd);
-	}
 	path = ft_get_exec_path(ptr->args);
 	pid = fork();
 	if (pid == 0)
+	{
+		//dup2 to redirect STDIO to fileFD saved in ptr->file->fd
+		if (ptr->file)
+		{
+			saved_stdout = dup(1);
+			printf("WE found a file and need to dup[]\n");
+			ptr->file->fd = open(ptr->file->filename,
+					O_WRONLY | O_CREAT | O_APPEND, 0777);
+			dup2(ptr->file->fd, STDOUT_FILENO);
+			close(ptr->file->fd);
+		}
 		execve(path, ptr->args, _shell()->envp);
+		//dup2 to redirect STDIO back to standard saved saved_stdout
+		if (ptr->file)
+		{
+			dup2(saved_stdout, 1);
+			close(saved_stdout);
+		}
+	}
 	else
 		waitpid(pid, &status, WUNTRACED);
 }
