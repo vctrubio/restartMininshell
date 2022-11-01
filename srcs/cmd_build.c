@@ -56,10 +56,8 @@ t_cmd	*init_tcmd(char ***matrix)
 	cmd->next = NULL;
 	cmd->prev = NULL;
 	cmd->fd = -1;
-	cmd->cmd = **matrix;
-	i = 0;
 	cmd->args = malloc((1 + ft_matrix_get_num_col(*matrix)) * sizeof(char **));
-	*(matrix) = *matrix + 1;
+	i = 0;
 	while (**matrix != NULL)
 	{
 		if (!is_redir(***matrix))

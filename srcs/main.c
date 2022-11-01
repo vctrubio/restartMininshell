@@ -9,58 +9,38 @@ void	add_cmds(char **matrix)
 	// free_arrays(matrix);
 }
 
-void	pre_execution(t_cmd *ptr)
-{
-}
-
 void	do_execution(void)
 {
 	t_cmd	*ptr;
-	char	**matrix;
-	int		i;
-	int		j;
 	char	*path;
 	int		pid;
 	int		status;
 
-	// if (status / 256 == 127)
-	// {
-	// }
-	//return (status / 256);
-	// pre_execution(_shell()->head);
-	i = 0;
 	ptr = _shell()->head;
-	matrix = malloc(600);
-	matrix[i++] = ft_strdup(ptr->cmd);
-	// printf("matrix here %s\n", matrix[i - 1]);
-	if (ptr->args)
+	if (!ptr)
+		return ;
+	if (ptr->file)
 	{
-		j = 0;
-		// printf("Args... \n", ptr->args[j]);
-		while (ptr->args[j])
-			matrix[i++] = ft_strdup((ptr->args[j++]));
+		printf("WE found a file and need to dup[]\n");
+		ptr->file->fd = open(ptr->file->filename, O_WRONLY | O_CREAT | O_TRUNC,
+				0777);
+		//dup2(ptr->file->fd, 0);
+		dup2(ptr->file->fd, STDOUT_FILENO);
+		close(ptr->file->fd);
 	}
-	matrix[i] = 0;
-	path = ft_get_exec_path(matrix);
+	path = ft_get_exec_path(ptr->args);
 	pid = fork();
 	if (pid == 0)
-	{
-		execve(path, matrix, _shell()->envp);
-		printf("DOESNT SHOW.\n");
-		exit(0);
-	}
-	// else if (pid < 0)
-	// 	perror("minishell");
+		execve(path, ptr->args, _shell()->envp);
 	else
-	{
 		waitpid(pid, &status, WUNTRACED);
-	}
 }
 
 void	minishell(void)
 {
 	char	*line;
 
+	//ls -la > file.out
 	while (43)
 	{
 		_shell()->valid_input = true;

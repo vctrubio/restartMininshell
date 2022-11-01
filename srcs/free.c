@@ -7,15 +7,13 @@ void	free_files(t_file *first)
 
 void	free_cmds(t_cmd *first)
 {
-	int i;
+	int	i;
 
 	if (!first)
 		return ;
 	while (first)
 	{
 		i = -1;
-		if (first->cmd)
-			free(first->cmd);
 		while (first->args[++i])
 			free(first->args[i]);
 		if (first->file)

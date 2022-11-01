@@ -27,22 +27,21 @@ struct					s_file
 {
 	char *filename; //file.txt
 	int fd;         //File
+
 	int					(*create)(int fd[2], char *path, int mode);
 	void				(*close)(int fd[2]);
 	t_type type; //R_OUT
 					// t_file		*next;
 };
 
-struct s_cmd //echo -n hello world > file.txt
+struct					s_cmd
 {
-	char *cmd;   // echo
-	char **args; // [-n] [hello] [world] [0]
-	char *exc;
-	int fd;
+	char				**args;
+	int					fd;
 	t_type type;  // R_OUT
 	t_file *file; // file
-	t_cmd *next;
-	t_cmd *prev;
+	t_cmd				*next;
+	t_cmd				*prev;
 };
 
 typedef struct s_envp
@@ -53,19 +52,6 @@ typedef struct s_envp
 	int					exit_code;
 	bool				valid_input;
 }						t_envp;
-
-// typedef struct s_vars
-// {
-// 	int			i;
-// 	int			j;
-// 	int			k;
-// 	int			l;
-// 	int			m;
-// 	int			start;
-// 	int			end;
-// 	int			size;
-// 	char		*tmp_str;
-// }				t_vars;
 
 void					free_cmds(t_cmd *first);
 t_envp					*_shell(void);
