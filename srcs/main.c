@@ -17,6 +17,7 @@ void	do_execution(void)
 	int		status;
 	int		saved_stdout;
 
+	printf("Make exec.\n");
 	ptr = _shell()->head;
 	if (!ptr)
 		return ;
@@ -37,6 +38,7 @@ void	do_execution(void)
 		}
 		execve(path, ptr->args, _shell()->envp);
 		//dup2 to redirect STDIO back to standard saved saved_stdout
+		printf("execve (SHOULD NOT SHOW) if execve is called succesfully\n");
 		if (ptr->file)
 		{
 			dup2(saved_stdout, 1);
@@ -68,7 +70,7 @@ void	minishell(void)
 	}
 }
 
-t_envp	init_shell(char **ev)
+void	init_shell(char **ev)
 {
 	t_envp	*shell;
 
