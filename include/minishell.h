@@ -27,10 +27,7 @@ struct					s_file
 {
 	char *filename; //file.txt
 	int fd;         //File
-
-	int					(*create)(int fd[2], char *path, int mode);
-	void				(*close)(int fd[2]);
-	t_type type; //R_OUT
+	t_type type;    //R_OUT
 					// t_file		*next;
 };
 
@@ -48,7 +45,6 @@ typedef struct s_envp
 {
 	char				**envp;
 	t_cmd				*head;
-	char				*path;
 	int					exit_code;
 	bool				valid_input;
 }						t_envp;

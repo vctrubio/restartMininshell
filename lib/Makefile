@@ -43,7 +43,7 @@ SRC 		= $(wildcard ./srcs/*.c)
 # 		ft_lstnew.c ft_lstsize.c
 OBJ 		= ${SRC:.c=.o}
 # BONUS_OBJS	= $(BONUS:.c=.o)
-FLAGS 		= -Wall -Wextra -Werror -fsanitize=address
+FLAGS 		= -Wall -Wextra -Werror #$-fsanitize=address
 
 all: ${NAME}
 

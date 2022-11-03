@@ -78,7 +78,9 @@ void	build_cmds(char **matrix)
 {
 	t_cmd *ptr;
 	t_cmd *ptr_next;
+	char **ptr_to_free;
 
+	ptr_to_free = matrix;
 	ptr = init_tcmd(&matrix);
 	_shell()->head = ptr;
 	while (*matrix != NULL)
@@ -88,5 +90,5 @@ void	build_cmds(char **matrix)
 		ptr_next->prev = ptr;
 		ptr = ptr->next;
 	}
-	// print_tcmd(_shell()->head);
+	free_arrays(ptr_to_free);
 }

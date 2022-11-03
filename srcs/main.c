@@ -32,7 +32,8 @@ void	do_execution(void)
 			saved_stdout = dup(1);
 			printf("WE found a file and need to dup[]\n");
 			ptr->file->fd = open(ptr->file->filename,
-					O_WRONLY | O_CREAT | O_APPEND, 0777);
+									O_WRONLY | O_CREAT | O_APPEND,
+									0777);
 			dup2(ptr->file->fd, STDOUT_FILENO);
 			close(ptr->file->fd);
 		}
@@ -46,7 +47,10 @@ void	do_execution(void)
 		}
 	}
 	else
+	{
 		waitpid(pid, &status, WUNTRACED);
+		free(path);
+	}
 }
 
 void	minishell(void)
@@ -68,6 +72,8 @@ void	minishell(void)
 		free(line);
 		line = NULL;
 	}
+	free(line);
+	line = NULL;
 }
 
 void	init_shell(char **ev)
@@ -83,6 +89,8 @@ void	close_shell(void)
 {
 	if (_shell()->head)
 		free_cmds(_shell()->head);
+	if (_shell()->envp)
+		free_arrays(_shell()->envp);
 }
 
 int	main(int ac, char **av, char **ev)
