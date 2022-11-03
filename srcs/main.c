@@ -21,6 +21,7 @@ void	do_execution(void)
 	if (!ptr)
 		return ;
 	path = ft_get_exec_path(ptr->args);
+	printf("pathi is %s\n", path);
 	pid = fork();
 	if (pid == 0)
 	{

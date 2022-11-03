@@ -24,6 +24,9 @@ $(LIBFT)	:
 clean		:
 				rm -rf $(OBJS)
 				make clean -C ./lib
+run			: $(all)
+				./minishell
+
 
 fclean		:	clean
 				rm $(NAME)
