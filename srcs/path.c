@@ -5,7 +5,7 @@ int	ft_get_exec_path_chk_access(char *path, char **env_path, char ***matrix)
 	if (access(path, F_OK) != -1)
 	{
 		free(*env_path);
-		free(*matrix);
+		free_arrays(*matrix);
 		return (1);
 	}
 	return (0);
@@ -33,12 +33,14 @@ char	*ft_get_exec_path(char **argv)
 	{
 		path = ft_concat3(matrix[i], "/", argv[0]);
 		if (ft_get_exec_path_chk_access(path, &env_path, &(matrix)))
+		{
 			return (path);
+		}
 		free(path);
 		(i)++;
 	}
 	free(env_path);
-	free(matrix);
+	free_arrays(matrix);
 	return (NULL);
 }
 

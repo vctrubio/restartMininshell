@@ -15,11 +15,11 @@ typedef enum s_type		t_type;
 
 enum					s_type
 {
-	NADA,  // ls -la
-	R_OUT, //ls -la > out.file
-	R_IN,  // cat < in.file
-	R_APP, // ls -la >> out.file
-	PIPE,  // ls -la | grep b
+	NADA,
+	R_OUT,
+	R_IN,
+	R_APP,
+	PIPE,
 	HEREDOC,
 };
 

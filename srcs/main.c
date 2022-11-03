@@ -6,6 +6,7 @@ void	add_cmds(char **matrix)
 	if (_shell()->valid_input == false)
 		printf("INVALID USER INPUT... ERROR IN PARSING... TBD\n");
 	build_cmds(matrix);
+	print_tcmd(_shell()->head);
 	// free_arrays(matrix);
 }
 
@@ -17,12 +18,11 @@ void	do_execution(void)
 	int		status;
 	int		saved_stdout;
 
-	printf("Make exec.\n");
 	ptr = _shell()->head;
 	if (!ptr)
 		return ;
 	path = ft_get_exec_path(ptr->args);
-	printf("pathi is %s\n", path);
+	// path = ft_strdup("/bin/ls");
 	pid = fork();
 	if (pid == 0)
 	{
@@ -30,16 +30,20 @@ void	do_execution(void)
 		if (ptr->file)
 		{
 			saved_stdout = dup(1);
-			printf("WE found a file and need to dup[]\n");
-			ptr->file->fd = open(ptr->file->filename,
-									O_WRONLY | O_CREAT | O_APPEND,
-									0777);
+			// printf("WE found a file and need to dup[]\n");
+			if (ptr->file->type == R_APP)
+				ptr->file->fd = open(ptr->file->filename,
+										O_WRONLY | O_CREAT | O_APPEND,
+										0777);
+			else if (ptr->file->type == R_OUT)
+				ptr->file->fd = open(ptr->file->filename,
+										O_WRONLY | O_CREAT | O_TRUNC,
+										0777);
 			dup2(ptr->file->fd, STDOUT_FILENO);
 			close(ptr->file->fd);
 		}
 		execve(path, ptr->args, _shell()->envp);
 		//dup2 to redirect STDIO back to standard saved saved_stdout
-		printf("execve (SHOULD NOT SHOW) if execve is called succesfully\n");
 		if (ptr->file)
 		{
 			dup2(saved_stdout, 1);
@@ -71,6 +75,8 @@ void	minishell(void)
 		do_execution();
 		free(line);
 		line = NULL;
+		free_cmds(_shell()->head);
+		_shell()->head = NULL;
 	}
 	free(line);
 	line = NULL;
@@ -87,6 +93,7 @@ void	init_shell(char **ev)
 
 void	close_shell(void)
 {
+	printf("close shell\n");
 	if (_shell()->head)
 		free_cmds(_shell()->head);
 	if (_shell()->envp)

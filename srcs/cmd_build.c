@@ -42,6 +42,11 @@ void	set_redir(t_cmd *cmd, char ****str)
 		**(str) = **str + 1;
 		cmd->file = create_file(***str, cmd->type);
 	}
+	else if (ft_strexact(***str, "|"))
+	{
+		cmd->type = PIPE;
+		ls(first) * *(str) = **str + 1;
+	}
 	**(str) = **str + 1;
 }
 

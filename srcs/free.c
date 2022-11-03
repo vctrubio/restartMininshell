@@ -3,7 +3,8 @@
 
 void	free_files(t_file *first)
 {
-	printf("freeeeeee files called\n");
+	free(first->filename);
+	free(first);
 }
 
 void	free_cmds(t_cmd *first)
