@@ -9,6 +9,7 @@ void	print_tcmd(t_cmd *cmd)
 		printf("ARGS[%d]= %s\n", i, cmd->args[i]);
 	if (cmd->file)
 		printf("FILE: %s\n", cmd->file->filename);
+	printf("(%d) type\n", cmd->type);
 	if (cmd->next)
 		print_tcmd(cmd->next);
 }
