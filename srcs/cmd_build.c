@@ -12,12 +12,20 @@ t_file	*create_file(char *str, t_type type)
 	return (file);
 }
 
+void	create_pipe(t_pipe *ptr)
+{
+	ptr = malloc(sizeof(t_pipe));
+	pipe(ptr->fd);
+}
 void	set_redir(t_cmd *cmd, char ****str)
 {
 	// if (ft_strexact(*str, ">") && *(str + 1) && ft_strexact(*(str + 1), "|"))
 	//TO WATCH OUT FOR cat >|ls
 	if (ft_strexact(***str, "|"))
-		cmd->type = PIPE;
+	{
+		**(str) = **str + 1;
+		create_pipe(cmd->pipe);
+	}	
 	else if (ft_strexact(***str, ">"))
 	{
 		cmd->type = R_OUT;
@@ -52,6 +60,7 @@ t_cmd	*init_tcmd(char ***matrix)
 
 	cmd = malloc(sizeof(t_cmd));
 	cmd->type = NADA;
+	cmd->file = NULL;
 	cmd->file = NULL;
 	cmd->next = NULL;
 	cmd->prev = NULL;

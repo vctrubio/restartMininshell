@@ -6,6 +6,12 @@ void	free_files(t_file *first)
 	printf("freeeeeee files called\n");
 }
 
+// void	free_files(t_file *first)
+// {
+// 	printf("freeeeeee files called\n");
+// }
+
+
 void	free_cmds(t_cmd *first)
 {
 	int		i;
@@ -21,6 +27,8 @@ void	free_cmds(t_cmd *first)
 		free(first->args);
 		if (first->file)
 			free_files(first->file);
+		// if (first->pipe)
+		// 	free_pipe(first->pipe);
 		if (first->next)
 			next = first->next;
 		else

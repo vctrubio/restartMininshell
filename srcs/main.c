@@ -26,8 +26,18 @@ void	do_execution(void)
 	pid = fork();
 	if (pid == 0)
 	{
-		//dup2 to redirect STDIO to fileFD saved in ptr->file->fd
-		if (ptr->file)
+		if (ptr->pipe) //
+		{
+			printf("do_cmd_pipe\n");
+			//READ N WRITE
+			// ptr->pipe->pid = fork();
+			// if (ptr->pipe->pid == 0)
+			// 	printf("in the child\n");
+			// else
+			// 	printf("in the parent\n");
+
+		}
+		else if (ptr->file)
 		{
 			saved_stdout = dup(1);
 			printf("WE found a file and need to dup[]\n");
@@ -40,11 +50,7 @@ void	do_execution(void)
 		execve(path, ptr->args, _shell()->envp);
 		//dup2 to redirect STDIO back to standard saved saved_stdout
 		printf("execve (SHOULD NOT SHOW) if execve is called succesfully\n");
-		if (ptr->file)
-		{
-			dup2(saved_stdout, 1);
-			close(saved_stdout);
-		}
+
 	}
 	else
 	{
@@ -69,7 +75,7 @@ void	minishell(void)
 		add_history(line);
 		add_cmds(line_to_matrix(line));
 		print_tcmd(_shell()->head);
-		// do_execution();
+		do_execution();
 		free(line);
 		line = NULL;
 	}

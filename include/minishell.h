@@ -10,6 +10,7 @@
 # include <sys/wait.h>
 
 typedef struct s_file	t_file;
+typedef struct s_pipe	t_pipe;
 typedef struct s_cmd	t_cmd;
 typedef enum s_type		t_type;
 
@@ -19,7 +20,6 @@ enum					s_type
 	R_OUT, //ls -la > out.file
 	R_IN,  // cat < in.file
 	R_APP, // ls -la >> out.file
-	PIPE,  // ls -la | grep b
 	HEREDOC,
 };
 
@@ -28,7 +28,14 @@ struct					s_file
 	char *filename; //file.txt
 	int fd;         //File
 	t_type type;    //R_OUT
-					// t_file		*next;
+	// t_file		*next;
+};
+
+struct					s_pipe
+{
+	int 	fd[2];
+	pid_t	pid;
+	t_pipe	*next;
 };
 
 struct					s_cmd
@@ -37,6 +44,7 @@ struct					s_cmd
 	int					fd;
 	t_type type;  // R_OUT
 	t_file *file; // file
+	t_pipe *pipe; // file
 	t_cmd				*next;
 	t_cmd				*prev;
 };
