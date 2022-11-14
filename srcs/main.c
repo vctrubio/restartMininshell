@@ -13,6 +13,7 @@ void	ft_exec(t_cmd *ptr)
 	int		pid;
 	char	*path;
 	int		status;
+	int		l[2];
 
 	if (!ptr)
 		return ;
@@ -21,26 +22,36 @@ void	ft_exec(t_cmd *ptr)
 		pipe(ptr->pipe->fd);
 		printf("we have a PIPELONA\n");
 	}
-	// printf("we have a 2222\n");
+	printf("%s argsument\n", ptr->args[0]);
 	pid = fork();
 	if (pid == 0)
 	{
 		printf("we have a CHILD\n");
 		if (ptr->pipe != NULL)
-			open_pipe(ptr->pipe->fd, 1);
+		{
+			dup2(ptr->pipe->fd[1], 1);
+			// close(ptr->pipe->fd[1]);
+		}
+		if (ptr->prev) //need to read from the pipe ptr->prev->pipe->fd[1] and dup into local ()
+		{
+			printf("WE HAVE PREV %s\n", ptr->prev->args[0]);
+			pipe(l);
+			dup2(l[0], ptr->prev->pipe->fd[1]);
+			// close(ptr->prev->pipe->fd[1]);
+			// close(l[0]);
+			// close(l[1]);
+		}
 		path = ft_get_exec_path(ptr->args);
+		printf("WE HAVE PATH BEFORE EXEVE %s\n", path);
 		execve(path, ptr->args, _shell()->envp);
 	}
 	else
 	{
-		// printf("we have a PARENT\n");
 		waitpid(pid, &status, WUNTRACED);
-		if (ptr->pipe != NULL && ptr->next->next == NULL)
+		if (ptr->pipe != NULL) // if (ptr->pipe != NULL && ptr->next->next == NULL)
 		{
-			open_pipe(ptr->pipe->fd, 0);
-			ptr = ptr->next;
-			path = ft_get_exec_path(ptr->args);
-			execve(path, ptr->args, _shell()->envp);
+			dup2(ptr->pipe->fd[0], 0);
+			// close(ptr->pipe->fd[0]);
 		}
 		printf("Parent not execeve\n");
 	// if (path) //WHERE DO I FREE
@@ -51,16 +62,15 @@ void	ft_exec(t_cmd *ptr)
 void	do_execution(void)
 {
 	t_cmd	*ptr;
-	char	*path;
-	int		pid;
-	int		status;
-	int		saved_stdout;
+
 
 	printf("Make exec.\n\n");
-	ft_exec(_shell()->head);
-	
-	// if (path) //WHERE DO I FREE
-	// 	free(path); 
+	ptr = _shell()->head;
+	while (ptr)
+	{
+		ft_exec(ptr);
+		ptr = ptr->next;
+	}
 }
 
 void	minishell(void)
@@ -71,6 +81,11 @@ void	minishell(void)
 	{
 		_shell()->valid_input = true;
 		line = readline("> ");
+		if (line == NULL)
+		{
+			printf("EXIT PROGRAM BUG\n");
+			exit(0);
+		}
 		if (ft_strlen(line) == 0)
 			continue ;
 		if (ft_strexact(line, "exit"))
