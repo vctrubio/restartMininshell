@@ -1,14 +1,5 @@
 #include "../include/minishell.h"
 
-void	add_cmds(char **matrix)
-{
-	validate_rl(matrix);
-	if (_shell()->valid_input == false)
-		printf("INVALID USER INPUT... ERROR IN PARSING... TBD\n");
-	build_cmds(matrix);
-	// free_arrays(matrix);
-}
-
 void	do_execution(void)
 {
 	t_cmd	*ptr;
@@ -72,8 +63,8 @@ void	minishell(void)
 			break ;
 		add_history(line);
 		add_cmds(line_to_matrix(line));
-		print_tcmd(_shell()->head);
-		// do_execution();
+		// print_tcmd(_shell()->head);
+		do_execution();
 		free(line);
 		line = NULL;
 	}

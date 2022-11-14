@@ -60,6 +60,7 @@ void					free_cmds(t_cmd *first);
 t_envp					*_shell(void);
 
 //cmd_build.c
+void					add_cmds(char **matrix);
 void					build_cmds(char **matrix);
 
 //matrix

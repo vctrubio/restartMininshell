@@ -100,3 +100,12 @@ void	build_cmds(char **matrix)
 	}
 	free_arrays(ptr_to_free);
 }
+
+void	add_cmds(char **matrix)
+{
+	validate_rl(matrix);
+	if (_shell()->valid_input == false)
+		printf("INVALID USER INPUT... ERROR IN PARSING... TBD\n");
+	build_cmds(matrix);
+	// free_arrays(matrix);
+}
