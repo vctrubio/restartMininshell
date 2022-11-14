@@ -18,7 +18,6 @@ void	do_execution(void)
 		printf("we have a PIPELONA\n");
 	}
 	pid = fork();
-	path = ft_get_exec_path(ptr->args);
 	if (pid == 0)
 	{
 		printf("we have a CHILD\n");
@@ -28,6 +27,7 @@ void	do_execution(void)
 			close(ptr->pipe->fd[0]);
 			close(ptr->pipe->fd[1]);
 		}
+		path = ft_get_exec_path(ptr->args);
 		execve(path, ptr->args, _shell()->envp);
 	}
 	else
@@ -36,18 +36,17 @@ void	do_execution(void)
 		waitpid(pid, &status, WUNTRACED);
 		if (ptr->pipe != NULL)
 		{
-			dup2(ptr->pipe->fd[0], 0);
+			dup2(ptr->pipe->fd[0], 0); //stdin
 			close(ptr->pipe->fd[0]);
 			close(ptr->pipe->fd[1]);
 			ptr = ptr->next;
 			path = ft_get_exec_path(ptr->args);
 			execve(path, ptr->args, _shell()->envp);
-			// dup2(ptr->pipe->fd[1], 1);
 		}
 		printf("we have a PARENT2\n");
-		free(path);
+	// if (path)
+	// 	free(path);
 	}
-
 }
 
 void	minishell(void)
