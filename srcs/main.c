@@ -1,5 +1,12 @@
 #include "../include/minishell.h"
 
+void	open_pipe(int *fd, int i) //0 input, 1 output
+{
+	dup2(fd[i], i);
+	close(fd[0]);
+	close(fd[1]);
+}
+
 void	do_execution(void)
 {
 	t_cmd	*ptr;
@@ -22,11 +29,7 @@ void	do_execution(void)
 	{
 		printf("we have a CHILD\n");
 		if (ptr->pipe != NULL)
-		{
-			dup2(ptr->pipe->fd[1], 1);//stdout
-			close(ptr->pipe->fd[0]);
-			close(ptr->pipe->fd[1]);
-		}
+			open_pipe(ptr->pipe->fd, 1);
 		path = ft_get_exec_path(ptr->args);
 		execve(path, ptr->args, _shell()->envp);
 	}
@@ -36,16 +39,14 @@ void	do_execution(void)
 		waitpid(pid, &status, WUNTRACED);
 		if (ptr->pipe != NULL)
 		{
-			dup2(ptr->pipe->fd[0], 0); //stdin
-			close(ptr->pipe->fd[0]);
-			close(ptr->pipe->fd[1]);
+			open_pipe(ptr->pipe->fd, 0);
 			ptr = ptr->next;
 			path = ft_get_exec_path(ptr->args);
 			execve(path, ptr->args, _shell()->envp);
 		}
 		printf("we have a PARENT2\n");
-	// if (path)
-	// 	free(path);
+	// if (path) //WHERE DO I FREE
+	// 	free(path); 
 	}
 }
 
