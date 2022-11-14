@@ -36,10 +36,11 @@ void	do_execution(void)
 		waitpid(pid, &status, WUNTRACED);
 		if (ptr->pipe != NULL)
 		{
-			ptr = ptr->next;
 			dup2(ptr->pipe->fd[0], 0);
 			close(ptr->pipe->fd[0]);
 			close(ptr->pipe->fd[1]);
+			ptr = ptr->next;
+			path = ft_get_exec_path(ptr->args);
 			execve(path, ptr->args, _shell()->envp);
 			// dup2(ptr->pipe->fd[1], 1);
 		}
