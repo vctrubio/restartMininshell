@@ -23,11 +23,7 @@ void	set_redir(t_cmd *cmd, char ****str)
 	// if (ft_strexact(*str, ">") && *(str + 1) && ft_strexact(*(str + 1), "|"))
 	//TO WATCH OUT FOR cat >|ls
 	if (ft_strexact(***str, "|"))
-	{
-		**(str) = **str + 1;
 		cmd->pipe = create_pipe(cmd->pipe);
-
-	}	
 	else if (ft_strexact(***str, ">"))
 	{
 		cmd->type = R_OUT;

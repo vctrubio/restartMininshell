@@ -73,7 +73,7 @@ void	minishell(void)
 		add_history(line);
 		add_cmds(line_to_matrix(line));
 		print_tcmd(_shell()->head);
-		do_execution();
+		// do_execution();
 		free(line);
 		line = NULL;
 	}
