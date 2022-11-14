@@ -17,53 +17,51 @@ void	do_execution(void)
 	int		status;
 	int		saved_stdout;
 
-	printf("Make exec.\n");
+	printf("Make exec.\n\n");
 	ptr = _shell()->head;
 	if (!ptr)
 		return ;
-	path = ft_get_exec_path(ptr->args);
-	printf("pathi is %s\n", path);
+	if (ptr->pipe != NULL)
+	{
+		pipe(ptr->pipe->fd);
+		printf("we have a PIPELONA\n");
+	}
 	pid = fork();
+	path = ft_get_exec_path(ptr->args);
 	if (pid == 0)
 	{
-		if (ptr->pipe) //
+		printf("we have a CHILD\n");
+		if (ptr->pipe != NULL)
 		{
-			printf("do_cmd_pipe\n");
-			//READ N WRITE
-			// ptr->pipe->pid = fork();
-			// if (ptr->pipe->pid == 0)
-			// 	printf("in the child\n");
-			// else
-			// 	printf("in the parent\n");
-
-		}
-		else if (ptr->file)
-		{
-			saved_stdout = dup(1);
-			printf("WE found a file and need to dup[]\n");
-			ptr->file->fd = open(ptr->file->filename,
-									O_WRONLY | O_CREAT | O_APPEND,
-									0777);
-			dup2(ptr->file->fd, STDOUT_FILENO);
-			close(ptr->file->fd);
+			dup2(ptr->pipe->fd[1], 1);//stdout
+			close(ptr->pipe->fd[0]);
+			close(ptr->pipe->fd[1]);
 		}
 		execve(path, ptr->args, _shell()->envp);
-		//dup2 to redirect STDIO back to standard saved saved_stdout
-		printf("execve (SHOULD NOT SHOW) if execve is called succesfully\n");
-
 	}
 	else
 	{
+		// printf("we have a PARENT\n");
 		waitpid(pid, &status, WUNTRACED);
+		if (ptr->pipe != NULL)
+		{
+			ptr = ptr->next;
+			dup2(ptr->pipe->fd[0], 0);
+			close(ptr->pipe->fd[0]);
+			close(ptr->pipe->fd[1]);
+			execve(path, ptr->args, _shell()->envp);
+			// dup2(ptr->pipe->fd[1], 1);
+		}
+		printf("we have a PARENT2\n");
 		free(path);
 	}
+
 }
 
 void	minishell(void)
 {
 	char	*line;
 
-	//ls -la > file.out
 	while (43)
 	{
 		_shell()->valid_input = true;

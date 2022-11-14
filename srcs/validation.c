@@ -3,12 +3,12 @@
 
 static void	ft_validate_pipe_matrix(char **line, int i, int j)
 {
-	if (i == 0 && j == 0)
-		_shell()->valid_input = false;
-	if (line[i + 1] == 0)
-		_shell()->valid_input = false;
-	if (line[i + 1][0] == '|')
-		_shell()->valid_input = false;
+	// if (i == 0 && j == 0)
+	// 	_shell()->valid_input = false;
+	// if (line[i + 1] == 0)
+	// 	_shell()->valid_input = false;
+	// if (line[i + 1][0] == '|')
+	// 	_shell()->valid_input = false;
 }
 
 static void	ft_validate_redir_output_matrix(char **line, int i) //>

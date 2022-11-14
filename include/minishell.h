@@ -34,7 +34,6 @@ struct					s_file
 struct					s_pipe
 {
 	int 	fd[2];
-	pid_t	pid;
 	t_pipe	*next;
 };
 
