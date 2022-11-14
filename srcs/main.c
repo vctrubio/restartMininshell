@@ -7,16 +7,13 @@ void	open_pipe(int *fd, int i) //0 input, 1 output
 	close(fd[1]);
 }
 
-void	do_execution(void)
-{
-	t_cmd	*ptr;
-	char	*path;
-	int		pid;
-	int		status;
-	int		saved_stdout;
 
-	printf("Make exec.\n\n");
-	ptr = _shell()->head;
+void	ft_exec(t_cmd *ptr)
+{
+	int		pid;
+	char	*path;
+	int		status;
+
 	if (!ptr)
 		return ;
 	if (ptr->pipe != NULL)
@@ -24,6 +21,7 @@ void	do_execution(void)
 		pipe(ptr->pipe->fd);
 		printf("we have a PIPELONA\n");
 	}
+	// printf("we have a 2222\n");
 	pid = fork();
 	if (pid == 0)
 	{
@@ -37,17 +35,32 @@ void	do_execution(void)
 	{
 		// printf("we have a PARENT\n");
 		waitpid(pid, &status, WUNTRACED);
-		if (ptr->pipe != NULL)
+		if (ptr->pipe != NULL && ptr->next->next == NULL)
 		{
 			open_pipe(ptr->pipe->fd, 0);
 			ptr = ptr->next;
 			path = ft_get_exec_path(ptr->args);
 			execve(path, ptr->args, _shell()->envp);
 		}
-		printf("we have a PARENT2\n");
+		printf("Parent not execeve\n");
 	// if (path) //WHERE DO I FREE
 	// 	free(path); 
 	}
+}
+
+void	do_execution(void)
+{
+	t_cmd	*ptr;
+	char	*path;
+	int		pid;
+	int		status;
+	int		saved_stdout;
+
+	printf("Make exec.\n\n");
+	ft_exec(_shell()->head);
+	
+	// if (path) //WHERE DO I FREE
+	// 	free(path); 
 }
 
 void	minishell(void)
@@ -64,7 +77,7 @@ void	minishell(void)
 			break ;
 		add_history(line);
 		add_cmds(line_to_matrix(line));
-		// print_tcmd(_shell()->head);
+		print_tcmd(_shell()->head);
 		do_execution();
 		free(line);
 		line = NULL;
