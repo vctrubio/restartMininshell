@@ -30,12 +30,14 @@ void	ft_exec(t_cmd *ptr)
 		{
 			dup2(ptr->pipe->fd[1], 1);
 			close(ptr->pipe->fd[1]);
-			// close(ptr->pipe->fd[1]);
+			// close(ptr->pipe->fd[0]);
 		}
 		if (ptr->prev) //need to read from the pipe ptr->prev->pipe->fd[1] and dup into local ()
 		{
 			printf("WE HAVE PREV %s\n", ptr->prev->args[0]);
-
+			dup2(ptr->prev->pipe->fd[0], STDIN_FILENO);
+			close(ptr->prev->pipe->fd[0]);
+			close(ptr->prev->pipe->fd[1]);
 		}
 		path = ft_get_exec_path(ptr->args);
 		printf("WE HAVE PATH BEFORE EXEVE %s\n", path);
@@ -43,11 +45,13 @@ void	ft_exec(t_cmd *ptr)
 	}
 	else
 	{
-		waitpid(pid, &status, WUNTRACED);
+		printf("Before\n");
+		waitpid(pid, &status, 0);
+		printf("After\n");
 		if (ptr->pipe != NULL) // if (ptr->pipe != NULL && ptr->next->next == NULL)
 		{
 			dup2(ptr->pipe->fd[0], 0);
-			// close(ptr->pipe->fd[0]);
+			close(ptr->pipe->fd[0]);
 		}
 		printf("Parent not execeve\n");
 	// if (path) //WHERE DO I FREE
@@ -59,12 +63,13 @@ void	do_execution(void)
 {
 	t_cmd	*ptr;
 
-
 	ptr = _shell()->head;
 	while (ptr)
 	{
 		printf("Make exec. %s\n", ptr->args[0]);
 		ft_exec(ptr);
+		if (ptr->pipe)
+			close(ptr->pipe->fd[1]); //It's necessary to close this so the STDOUT gets back to normal
 		ptr = ptr->next;
 	}
 }
@@ -82,6 +87,8 @@ void	minishell(void)
 			printf("EXIT PROGRAM BUG\n");
 			exit(0);
 		}
+		if (!line || line[0] == '\0')
+			continue ;
 		if (ft_strlen(line) == 0)
 			continue ;
 		if (ft_strexact(line, "exit"))
