@@ -13,7 +13,6 @@ void	ft_exec(t_cmd *ptr)
 	int		pid;
 	char	*path;
 	int		status;
-	int		l[2];
 
 	if (!ptr)
 		return ;
@@ -22,7 +21,7 @@ void	ft_exec(t_cmd *ptr)
 		pipe(ptr->pipe->fd);
 		printf("we have a PIPELONA\n");
 	}
-	printf("%s argsument\n", ptr->args[0]);
+	// printf("%s argsument\n", ptr->args[0]);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -30,16 +29,13 @@ void	ft_exec(t_cmd *ptr)
 		if (ptr->pipe != NULL)
 		{
 			dup2(ptr->pipe->fd[1], 1);
+			close(ptr->pipe->fd[1]);
 			// close(ptr->pipe->fd[1]);
 		}
 		if (ptr->prev) //need to read from the pipe ptr->prev->pipe->fd[1] and dup into local ()
 		{
 			printf("WE HAVE PREV %s\n", ptr->prev->args[0]);
-			pipe(l);
-			dup2(l[0], ptr->prev->pipe->fd[1]);
-			// close(ptr->prev->pipe->fd[1]);
-			// close(l[0]);
-			// close(l[1]);
+
 		}
 		path = ft_get_exec_path(ptr->args);
 		printf("WE HAVE PATH BEFORE EXEVE %s\n", path);
@@ -64,10 +60,10 @@ void	do_execution(void)
 	t_cmd	*ptr;
 
 
-	printf("Make exec.\n\n");
 	ptr = _shell()->head;
 	while (ptr)
 	{
+		printf("Make exec. %s\n", ptr->args[0]);
 		ft_exec(ptr);
 		ptr = ptr->next;
 	}
@@ -92,7 +88,7 @@ void	minishell(void)
 			break ;
 		add_history(line);
 		add_cmds(line_to_matrix(line));
-		print_tcmd(_shell()->head);
+		// print_tcmd(_shell()->head);
 		do_execution();
 		free(line);
 		line = NULL;
