@@ -7,7 +7,6 @@ void	open_pipe(int *fd, int i) //0 input, 1 output
 	close(fd[1]);
 }
 
-
 void	ft_exec(t_cmd *ptr)
 {
 	int		pid;
@@ -16,7 +15,7 @@ void	ft_exec(t_cmd *ptr)
 
 	if (!ptr)
 		return ;
-	if (ptr->pipe != NULL)
+	if (ptr->pipe)
 	{
 		pipe(ptr->pipe->fd);
 		printf("we have created a pipe into %s t_cmd\n", ptr->args[0]);
@@ -24,33 +23,38 @@ void	ft_exec(t_cmd *ptr)
 	pid = fork();
 	if (pid == 0)
 	{
-		printf("we are in the CHILD of %s\n", ptr->args[0]);
-		if (ptr->pipe != NULL)
+		printf("in the CHILD of %s\n", ptr->args[0]);
+		if (ptr->pipe)
 		{
 			dup2(ptr->pipe->fd[1], 1);
-			// close(ptr->pipe->fd[1]);
 			// close(ptr->pipe->fd[0]);
+			// close(ptr->pipe->fd[1]);
 		}
-		if (ptr->prev) //need to read from the pipe ptr->prev->pipe->fd[1] and dup into local ()
-		{
-			printf("WE HAVE PREV %s\n", ptr->prev->args[0]);
-			dup2(ptr->prev->pipe->fd[0], STDIN_FILENO);
-			// close(ptr->prev->pipe->fd[0]);
-			// close(ptr->prev->pipe->fd[1]);
-		}
+		// if (ptr->prev) //need to read from the pipe ptr->prev->pipe->fd[1] and dup into local ()
+		// {
+		// 	printf("WE HAVE PREV %s\n", ptr->prev->args[0]);
+		// 	dup2(ptr->prev->pipe->fd[0], STDIN_FILENO);
+		// 	// close(ptr->prev->pipe->fd[0]);
+		// 	// close(ptr->prev->pipe->fd[1]);
+		// }
 		path = ft_get_exec_path(ptr->args);
-		// printf("WE HAVE PATH BEFORE EXEVE %s\n", path);
+		printf("PATH EXEVE- %s (%s)\n", path, ptr->args[0]);
 		execve(path, ptr->args, _shell()->envp);
+		printf("child not execve- this is bad. -- parent still waiting for child to terminate\n");
+		exit(1);
 	}
 	else
 	{
-		printf("Before waitpid\n");
-		if (ptr->pipe != NULL) // if (ptr->pipe != NULL && ptr->next->next == NULL)
-		{
-			dup2(ptr->pipe->fd[0], 0);
-		}
+		printf("\n--Before waitpid--In the Parent, waiting for the child of %s.\n", ptr->args[0]);
 		waitpid(pid, &status, 0);
 		printf("After waitpid\n");
+		if (ptr->pipe) 						  // if (ptr->pipe != NULL && ptr->next->next == NULL)
+		{
+			dup2(ptr->pipe->fd[0], 0);
+			close(ptr->pipe->fd[1]);
+			// close(ptr->prev->pipe->fd[0]);
+			printf("closing of pipe--\n");
+		}
 		printf("Parent not execeve- this is good\n");
 	}
 	// if (path) //WHERE DO I FREE
@@ -66,15 +70,15 @@ void	do_execution(void)
 	{
 		printf("Make exec. %s\n", ptr->args[0]);
 		ft_exec(ptr);
-		if (ptr->pipe)
-		{
-			close(ptr->pipe->fd[1]); //output
-			// close(ptr->pipe->fd[0]); //input
-		}
-		if (ptr->prev && ptr->prev->pipe)
-		{
-			close(ptr->prev->pipe->fd[0]); //input
-		}
+		// if (ptr->pipe)
+		// {
+		// 	close(ptr->pipe->fd[1]); //output
+		// 	// close(ptr->pipe->fd[0]); //input
+		// }
+		// if (ptr->prev && ptr->prev->pipe)
+		// {
+		// 	close(ptr->prev->pipe->fd[0]); //input
+		// }
 		ptr = ptr->next;
 	}
 }
@@ -86,7 +90,7 @@ void	minishell(void)
 	while (43)
 	{
 		_shell()->valid_input = true;
-		line = readline("> ");
+		line = readline("---------> ");
 		if (line == NULL)
 		{
 			printf("EXIT PROGRAM BUG\n");
