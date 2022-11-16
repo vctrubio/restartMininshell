@@ -19,44 +19,42 @@ void	ft_exec(t_cmd *ptr)
 	if (ptr->pipe != NULL)
 	{
 		pipe(ptr->pipe->fd);
-		printf("we have a PIPELONA\n");
+		printf("we have created a pipe into %s t_cmd\n", ptr->args[0]);
 	}
-	// printf("%s argsument\n", ptr->args[0]);
 	pid = fork();
 	if (pid == 0)
 	{
-		printf("we have a CHILD\n");
+		printf("we are in the CHILD of %s\n", ptr->args[0]);
 		if (ptr->pipe != NULL)
 		{
 			dup2(ptr->pipe->fd[1], 1);
-			close(ptr->pipe->fd[1]);
+			// close(ptr->pipe->fd[1]);
 			// close(ptr->pipe->fd[0]);
 		}
 		if (ptr->prev) //need to read from the pipe ptr->prev->pipe->fd[1] and dup into local ()
 		{
 			printf("WE HAVE PREV %s\n", ptr->prev->args[0]);
 			dup2(ptr->prev->pipe->fd[0], STDIN_FILENO);
-			close(ptr->prev->pipe->fd[0]);
-			close(ptr->prev->pipe->fd[1]);
+			// close(ptr->prev->pipe->fd[0]);
+			// close(ptr->prev->pipe->fd[1]);
 		}
 		path = ft_get_exec_path(ptr->args);
-		printf("WE HAVE PATH BEFORE EXEVE %s\n", path);
+		// printf("WE HAVE PATH BEFORE EXEVE %s\n", path);
 		execve(path, ptr->args, _shell()->envp);
 	}
 	else
 	{
-		printf("Before\n");
-		waitpid(pid, &status, 0);
-		printf("After\n");
+		printf("Before waitpid\n");
 		if (ptr->pipe != NULL) // if (ptr->pipe != NULL && ptr->next->next == NULL)
 		{
 			dup2(ptr->pipe->fd[0], 0);
-			close(ptr->pipe->fd[0]);
 		}
-		printf("Parent not execeve\n");
+		waitpid(pid, &status, 0);
+		printf("After waitpid\n");
+		printf("Parent not execeve- this is good\n");
+	}
 	// if (path) //WHERE DO I FREE
 	// 	free(path); 
-	}
 }
 
 void	do_execution(void)
@@ -69,7 +67,14 @@ void	do_execution(void)
 		printf("Make exec. %s\n", ptr->args[0]);
 		ft_exec(ptr);
 		if (ptr->pipe)
-			close(ptr->pipe->fd[1]); //It's necessary to close this so the STDOUT gets back to normal
+		{
+			close(ptr->pipe->fd[1]); //output
+			// close(ptr->pipe->fd[0]); //input
+		}
+		if (ptr->prev && ptr->prev->pipe)
+		{
+			close(ptr->prev->pipe->fd[0]); //input
+		}
 		ptr = ptr->next;
 	}
 }
@@ -102,23 +107,6 @@ void	minishell(void)
 	}
 	free(line);
 	line = NULL;
-}
-
-void	init_shell(char **ev)
-{
-	t_envp	*shell;
-
-	shell = _shell();
-	shell->envp = ft_matrix_dup(ev, 0);
-	shell->exit_code = 0;
-}
-
-void	close_shell(void)
-{
-	if (_shell()->head)
-		free_cmds(_shell()->head);
-	if (_shell()->envp)
-		free_arrays(_shell()->envp);
 }
 
 int	main(int ac, char **av, char **ev)

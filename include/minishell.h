@@ -56,8 +56,8 @@ typedef struct s_envp
 	bool				valid_input;
 }						t_envp;
 
+//free.c
 void					free_cmds(t_cmd *first);
-t_envp					*_shell(void);
 
 //cmd_build.c
 void					add_cmds(char **matrix);
@@ -91,7 +91,10 @@ void					dollar_for_money(char **outup, char **input);
 //parse_envp.c
 int						ft_env(char **argv);
 
-//static.c
+//shell.c
+t_envp					*_shell(void);
+void					init_shell(char **ev);
+void					close_shell(void);
 
 //utils.c
 int						ft_strcount_char(char *str, char l);
