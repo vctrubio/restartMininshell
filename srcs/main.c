@@ -80,15 +80,15 @@ void	loop_execution(t_cmd *ptr)
 		printf("hello from child of %s\n", ptr->args[0]);
 		if (ptr->pipe)
 		{
-			dup2(ptr->pipe->fd[1], 1);
+			dup2(ptr->pipe->fd[1], 0);
 			close(ptr->pipe->fd[0]);
 		}
-		// if (ptr->prev && ptr->prev->pipe)
-		// {
-		// 	printf("we have a pipe here!!!!!!!%s\n", ptr->prev->args[0]);
-		// 	dup2(ptr->pipe->fd[1], ptr->prev->pipe->fd[1]);
-		// 	// close(ptr->pipe->fd[1]);
-		// }
+		if (ptr->prev && ptr->prev->pipe)
+		{
+			printf("we have a pipe here!!!!!!!%s\n", ptr->prev->args[0]);
+			dup2(0, ptr->prev->pipe->fd[1]);
+			close(0);
+		}
 		printf("doooooome\n");
 		execve(ft_get_exec_path(ptr->args), ptr->args, _shell()->envp);
 		printf("CHILD did NOT EXECVE\n");
@@ -100,11 +100,11 @@ void	loop_execution(t_cmd *ptr)
 		wait(&status);
 		// dup2(fd[1], 0);
 		printf("hello from father\n");
-		if (ptr->prev && ptr->prev->pipe)
-		{
-			printf("doit\n");
-			execve(ft_get_exec_path(ptr->args), ptr->args, _shell()->envp);
-		}
+		// if (ptr->prev && ptr->prev->pipe)
+		// {
+		// 	printf("doit\n");
+		// 	execve(ft_get_exec_path(ptr->args), ptr->args, _shell()->envp);
+		// }
 	}
 }
 
