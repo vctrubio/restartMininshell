@@ -65,15 +65,9 @@ void	loop_execution(t_cmd *ptr)
 
 	if (ptr->pipe)
 	{
-		printf("sucess pipe 1\n");
+		printf("sucess pipe created\n");
 		pipe(ptr->pipe->fd);
 	}
-	// if (ptr->prev && ptr->prev->pipe)
-	// {
-	// 	printf("sucess pipe 2\n");
-	// 	pipe(ptr->pipe->fd);
-	// }
-
 	pid = fork();
 	if (pid == 0)
 	{
@@ -98,13 +92,7 @@ void	loop_execution(t_cmd *ptr)
 	else
 	{
 		wait(&status);
-		// dup2(fd[1], 0);
 		printf("hello from father\n");
-		// if (ptr->prev && ptr->prev->pipe)
-		// {
-		// 	printf("doit\n");
-		// 	execve(ft_get_exec_path(ptr->args), ptr->args, _shell()->envp);
-		// }
 	}
 }
 
@@ -118,7 +106,6 @@ void	do_execution(void)
 	{
 		printf("Make exec. %s\n", ptr->args[0]);
 		loop_execution(ptr);
-		// ft_exec(ptr);
 		ptr = ptr->next;
 	}
 }
