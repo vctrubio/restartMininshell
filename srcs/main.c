@@ -24,10 +24,14 @@ void	ft_exec(t_cmd *ptr)
 	if (pid == 0)
 	{
 		printf("in the CHILD of %s\n", ptr->args[0]);
-		if (ptr->pipe)
+		// if (ptr->pipe)
+		// {
+		// 	dup2(ptr->pipe->fd[1], 1);
+		// 	close(ptr->pipe->fd[0]);
+		// 	// close(ptr->pipe->fd[1]);
+		// }
+		if (ptr->prev)
 		{
-			dup2(ptr->pipe->fd[1], 1);
-			close(ptr->pipe->fd[0]);
 			// close(ptr->pipe->fd[1]);
 		}
 		path = ft_get_exec_path(ptr->args);
@@ -41,14 +45,14 @@ void	ft_exec(t_cmd *ptr)
 		printf("\n--Before waitpid--In the Parent, waiting for the child of %s.\n", ptr->args[0]);
 		waitpid(pid, &status, 0);
 		printf("After waitpid\n");
-		if (ptr->pipe) 						  // if (ptr->pipe != NULL && ptr->next->next == NULL)
-		{
-			dup2(ptr->pipe->fd[0], 0);
-			close(ptr->pipe->fd[0]);
-			close(ptr->pipe->fd[1]);
-			// close(ptr->pipe->fd[0]);
-			printf("closing of pipe--\n");
-		}
+		// if (ptr->pipe) 						  // if (ptr->pipe != NULL && ptr->next->next == NULL)
+		// {
+		// 	dup2(ptr->pipe->fd[0], 0);
+		// 	close(ptr->pipe->fd[0]);
+		// 	close(ptr->pipe->fd[1]);
+		// 	// close(ptr->pipe->fd[0]);
+		// 	printf("closing of pipe--\n");
+		// }
 		printf("Parent not execeve- this is good\n");
 	}
 	// 	free(path);  //NEED TO FREE
@@ -56,18 +60,37 @@ void	ft_exec(t_cmd *ptr)
 
 void	loop_execution(t_cmd *ptr)
 {
-	int	fd[2];
 	int	pid;
 	int	status;
-	// int	file;
 
-	pipe(fd);
-	printf("pipe sucesfully created a pipe of %s-\n", ptr->args[0]);
+	if (ptr->pipe)
+	{
+		printf("sucess pipe 1\n");
+		pipe(ptr->pipe->fd);
+	}
+	if (ptr->prev && ptr->prev->pipe)
+	{
+		printf("sucess pipe 2\n");
+		pipe(ptr->pipe->fd);
+	}
+
+	// printf("pipe sucesfully created a pipe of %s-\n", ptr->args[0]);
 	pid = fork();
 	if (pid == 0)
 	{
-		printf("hello from child\n");
-		dup2(fd[1], 1);
+		printf("hello from child of %s\n", ptr->args[0]);
+		if (ptr->pipe)
+		{
+			dup2(ptr->pipe->fd[1], 1);
+			close(ptr->pipe->fd[0]);
+		}
+		if (ptr->prev && ptr->prev->pipe)
+		{
+			printf("we have a pipe here!!!!!!!%s\n", ptr->prev->args[0]);
+			
+			dup2(ptr->pipe->fd[1], ptr->prev->pipe->fd[1]);
+			// close(ptr->pipe->fd[1]);
+		}
 		execve(ft_get_exec_path(ptr->args), ptr->args, _shell()->envp);
 		printf("CHILD did NOT EXECVE\n");
 		//have to signal kill
@@ -76,7 +99,7 @@ void	loop_execution(t_cmd *ptr)
 	else
 	{
 		wait(&status);
-		// dup2(fd[0], );
+		// dup2(fd[1], 0);
 		printf("hello from father\n");
 		// execve(ft_get_exec_path(ptr->args), ptr->args, _shell()->envp);
 	}
@@ -88,13 +111,13 @@ void	do_execution(void)
 	t_cmd	*ptr;
 
 	ptr = _shell()->head;
-	// while (ptr)
-	// {
-	// 	printf("Make exec. %s\n", ptr->args[0]);
-	// 	ft_exec(ptr);
-	// 	ptr = ptr->next;
-	// }
-	loop_execution(ptr);
+	while (ptr)
+	{
+		printf("Make exec. %s\n", ptr->args[0]);
+		loop_execution(ptr);
+		// ft_exec(ptr);
+		ptr = ptr->next;
+	}
 }
 
 void	minishell(void)
