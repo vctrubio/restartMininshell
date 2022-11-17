@@ -63,6 +63,8 @@ void					free_cmds(t_cmd *first);
 void					add_cmds(char **matrix);
 void					build_cmds(char **matrix);
 
+//exec.c
+void					loop_execution(t_cmd *ptr);
 //matrix
 char					**ft_matrix_dup(char **matrix, int push);
 char					**ft_matrix_push(char **matrix, char *str);

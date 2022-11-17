@@ -1,0 +1,40 @@
+#include "../include/minishell.h"
+
+static void	child_proces(int fd_in, int *p, t_cmd *cmd)
+{
+	int		ret;
+
+	dup2(fd_in, 0);
+	if (cmd->next)
+		dup2(p[1], 1);
+	close(p[0]);
+	execve(ft_get_exec_path(cmd->args), cmd->args, _shell()->envp);
+}
+
+void	loop_execution(t_cmd *ptr)
+{
+	int		p[2];
+	pid_t	pid;
+	int		fd_in;
+	int		i;
+	int		status;
+
+	fd_in = 0;
+	i = 0;
+	while (ptr)
+	{
+		pipe(p);
+		pid = fork();
+		if (pid == -1)
+			exit(EXIT_FAILURE);
+		else if (pid == 0)
+			child_proces(fd_in, p, ptr);
+		else
+		{
+			waitpid(pid, &status, WUNTRACED);
+			close(p[1]);
+			fd_in = p[0];
+			ptr = ptr->next;
+		}
+	}
+}
