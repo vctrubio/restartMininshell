@@ -62,7 +62,7 @@ void	loop_execution(t_cmd *ptr)
 {
 	int	pid;
 	int	status;
-
+	
 	if (ptr->pipe)
 	{
 		printf("sucess pipe created\n");
@@ -74,14 +74,15 @@ void	loop_execution(t_cmd *ptr)
 		printf("hello from child of %s\n", ptr->args[0]);
 		if (ptr->pipe)
 		{
-			dup2(ptr->pipe->fd[1], 0);
-			close(ptr->pipe->fd[0]);
+			dup2(ptr->pipe->fd[0], 1);
+			// close(ptr->pipe->fd[1]);
 		}
-		if (ptr->prev && ptr->prev->pipe)
+		else if (ptr->prev && ptr->prev->pipe)
 		{
-			printf("we have a pipe here!!!!!!!%s\n", ptr->prev->args[0]);
-			dup2(0, ptr->prev->pipe->fd[1]);
-			close(0);
+			printf("we have a pipe here!!!!!!! %s|%s\n", ptr->prev->args[0], ptr->args[0]);
+			dup2(ptr->prev->pipe->fd[1], 0);
+			// close(ptr->prev->pipe->fd[0]);
+			// close(ptr->prev->pipe->fd[1]);
 		}
 		printf("doooooome\n");
 		execve(ft_get_exec_path(ptr->args), ptr->args, _shell()->envp);
@@ -92,7 +93,14 @@ void	loop_execution(t_cmd *ptr)
 	else
 	{
 		wait(&status);
+
+		if (!ptr->next && ptr->pipe)
+		{
+			close(ptr->pipe->fd[1]);
+			close(ptr->pipe->fd[0]);
+		}
 		printf("hello from father\n");
+
 	}
 }
 
