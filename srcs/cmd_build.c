@@ -75,6 +75,7 @@ t_cmd	*init_tcmd(char ***matrix)
 			{
 				cmd->flag = 1;
 				// printf("flag raised!!!!!!!!!\n");
+				//obviously this needs more validating
 			}
 			cmd->args[i++] = ft_strdup((**matrix));
 		}
