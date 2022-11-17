@@ -68,13 +68,12 @@ void	loop_execution(t_cmd *ptr)
 		printf("sucess pipe 1\n");
 		pipe(ptr->pipe->fd);
 	}
-	if (ptr->prev && ptr->prev->pipe)
-	{
-		printf("sucess pipe 2\n");
-		pipe(ptr->pipe->fd);
-	}
+	// if (ptr->prev && ptr->prev->pipe)
+	// {
+	// 	printf("sucess pipe 2\n");
+	// 	pipe(ptr->pipe->fd);
+	// }
 
-	// printf("pipe sucesfully created a pipe of %s-\n", ptr->args[0]);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -84,13 +83,13 @@ void	loop_execution(t_cmd *ptr)
 			dup2(ptr->pipe->fd[1], 1);
 			close(ptr->pipe->fd[0]);
 		}
-		if (ptr->prev && ptr->prev->pipe)
-		{
-			printf("we have a pipe here!!!!!!!%s\n", ptr->prev->args[0]);
-			
-			dup2(ptr->pipe->fd[1], ptr->prev->pipe->fd[1]);
-			// close(ptr->pipe->fd[1]);
-		}
+		// if (ptr->prev && ptr->prev->pipe)
+		// {
+		// 	printf("we have a pipe here!!!!!!!%s\n", ptr->prev->args[0]);
+		// 	dup2(ptr->pipe->fd[1], ptr->prev->pipe->fd[1]);
+		// 	// close(ptr->pipe->fd[1]);
+		// }
+		printf("doooooome\n");
 		execve(ft_get_exec_path(ptr->args), ptr->args, _shell()->envp);
 		printf("CHILD did NOT EXECVE\n");
 		//have to signal kill
@@ -101,7 +100,11 @@ void	loop_execution(t_cmd *ptr)
 		wait(&status);
 		// dup2(fd[1], 0);
 		printf("hello from father\n");
-		// execve(ft_get_exec_path(ptr->args), ptr->args, _shell()->envp);
+		if (ptr->prev && ptr->prev->pipe)
+		{
+			printf("doit\n");
+			execve(ft_get_exec_path(ptr->args), ptr->args, _shell()->envp);
+		}
 	}
 }
 
