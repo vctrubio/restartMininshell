@@ -46,6 +46,7 @@ struct					s_cmd
 	t_pipe *pipe; // file
 	t_cmd				*next;
 	t_cmd				*prev;
+	id_t				flag;
 };
 
 typedef struct s_envp

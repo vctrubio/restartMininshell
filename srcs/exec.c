@@ -11,7 +11,7 @@ static void	child_proces(int fd_in, int *p, t_cmd *cmd)
 	execve(ft_get_exec_path(cmd->args), cmd->args, _shell()->envp);
 }
 
-void	loop_execution(t_cmd *ptr)
+void	loop_execution(t_cmd *cmd)
 {
 	int		p[2];
 	pid_t	pid;
@@ -21,20 +21,27 @@ void	loop_execution(t_cmd *ptr)
 
 	fd_in = 0;
 	i = 0;
-	while (ptr)
+	while (cmd)
 	{
 		pipe(p);
 		pid = fork();
 		if (pid == -1)
 			exit(EXIT_FAILURE);
 		else if (pid == 0)
-			child_proces(fd_in, p, ptr);
+			child_proces(fd_in, p, cmd);
 		else
 		{
-			waitpid(pid, &status, WUNTRACED);
+			if (cmd->flag)
+			{
+				// printf("DO the magic code\n"); //execute the next cmd first....
+				readline("..........");
+				kill(pid, SIGKILL);
+			}
+			else
+				waitpid(pid, &status, WUNTRACED);
 			close(p[1]);
 			fd_in = p[0];
-			ptr = ptr->next;
+			cmd = cmd->next;
 		}
 	}
 }

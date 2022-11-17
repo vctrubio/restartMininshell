@@ -63,13 +63,21 @@ t_cmd	*init_tcmd(char ***matrix)
 	cmd->next = NULL;
 	cmd->pipe = NULL;
 	cmd->prev = NULL;
+	cmd->flag = 0;
 	cmd->fd = -1;
 	cmd->args = malloc((1 + ft_matrix_get_num_col(*matrix)) * sizeof(char **));
 	i = 0;
 	while (**matrix != NULL)
 	{
 		if (!is_redir(***matrix))
+		{
+			if (ft_strexact("cat", **matrix)) //or anything that reads from STDIN
+			{
+				cmd->flag = 1;
+				// printf("flag raised!!!!!!!!!\n");
+			}
 			cmd->args[i++] = ft_strdup((**matrix));
+		}
 		else
 		{
 			set_redir(cmd, &matrix); //*[ls][-la][>][file.txt]
