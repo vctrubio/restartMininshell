@@ -3,7 +3,8 @@
 static void	child_proces(int fd_in, int *p, t_cmd *cmd)
 {
 	int		ret;
-
+	
+	//if redir- 
 	dup2(fd_in, 0);
 	if (cmd->next)
 		dup2(p[1], 1);
