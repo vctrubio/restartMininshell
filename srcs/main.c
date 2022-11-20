@@ -7,7 +7,7 @@ void	minishell(void)
 	while (43)
 	{
 		_shell()->valid_input = true;
-		line = readline("---------> ");
+		line = readline("> ");
 		if (line == NULL)
 		{
 			printf("EXIT PROGRAM BUG\n");
@@ -22,7 +22,7 @@ void	minishell(void)
 		add_history(line);
 		add_cmds(line_to_matrix(line));
 		print_tcmd(_shell()->head);
-		loop_execution(_shell()->head);
+		// loop_execution(_shell()->head);
 		free(line);
 		line = NULL;
 	}

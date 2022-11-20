@@ -1,46 +1,53 @@
 #include "../include/minishell.h"
 //this is where it gets interesting
 
-t_file	*create_file(char *str, t_type type)
+static void	create_file(char *str, t_cmd *cmd)
 {
 	t_file	*file;
 
 	file = malloc(sizeof(t_file));
+	//check for '|'
+	//TO WATCH OUT FOR cat >|ls
 	file->filename = ft_strdup(str);
-	file->type = type;
-	//...
-	return (file);
+	file->type = cmd->type;
+	file->next = NULL;
+	if (cmd->file)
+	{
+		while (cmd->file->next)
+			cmd->file = cmd->file->next;
+		cmd->file->next = file;
+	}
+	else
+		cmd->file = file;
 }
 
 void	set_redir(t_cmd *cmd, char ****str)
 {
-	// if (ft_strexact(*str, ">") && *(str + 1) && ft_strexact(*(str + 1), "|"))
-	//TO WATCH OUT FOR cat >|ls
 	if (ft_strexact(***str, "|"))
 		;
 	else if (ft_strexact(***str, ">"))
 	{
 		cmd->type = R_OUT;
 		**(str) = **str + 1;
-		cmd->file = create_file(***str, cmd->type);
+		create_file(***str, cmd);
 	}
 	else if (ft_strexact(***str, ">>"))
 	{
 		cmd->type = R_APP;
 		**(str) = **str + 1;
-		cmd->file = create_file(***str, cmd->type);
+		create_file(***str, cmd);
 	}
 	else if (ft_strexact(***str, "<"))
 	{
 		cmd->type = R_IN;
 		**(str) = **str + 1;
-		cmd->file = create_file(***str, cmd->type);
+		create_file(***str, cmd);
 	}
 	else if (ft_strexact(***str, "<<"))
 	{
 		cmd->type = HEREDOC;
 		**(str) = **str + 1;
-		cmd->file = create_file(***str, cmd->type);
+		create_file(***str, cmd);
 	}
 	**(str) = **str + 1;
 }

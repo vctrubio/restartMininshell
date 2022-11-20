@@ -8,6 +8,7 @@ static void	child_proces(int fd_in, int *p, t_cmd *cmd)
 	if (cmd->file)
 	{
 		printf("cmd: %s >< filename %s \n", cmd->args[0], cmd->file->filename);
+
 	}
 	dup2(fd_in, 0);
 	if (cmd->next)
@@ -22,6 +23,7 @@ void	loop_execution(t_cmd *cmd)
 	int		fd_in;
 	int		status;
 	char	*path;
+	int		ret;
 
 	fd_in = 0;
 	while (cmd)
@@ -34,16 +36,16 @@ void	loop_execution(t_cmd *cmd)
 		else if (pid == 0)
 		{
 			child_proces(fd_in, p, cmd);
-			execve(path, cmd->args, _shell()->envp);
+			ret = execve(path, cmd->args, _shell()->envp);
 			printf("bad execution\n");
-			exit(1);
+			exit(ret);
 		}
 		else
 		{
-			if (cmd->flag)
+			if (cmd->flag && cmd->next) //Fixing
 			{
 				// printf("DO the magic code\n"); //execute the next cmd first....
-				readline("..........");
+				readline("r>");
 				kill(pid, SIGKILL);
 			}
 			else
@@ -54,4 +56,5 @@ void	loop_execution(t_cmd *cmd)
 			free(path);
 		}
 	}
+	free_cmds(_shell()->head);
 }

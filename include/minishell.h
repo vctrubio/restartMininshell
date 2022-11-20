@@ -12,9 +12,9 @@
 typedef struct s_file	t_file;
 typedef struct s_pipe	t_pipe;
 typedef struct s_cmd	t_cmd;
-typedef enum s_type		t_type;
+typedef enum e_type		t_type;
 
-enum					s_type
+enum					e_type
 {
 	NADA,  // ls -la
 	R_OUT, //ls -la > out.file
@@ -28,7 +28,7 @@ struct					s_file
 	char 		*filename; //file.txt
 	int 		fd;         //File
 	t_type 		type;    //R_OUT
-	t_file		*next;
+	t_file		*next; //ls>one>two
 };
 
 struct					s_cmd
