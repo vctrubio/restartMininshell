@@ -6,7 +6,6 @@ static void	create_file(char *str, t_cmd *cmd)
 	t_file	*file;
 
 	file = malloc(sizeof(t_file));
-	//check for '|'
 	//TO WATCH OUT FOR cat >|ls
 	file->filename = ft_strdup(str);
 	file->type = cmd->type;
@@ -73,15 +72,13 @@ t_cmd	*init_tcmd(char ***matrix)
 			if (ft_strexact("cat", **matrix)) //or anything that reads from STDIN
 			{
 				cmd->flag = 1;
-				// printf("flag raised!!!!!!!!!\n");
 				//obviously this needs more validating
 			}
 			cmd->args[i++] = ft_strdup((**matrix));
 		}
 		else
 		{
-			set_redir(cmd, &matrix); //*[ls][-la][>][file.txt]
-			//while !is_redir(***matrix) (check for > file1 > file2 >> file3)
+			set_redir(cmd, &matrix);
 			break ;
 		}
 		*(matrix) = *matrix + 1;

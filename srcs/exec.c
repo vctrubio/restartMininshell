@@ -4,7 +4,7 @@ static void	child_proces(int fd_in, int *p, t_cmd *cmd)
 {
 	int		ret;
 	
-	//if redir-
+	//if redir- WORKING ON
 	if (cmd->file)
 	{
 		printf("cmd: %s >< filename %s \n", cmd->args[0], cmd->file->filename);
