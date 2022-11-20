@@ -25,25 +25,17 @@ enum					s_type
 
 struct					s_file
 {
-	char *filename; //file.txt
-	int fd;         //File
-	t_type type;    //R_OUT
-	// t_file		*next;
-};
-
-struct					s_pipe
-{
-	int 	fd[2];
-	// t_pipe	*next;
+	char 		*filename; //file.txt
+	int 		fd;         //File
+	t_type 		type;    //R_OUT
+	t_file		*next;
 };
 
 struct					s_cmd
 {
 	char				**args;
-	int					fd;
 	t_type type;  // R_OUT
 	t_file *file; // file
-	t_pipe *pipe; // file
 	t_cmd				*next;
 	t_cmd				*prev;
 	id_t				flag;
