@@ -11,17 +11,13 @@ void	free_files(t_file *file)
 
 void	free_cmds(t_cmd *first)
 {
-	int		i;
 	t_cmd	*next;
 
 	if (!first)
 		return ;
 	while (first)
 	{
-		i = -1;
-		while (first->args[++i])
-			free(first->args[i]);
-		free(first->args);
+		free_arrays(first->args);
 		if (first->file)
 			free_files(first->file);
 		if (first->file_in)
