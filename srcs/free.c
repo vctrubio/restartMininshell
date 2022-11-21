@@ -3,7 +3,7 @@
 
 void	free_files(t_cmd *first)
 {
-	printf("freeeeeee files called\n");
+	// printf("freeeeeee files called\n");
 }
 
 void	free_cmds(t_cmd *first)

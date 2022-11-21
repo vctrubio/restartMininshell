@@ -1,18 +1,40 @@
 #include "../include/minishell.h"
 
-static void	child_proces(int fd_in, int *p, t_cmd *cmd)
+static void	child_proces(int *p, t_cmd *cmd)
 {
 	int		ret;
-	
-	//if redir- WORKING ON
+	t_file	*ptr;
+
 	if (cmd->file)
 	{
-		printf("cmd: %s >< filename %s \n", cmd->args[0], cmd->file->filename);
-
+		printf("cmd: %s >< filename %s type %d\n", cmd->args[0], cmd->file->filename, cmd->type);
 	}
-	dup2(fd_in, 0);
-	if (cmd->next)
+	dup2(cmd->fd_in, 0);
+	if (cmd->type == R_IN)
+	{
+		printf("REDIR IN \n");
+		// ptr = cmd->file;
+		// ptr->fd = open(ptr->filename, O_RDONLY | 0777);
+		// dup2(ptr->fd, 0);
+	}
+
+	if (cmd->type == R_OUT)
+	{
+		ptr = cmd->file;
+		// printf("REDIR IN %s\n", ptr->filename);
+		ptr->fd = open(ptr->filename,  O_WRONLY | O_CREAT | O_TRUNC , 0777);
+		// printf("REDIR AFTER %d \n", ptr->fd);
+		dup2(ptr->fd, 1);
+	}
+	else if (cmd->type == R_APP)
+	{
+		ptr = cmd->file;
+		ptr->fd = open(ptr->filename,  O_WRONLY | O_CREAT | O_APPEND , 0777); // O_TRUNC IDK What that flag is tbh
+		dup2(ptr->fd, 1);
+	}
+	else if (cmd->next) //&& there is no redir (onlly a pipe)
 		dup2(p[1], 1);
+
 	close(p[0]);
 }
 
@@ -20,12 +42,10 @@ void	loop_execution(t_cmd *cmd)
 {
 	int		p[2];
 	pid_t	pid;
-	int		fd_in;
 	int		status;
 	char	*path;
 	int		ret;
 
-	fd_in = 0;
 	while (cmd)
 	{
 		pipe(p);
@@ -35,7 +55,7 @@ void	loop_execution(t_cmd *cmd)
 			exit(EXIT_FAILURE);
 		else if (pid == 0)
 		{
-			child_proces(fd_in, p, cmd);
+			child_proces(p, cmd);
 			ret = execve(path, cmd->args, _shell()->envp);
 			printf("bad execution\n");
 			exit(ret);
@@ -51,8 +71,11 @@ void	loop_execution(t_cmd *cmd)
 			else
 				waitpid(pid, &status, WUNTRACED);
 			close(p[1]);
-			fd_in = p[0];
+			if (cmd->file)
+				close(cmd->file->fd);
 			cmd = cmd->next;
+			if (cmd)
+				cmd->fd_in = p[0];
 			free(path);
 		}
 	}

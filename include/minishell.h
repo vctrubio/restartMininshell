@@ -39,6 +39,8 @@ struct					s_cmd
 	t_cmd				*next;
 	t_cmd				*prev;
 	id_t				flag;
+	int					fd_in;
+	int					fd_out;
 };
 
 typedef struct s_envp
