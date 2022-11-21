@@ -36,11 +36,11 @@ struct					s_cmd
 	char				**args;
 	t_type type;  // R_OUT
 	t_file *file; // file
+	t_file *file_in; // file
 	t_cmd				*next;
 	t_cmd				*prev;
 	id_t				flag;
 	int					fd_in;
-	int					fd_out;
 };
 
 typedef struct s_envp

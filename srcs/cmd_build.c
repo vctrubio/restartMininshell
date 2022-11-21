@@ -4,20 +4,41 @@
 static void	create_file(char *str, t_cmd *cmd)
 {
 	t_file	*file;
+	t_file	*ptr;
 
 	file = malloc(sizeof(t_file));
 	//TO WATCH OUT FOR cat >|ls
 	file->filename = ft_strdup(str);
+
 	file->type = cmd->type;
 	file->next = NULL;
 	if (cmd->file)
 	{
-		while (cmd->file->next)
-			cmd->file = cmd->file->next;
-		cmd->file->next = file;
+		ptr = cmd->file;
+		while (ptr->next)
+			ptr = ptr->next;
+		ptr->next = file;
 	}
 	else
 		cmd->file = file;
+	printf("TO COPY --%s\n", str);
+}
+
+static void	create_infile(char *str, t_cmd *cmd)
+{
+	t_file	*file;
+
+	file = malloc(sizeof(t_file));
+	file->filename = ft_strdup(str);
+	// printf("Copied filename %s\n", file->filename);
+	file->type = R_IN;
+	file->next = NULL;
+	// if (cmd->file_in)
+	// {
+	// 	printf("ERROR READING FROM 2 FILES\n");
+	// }
+	// else
+		cmd->file_in = file;
 }
 
 void	set_redir(t_cmd *cmd, char ****str)
@@ -38,9 +59,11 @@ void	set_redir(t_cmd *cmd, char ****str)
 	}
 	else if (ft_strexact(***str, "<"))
 	{
-		cmd->type = R_IN;
 		**(str) = **str + 1;
-		create_file(***str, cmd);
+		create_infile(***str, cmd);
+		**(str) = **str + 1;
+		cmd->args[0] = ft_strdup((***str));
+		cmd->args[1] = 0;
 	}
 	else if (ft_strexact(***str, "<<"))
 	{
@@ -49,6 +72,8 @@ void	set_redir(t_cmd *cmd, char ****str)
 		create_file(***str, cmd);
 	}
 	**(str) = **str + 1;
+	if (***str && is_redir(****str))
+			set_redir(cmd, str);
 }
 
 t_cmd	*init_tcmd(char ***matrix)
@@ -59,14 +84,15 @@ t_cmd	*init_tcmd(char ***matrix)
 	cmd = malloc(sizeof(t_cmd));
 	cmd->type = NADA;
 	cmd->file = NULL;
-	cmd->file = NULL;
+	cmd->file_in = NULL;
 	cmd->next = NULL;
 	cmd->prev = NULL;
 	cmd->flag = 0;
 	cmd->fd_in = 0;
-	cmd->fd_out = 0;
 	cmd->args = malloc((1 + ft_matrix_get_num_col(*matrix)) * sizeof(char **));
 	i = 0;
+	// printf("CALL SET_REDIR3333\n");
+
 	while (**matrix != NULL)
 	{
 		if (!is_redir(***matrix))
@@ -81,11 +107,22 @@ t_cmd	*init_tcmd(char ***matrix)
 		else
 		{
 			set_redir(cmd, &matrix);
+			
+			// if (**matrix)
+			// {
+			// 	printf("HERE WE GO AGAIN\n");
+			// 	if (is_redir(***matrix))
+			// 		set_redir(cmd, &matrix);
+			// }
 			break ;
 		}
+		// printf("%s IS EVRERYTHING BEFORE\n", **matrix);
 		*(matrix) = *matrix + 1;
+		// printf("%s IS EVRERYTHING\n", **matrix);
 	}
-	cmd->args[i] = NULL;
+	// printf("CALL SET_REDIR2222\n");
+	if (!cmd->file_in)
+		cmd->args[i] = NULL;
 	return (cmd);
 }
 

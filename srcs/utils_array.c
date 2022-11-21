@@ -11,11 +11,13 @@ void	print_tcmd(t_cmd *cmd)
 	{
 		while (cmd->file)
 		{
-			printf("FILE: %s (%d)\n", cmd->file->filename, cmd->file->type);
+			printf("FILE_OUT: %s (%d)\n", cmd->file->filename, cmd->file->type);
 			cmd->file = cmd->file->next;
 		}
 	}
-	printf("(%d) type\n", cmd->type);
+	if (cmd->file_in)
+		printf("FILE_IN: %s (%d)\n", cmd->file_in->filename, cmd->file_in->type);
+	printf("(%d) type__________\n", cmd->type);
 	if (cmd->next)
 		print_tcmd(cmd->next);
 }
