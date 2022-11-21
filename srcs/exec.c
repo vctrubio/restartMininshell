@@ -12,10 +12,11 @@ static void	child_proces(int *p, t_cmd *cmd)
 	dup2(cmd->fd_in, 0);
 	if (cmd->type == R_IN)
 	{
-		printf("REDIR IN \n");
-		// ptr = cmd->file;
-		// ptr->fd = open(ptr->filename, O_RDONLY | 0777);
-		// dup2(ptr->fd, 0);
+		ptr = cmd->file;
+		printf("REDIR IN %s\n", ptr->filename);
+		ptr->fd = open(ptr->filename, O_RDONLY | 0777);
+		printf("REDIR AFTER %d \n", ptr->fd);
+		dup2(ptr->fd, 0);
 	}
 
 	if (cmd->type == R_OUT)
