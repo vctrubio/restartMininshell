@@ -16,14 +16,10 @@ static void	ft_validate_redir_output_matrix(char **line, int i) //>
 	if (line[i + 1])
 	{
 		if ((line[i + 1][0] == '>') || (line[i + 1][0] == '<'))
-		{
 			_shell()->valid_input = false;
-		}
 	}
 	else
-	{
 		_shell()->valid_input = false;
-	}
 }
 
 static void	ft_validate_redir_input_matrix(char **line, int i) //<
