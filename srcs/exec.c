@@ -81,6 +81,8 @@ void	loop_execution(t_cmd *cmd)
 				{
 					close(cmd->file->fd);
 					cmd->file = cmd->file->next;
+					if (cmd->file)
+					loop_execution(cmd);
 				}
 			}
 			cmd = cmd->next;
