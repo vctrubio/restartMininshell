@@ -22,8 +22,8 @@ void	minishell(void)
 		add_history(line);
 		if (add_cmds(line_to_matrix(line)))
 			loop_execution(_shell()->head);
-		if (_shell()->head)
-			print_tcmd(_shell()->head);
+		// if (_shell()->head)
+		// 	print_tcmd(_shell()->head);
 		if (_shell()->head)
 			free_cmds(_shell()->head);
 		free(line);
