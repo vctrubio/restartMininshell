@@ -19,9 +19,15 @@ void	free_cmds(t_cmd *first)
 	{
 		free_arrays(first->args);
 		if (first->file)
+		{
 			free_files(first->file);
+			first->file = NULL;
+		}
 		if (first->file_in)
+		{
 			free_files(first->file_in);
+			first->file_in = NULL;
+		}
 		if (first->next)
 			next = first->next;
 		else
@@ -31,4 +37,5 @@ void	free_cmds(t_cmd *first)
 	}
 	if (first)
 		free(first);
+	_shell()->head = NULL;
 }

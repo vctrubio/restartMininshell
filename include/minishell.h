@@ -16,27 +16,27 @@ typedef enum e_type		t_type;
 
 enum					e_type
 {
-	NADA,  // ls -la
-	R_OUT, //ls -la > out.file
-	R_IN,  // cat < in.file
-	R_APP, // ls -la >> out.file
+	NADA,
+	R_OUT,
+	R_IN, //NOT USING/CALLING ATM
+	R_APP,
 	HEREDOC,
 };
 
 struct					s_file
 {
-	char 		*filename; //file.txt
-	int 		fd;         //File
-	t_type 		type;    //R_OUT
-	t_file		*next; //ls>one>two
+	char 		*filename;
+	int 		fd;
+	t_type 		type;
+	t_file		*next;
 };
 
 struct					s_cmd
 {
 	char				**args;
-	t_type type;  // R_OUT
-	t_file *file; // file
-	t_file *file_in; // file
+	t_type 				type;
+	t_file				*file;
+	t_file 				*file_in;
 	t_cmd				*next;
 	t_cmd				*prev;
 	id_t				flag;
