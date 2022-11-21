@@ -1,5 +1,4 @@
 #include "../include/minishell.h"
-//this is where it gets interesting
 
 static void	create_file(char *str, t_cmd *cmd)
 {
@@ -9,7 +8,6 @@ static void	create_file(char *str, t_cmd *cmd)
 	file = malloc(sizeof(t_file));
 	//TO WATCH OUT FOR cat >|ls
 	file->filename = ft_strdup(str);
-
 	file->type = cmd->type;
 	file->next = NULL;
 	if (cmd->file)
@@ -29,13 +27,12 @@ static void	create_infile(char *str, t_cmd *cmd)
 
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
-	// printf("Copied filename %s\n", file->filename);
 	file->type = R_IN;
 	file->next = NULL;
-	// if (cmd->file_in)
-	// {
-	// 	printf("ERROR READING FROM 2 FILES\n"); TBD
-	// }
+	if (cmd->file_in)
+	{
+		printf("ERROR READING FROM 2 FILES\n");  //TO BE HANDLED
+	}
 	// else
 		cmd->file_in = file;
 }
@@ -72,7 +69,7 @@ void	set_redir(t_cmd *cmd, char ****str)
 	}
 	**(str) = **str + 1;
 	if (***str && is_redir(****str))
-			set_redir(cmd, str);
+		set_redir(cmd, str);
 }
 
 t_cmd	*init_tcmd(char ***matrix)
