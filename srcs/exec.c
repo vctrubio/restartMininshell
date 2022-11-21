@@ -4,41 +4,30 @@ static void	child_proces(int *p, t_cmd *cmd)
 {
 	int		ret;
 	t_file	*ptr;
-
-	// if (cmd->file)
-	// {
-	// 	printf("cmd: %s >< filename %s type %d\n", cmd->args[0], cmd->file->filename, cmd->type);
-	// }
-
 	if (cmd->file_in)
 	{
 		ptr = cmd->file_in;
-		// printf("REDIR IN %s\n", ptr->filename);
 		ptr->fd = open(ptr->filename, O_RDONLY, 0777);
 		if (ptr->fd < 0)
 			perror("no such file or directory: !!!!!!!!!! DON't KNow how to handle error. TBD");
-		// printf("REDIR AFTER %d \n", ptr->fd);
 		cmd->fd_in = ptr->fd;
 	}
 	dup2(cmd->fd_in, 0);
-
 	if (cmd->type == R_OUT)
 	{
 		ptr = cmd->file;
-		// printf("REDIR IN %s\n", ptr->filename);
 		ptr->fd = open(ptr->filename,  O_WRONLY | O_CREAT | O_TRUNC , 0777);
-		// printf("REDIR AFTER %d \n", ptr->fd);
 		dup2(ptr->fd, 1);
 	}
 	else if (cmd->type == R_APP)
 	{
 		ptr = cmd->file;
-		ptr->fd = open(ptr->filename,  O_WRONLY | O_CREAT | O_APPEND , 0777); // O_TRUNC IDK What that flag is tbh
+		ptr->fd = open(ptr->filename,  O_WRONLY | O_CREAT | O_APPEND , 0777);
 		dup2(ptr->fd, 1);
 	}
-	else if (cmd->next) //&& there is no redir (onlly a pipe)
+	else if (cmd->next)
 		dup2(p[1], 1);
-
+	close(cmd->fd_in);
 	close(p[0]);
 }
 
@@ -66,7 +55,7 @@ void	loop_execution(t_cmd *cmd)
 		}
 		else
 		{
-			if (cmd->flag && cmd->next) //Fixing
+			if (cmd->flag && cmd->next)
 			{
 				// printf("DO the magic code\n"); //execute the next cmd first....
 				readline("r>");
@@ -82,7 +71,7 @@ void	loop_execution(t_cmd *cmd)
 					close(cmd->file->fd);
 					cmd->file = cmd->file->next;
 					if (cmd->file)
-					loop_execution(cmd);
+						loop_execution(cmd);
 				}
 			}
 			cmd = cmd->next;

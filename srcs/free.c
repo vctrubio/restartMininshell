@@ -1,9 +1,12 @@
 #include "../include/minishell.h"
 //free and exit functions can go here
 
-void	free_files(t_cmd *first)
+void	free_files(t_file *file)
 {
-	// printf("freeeeeee files called\n");
+	free(file->filename);
+	if (file->next)
+		free_files(file->next);
+	free(file);
 }
 
 void	free_cmds(t_cmd *first)
@@ -20,9 +23,9 @@ void	free_cmds(t_cmd *first)
 			free(first->args[i]);
 		free(first->args);
 		if (first->file)
-			free_files(first);
-		// if (first->pipe)
-		// 	free_pipe(first->pipe);
+			free_files(first->file);
+		if (first->file_in)
+			free_files(first->file_in);
 		if (first->next)
 			next = first->next;
 		else
