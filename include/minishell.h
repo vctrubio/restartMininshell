@@ -55,7 +55,7 @@ typedef struct s_envp
 void					free_cmds(t_cmd *first);
 
 //cmd_build.c
-void					add_cmds(char **matrix);
+bool					add_cmds(char **matrix);
 void					build_cmds(char **matrix);
 
 //exec.c

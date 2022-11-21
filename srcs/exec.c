@@ -80,5 +80,4 @@ void	loop_execution(t_cmd *cmd)
 			free(path);
 		}
 	}
-	free_cmds(_shell()->head);
 }

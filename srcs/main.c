@@ -20,9 +20,9 @@ void	minishell(void)
 		if (ft_strexact(line, "exit"))
 			break ;
 		add_history(line);
-		add_cmds(line_to_matrix(line));
-		print_tcmd(_shell()->head);
-		// loop_execution(_shell()->head);
+		if (add_cmds(line_to_matrix(line)))
+			loop_execution(_shell()->head);
+		free_cmds(_shell()->head);
 		free(line);
 		line = NULL;
 	}
