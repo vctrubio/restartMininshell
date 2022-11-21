@@ -21,7 +21,6 @@ static void	create_file(char *str, t_cmd *cmd)
 	}
 	else
 		cmd->file = file;
-	printf("TO COPY --%s\n", str);
 }
 
 static void	create_infile(char *str, t_cmd *cmd)
@@ -35,7 +34,7 @@ static void	create_infile(char *str, t_cmd *cmd)
 	file->next = NULL;
 	// if (cmd->file_in)
 	// {
-	// 	printf("ERROR READING FROM 2 FILES\n");
+	// 	printf("ERROR READING FROM 2 FILES\n"); TBD
 	// }
 	// else
 		cmd->file_in = file;
@@ -91,8 +90,6 @@ t_cmd	*init_tcmd(char ***matrix)
 	cmd->fd_in = 0;
 	cmd->args = malloc((1 + ft_matrix_get_num_col(*matrix)) * sizeof(char **));
 	i = 0;
-	// printf("CALL SET_REDIR3333\n");
-
 	while (**matrix != NULL)
 	{
 		if (!is_redir(***matrix))
@@ -107,20 +104,10 @@ t_cmd	*init_tcmd(char ***matrix)
 		else
 		{
 			set_redir(cmd, &matrix);
-			
-			// if (**matrix)
-			// {
-			// 	printf("HERE WE GO AGAIN\n");
-			// 	if (is_redir(***matrix))
-			// 		set_redir(cmd, &matrix);
-			// }
 			break ;
 		}
-		// printf("%s IS EVRERYTHING BEFORE\n", **matrix);
 		*(matrix) = *matrix + 1;
-		// printf("%s IS EVRERYTHING\n", **matrix);
 	}
-	// printf("CALL SET_REDIR2222\n");
 	if (!cmd->file_in)
 		cmd->args[i] = NULL;
 	return (cmd);

@@ -5,19 +5,22 @@ static void	child_proces(int *p, t_cmd *cmd)
 	int		ret;
 	t_file	*ptr;
 
-	if (cmd->file)
+	// if (cmd->file)
+	// {
+	// 	printf("cmd: %s >< filename %s type %d\n", cmd->args[0], cmd->file->filename, cmd->type);
+	// }
+
+	if (cmd->file_in)
 	{
-		printf("cmd: %s >< filename %s type %d\n", cmd->args[0], cmd->file->filename, cmd->type);
+		ptr = cmd->file_in;
+		// printf("REDIR IN %s\n", ptr->filename);
+		ptr->fd = open(ptr->filename, O_RDONLY, 0777);
+		if (ptr->fd < 0)
+			perror("no such file or directory: !!!!!!!!!! DON't KNow how to handle error. TBD");
+		// printf("REDIR AFTER %d \n", ptr->fd);
+		cmd->fd_in = ptr->fd;
 	}
 	dup2(cmd->fd_in, 0);
-	if (cmd->type == R_IN)
-	{
-		ptr = cmd->file;
-		printf("REDIR IN %s\n", ptr->filename);
-		ptr->fd = open(ptr->filename, O_RDONLY | 0777);
-		printf("REDIR AFTER %d \n", ptr->fd);
-		dup2(ptr->fd, 0);
-	}
 
 	if (cmd->type == R_OUT)
 	{
@@ -73,7 +76,13 @@ void	loop_execution(t_cmd *cmd)
 				waitpid(pid, &status, WUNTRACED);
 			close(p[1]);
 			if (cmd->file)
-				close(cmd->file->fd);
+			{
+				while (cmd->file)
+				{
+					close(cmd->file->fd);
+					cmd->file = cmd->file->next;
+				}
+			}
 			cmd = cmd->next;
 			if (cmd)
 				cmd->fd_in = p[0];
