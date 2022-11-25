@@ -23,6 +23,7 @@ void	minishell(void)
 		// add_cmds(line_to_matrix(line));
 		if (add_cmds(line_to_matrix(line)))
 			loop_execution(_shell()->head);
+		printf("\n--ARGS INPUT--\n");
 		// if (_shell()->head)
 		// 	print_tcmd(_shell()->head);
 		if (_shell()->head)
@@ -41,3 +42,6 @@ int	main(int ac, char **av, char **ev)
 	close_shell();
 	return (1);
 }
+
+// NOTE problem when 
+//heredoc is just on its own for execve: << EOF

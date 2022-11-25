@@ -6,6 +6,7 @@ static void	create_file(char *str, t_cmd *cmd)
 	t_file	*ptr;
 
 	file = malloc(sizeof(t_file));
+	// file->heredoc = NULL;
 	//TO WATCH OUT FOR cat >|ls --should be ok now
 	file->filename = ft_strdup(str);
 	file->type = cmd->type;
@@ -27,6 +28,7 @@ static void	create_infile(char *str, t_cmd *cmd)
 
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
+	// file->heredoc = NULL;
 	file->type = R_IN;
 	file->next = NULL;
 	if (cmd->file_in)
@@ -44,6 +46,7 @@ static void	create_heredoc(char *str, t_cmd *cmd)
 
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
+	// file->heredoc = ft_strdup("test");
 	file->type = HEREDOC;
 	file->next = NULL;
 	if (cmd->heredoc)

@@ -5,6 +5,7 @@ static void	free_heredoc(t_file *file)
 {
 	free(file->filename);
 	//destroy the file;
+	// free(file->heredoc);
 	if (file->next)
 		free_heredoc(file->next);
 	free(file);
