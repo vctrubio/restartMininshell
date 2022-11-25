@@ -4,11 +4,13 @@ static void	ask_for_input(char *word, t_file *file)
 {
 	char	*line;
 	int		i;
+	char	*tmp;
 
 	i = 0;
 	line = NULL;
-	//make a a .tmp.filename
-	file->fd = open(file->filename, O_RDWR | O_CREAT | O_TRUNC, 0777);
+	tmp = ft_strdup(".tmp.");
+	file->heredoc = ft_strjoin(tmp, file->filename);
+	file->fd = open(file->heredoc, O_RDWR | O_CREAT | O_TRUNC, 0777);
 	while(1)
 	{
 		line = readline("heredoc>>");
@@ -19,6 +21,7 @@ static void	ask_for_input(char *word, t_file *file)
 		free(line);
 		line = NULL;
 	}
+	free(tmp);
 	close(file->fd);
 }
 

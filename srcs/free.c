@@ -1,11 +1,13 @@
 #include "../include/minishell.h"
-//free and exit functions can go here
 
 static void	free_heredoc(t_file *file)
 {
 	free(file->filename);
-	//destroy the file;
-	// free(file->heredoc);
+	if (file->heredoc)
+	{
+		remove(file->heredoc);
+		free(file->heredoc);
+	}
 	if (file->next)
 		free_heredoc(file->next);
 	free(file);

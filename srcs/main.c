@@ -24,8 +24,8 @@ void	minishell(void)
 		if (add_cmds(line_to_matrix(line)))
 			loop_execution(_shell()->head);
 		printf("\n--ARGS INPUT--\n");
-		// if (_shell()->head)
-		// 	print_tcmd(_shell()->head);
+		if (_shell()->head)
+			print_tcmd(_shell()->head);
 		if (_shell()->head)
 			free_cmds(_shell()->head);
 		free(line);
@@ -45,3 +45,5 @@ int	main(int ac, char **av, char **ev)
 
 // NOTE problem when 
 //heredoc is just on its own for execve: << EOF
+//NEED to work on validations again.
+// cat < file (gives segfault, should give error beforhand)

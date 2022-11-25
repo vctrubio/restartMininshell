@@ -17,11 +17,7 @@ void	print_tcmd(t_cmd *cmd)
 	}
 	if (cmd->heredoc)
 	{
-		while (cmd->heredoc)
-		{
-			printf("FILE_OUT: %s (%d)\n", cmd->heredoc->filename, cmd->heredoc->type);
-			cmd->heredoc = cmd->heredoc->next;
-		}
+		printf("FILE HEREDOC: %s (%d)\n", cmd->heredoc->filename, cmd->heredoc->type);
 	}
 	if (cmd->file_in)
 		printf("FILE_IN: %s (%d)\n", cmd->file_in->filename, cmd->file_in->type);

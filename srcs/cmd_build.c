@@ -6,8 +6,6 @@ static void	create_file(char *str, t_cmd *cmd)
 	t_file	*ptr;
 
 	file = malloc(sizeof(t_file));
-	// file->heredoc = NULL;
-	//TO WATCH OUT FOR cat >|ls --should be ok now
 	file->filename = ft_strdup(str);
 	file->type = cmd->type;
 	file->next = NULL;
@@ -28,14 +26,13 @@ static void	create_infile(char *str, t_cmd *cmd)
 
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
-	// file->heredoc = NULL;
 	file->type = R_IN;
 	file->next = NULL;
 	if (cmd->file_in)
 	{
 		printf("ERROR READING FROM 2 FILES\n");  //TO BE HANDLED
 	}
-	// else
+	else
 		cmd->file_in = file;
 }
 
@@ -46,15 +43,11 @@ static void	create_heredoc(char *str, t_cmd *cmd)
 
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
-	// file->heredoc = ft_strdup("test");
 	file->type = HEREDOC;
 	file->next = NULL;
 	if (cmd->heredoc)
 	{
-		ptr = cmd->heredoc;
-		while (ptr->next)
-			ptr = ptr->next;
-		ptr->next = file;
+		printf("ERROR READING FROM 2 FILES in HEREDOC\n");  //TO BE HANDLED
 	}
 	else
 		cmd->heredoc = file;
@@ -111,7 +104,6 @@ t_cmd	*init_tcmd(char ***matrix)
 	cmd->flag = 0;
 	cmd->fd_in = 0;
 	cmd->args = malloc((1 + ft_matrix_get_num_col(*matrix)) * sizeof(char **));
-	// cmd->args = malloc(1000);
 	i = 0;
 	while (**matrix != NULL)
 	{

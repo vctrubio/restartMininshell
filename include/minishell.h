@@ -26,7 +26,7 @@ enum					e_type
 struct					s_file
 {
 	char 		*filename;
-	// char 		*heredoc;
+	char 		*heredoc;
 	int 		fd;
 	t_type 		type;
 	t_file		*next;

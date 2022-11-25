@@ -15,7 +15,7 @@ static void	child_proces(int *p, t_cmd *cmd)
 	if (cmd->heredoc)
 	{
 		ptr = cmd->heredoc;
-		ptr->fd = open(ptr->filename, O_RDONLY, 0777);
+		ptr->fd = open(ptr->heredoc, O_RDONLY, 0777);
 		if (ptr->fd < 0)
 			perror("no such file or directory: !!!!!!!!!! DON't KNow how to handle error. TBD");
 		cmd->fd_in = ptr->fd;
