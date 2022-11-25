@@ -1,7 +1,16 @@
 #include "../include/minishell.h"
 //free and exit functions can go here
 
-void	free_files(t_file *file)
+static void	free_heredoc(t_file *file)
+{
+	free(file->filename);
+	//destroy the file;
+	if (file->next)
+		free_heredoc(file->next);
+	free(file);
+}
+
+static void	free_files(t_file *file)
 {
 	free(file->filename);
 	if (file->next)
@@ -27,6 +36,11 @@ void	free_cmds(t_cmd *first)
 		{
 			free_files(first->file_in);
 			first->file_in = NULL;
+		}
+		if (first->heredoc)
+		{
+			free_heredoc(first->heredoc);
+			first->heredoc = NULL;
 		}
 		if (first->next)
 			next = first->next;

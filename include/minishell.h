@@ -36,6 +36,7 @@ struct					s_cmd
 	char				**args;
 	t_type 				type;
 	t_file				*file;
+	t_file				*heredoc;
 	t_file 				*file_in;
 	t_cmd				*next;
 	t_cmd				*prev;
@@ -110,6 +111,9 @@ void					validate_rl(char **matrix);
 void					ft_putnbr_fd(int n, int fd);
 void					ft_putstr_fd(char *s, int fd);
 void					ft_putchar_fd(char c, int fd);
+
+//heredoc.c
+void					init_heredoc(void);
 
 //path.c
 int						ft_get_exec_path_chk_access(char *path, char **env_path,

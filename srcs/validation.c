@@ -28,11 +28,15 @@ static void	ft_validate_redir_input_matrix(char **line, int i) //<
 	{
 		if ((line[i + 1][0] == '>') || (line[i + 1][0] == '<'))
 			_shell()->valid_input = false;
-		if (line[i + 2] && !ft_strexact(line[i + 2], "|"))
+		if (line[i + 2] && !ft_strexact(line[i + 2], "|") && ft_strexact(line[i], "<<"))
 		{
-			// printf("ERROR IN PARSING MSSG\n");
 			_shell()->valid_input = false;
 		}
+		// if (line[i + 3] && !ft_strexact(line[i + 3], "|") && ft_strexact(line[i], "<"))
+		// {
+		// 	_shell()->valid_input = false;
+		// }
+		//THIS NEEDS TO BE FIXED. <Makefile grep e .... (bascailly can go on for ever.) it just works for CAT for now
 	}
 	else
 	{
