@@ -51,7 +51,8 @@ void	set_redir(t_cmd *cmd, char ****str)
 	{
 		cmd->type = R_APP;
 		**(str) = **str + 1;
-		create_file(***str, cmd);
+		cmd->args[0] = ft_strdup((***str));
+		cmd->args[1] = 0;
 	}
 	else if (ft_strexact(***str, "<"))
 	{
@@ -68,7 +69,7 @@ void	set_redir(t_cmd *cmd, char ****str)
 		create_file(***str, cmd);
 	}
 	**(str) = **str + 1;
-	if (***str && is_redir(****str))
+	if (***str && is_redir(****str)) //AND NOT HERE DOC
 		set_redir(cmd, str);
 }
 

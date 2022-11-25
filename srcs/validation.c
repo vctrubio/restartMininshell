@@ -26,11 +26,13 @@ static void	ft_validate_redir_input_matrix(char **line, int i) //<
 {
 	if (line[i + 1])
 	{
-		// printf("YES %s\n", line[i + 1]);
 		if ((line[i + 1][0] == '>') || (line[i + 1][0] == '<'))
 			_shell()->valid_input = false;
-		if (line[i + 2] == NULL)
+		if (line[i + 2] && !ft_strexact(line[i + 2], "|"))
+		{
+			// printf("ERROR IN PARSING MSSG\n");
 			_shell()->valid_input = false;
+		}
 	}
 	else
 	{
