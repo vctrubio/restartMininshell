@@ -150,10 +150,7 @@ void	ft_my_var_exansion(t_cmd *ptr)
 	
 	while (ptr!= NULL)
 	{
-		while(*(ptr->args))
-		{
-			printf("%s \n",*(ptr->args));
-		}
+		
 	// 	if (needs_to_exanpd(str))
 	// 		change_values(str);
 		ptr=ptr->next;
@@ -174,7 +171,7 @@ bool	add_cmds(char **matrix)
 		build_cmds(matrix);
 	//HERE -> echo $PWD
 	//-> echo /pwd/
-	ft_my_var_exansion(_shell()->head);
+	//ft_my_var_exansion(_shell()->head);
 	init_heredoc();
 	return (true);	
 }
