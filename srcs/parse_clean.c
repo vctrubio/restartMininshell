@@ -29,7 +29,8 @@ static void ft_db_quote(char **cpy, char **str)
 
 void	dollar_for_money(char **outup, char **input) //TO-DO, rtn $PWD as pwd...
 {
-
+	(void)outup;
+	(void)input;
 }
 
 char *parse_clean(char *str)

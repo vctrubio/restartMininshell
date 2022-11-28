@@ -23,11 +23,12 @@ void	minishell(void)
 		// add_cmds(line_to_matrix(line));
 		if (add_cmds(line_to_matrix(line)))
 			loop_execution(_shell()->head);
-		printf("\n--ARGS INPUT--\n");
-		if (_shell()->head)
-			print_tcmd(_shell()->head);
+		// printf("\n--ARGS INPUT--\n");
+		// if (_shell()->head)
+		// 	print_tcmd(_shell()->head);
 		if (_shell()->head)
 			free_cmds(_shell()->head);
+		// printf("LAST EXIT CALL OF PROGRAM %d\n", _shell()->exit_code);
 		free(line);
 		line = NULL;
 	}
@@ -37,6 +38,8 @@ void	minishell(void)
 
 int	main(int ac, char **av, char **ev)
 {
+	(void)ac;
+	(void)av;
 	init_shell(ev);
 	minishell();
 	close_shell();

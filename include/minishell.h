@@ -53,6 +53,32 @@ typedef struct s_envp
 	bool				valid_input;
 }						t_envp;
 
+typedef struct s_vars
+{
+	int			i;
+	int			j;
+	int			k;
+	int			l;
+	int			m;
+	int			start;
+	int			end;
+	int			size;
+	int			inner_quote;
+	int			outer_quote;
+	char		*ptr2str;
+	char		*ptr2char;
+	char		***p2p2p;
+	char		*str;
+	char		*str2;
+	char		*tmp_str;
+	char		*tmp_str2;
+	char		**matrix;
+	char		**matrix2;
+	char		**tmp_matrix;
+	char		**tmp_matrix2;
+
+}				t_vars;
+
 //free.c
 void					free_cmds(t_cmd *first);
 
@@ -128,5 +154,14 @@ char					*ft_concat_string_between_chars(char c_start, char *s,
 							char c_end);
 char					*ft_concat_multi_getsize_n_alloc(char **s, char *glue);
 char					*ft_concat_multi(char **s, char *glue);
+
+//var_expansion.c
+int						ft_is_var_from_expansion(char *str, t_vars *vars);
+t_vars					ft_exp_helper(t_vars v, char *str);
+t_vars					ft_nexp_helper(t_vars v, char *str);
+char					*ft_var_expansion(char *str);
+void					ft_inicialize_vars(t_vars *vars);
+void					ft_get_quotes_inner_outer(char c, t_vars *vars);
+int						ft_isalnum(int c);
 
 #endif

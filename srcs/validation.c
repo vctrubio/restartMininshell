@@ -1,15 +1,15 @@
 #include "../include/minishell.h"
 //validations of user input
 
-static void	ft_validate_pipe_matrix(char **line, int i, int j)
-{
-	// if (i == 0 && j == 0)
-	// 	_shell()->valid_input = false;
-	// if (line[i + 1] == 0)
-	// 	_shell()->valid_input = false;
-	// if (line[i + 1][0] == '|')
-	// 	_shell()->valid_input = false;
-}
+// static void	ft_validate_pipe_matrix(char **line, int i, int j)
+// {
+// 	// if (i == 0 && j == 0)
+// 	// 	_shell()->valid_input = false;
+// 	// if (line[i + 1] == 0)
+// 	// 	_shell()->valid_input = false;
+// 	// if (line[i + 1][0] == '|')
+// 	// 	_shell()->valid_input = false;
+// }
 
 static void	ft_validate_redir_output_matrix(char **line, int i) //>
 {
@@ -64,7 +64,7 @@ void	validate_rl(char **matrix)
 					i++;
 			}
 			if (matrix[i][j] == '|')
-				ft_validate_pipe_matrix(matrix, i, j);
+				// ft_validate_pipe_matrix(matrix, i, j);
 			if (matrix[i][j] == '>')
 				ft_validate_redir_output_matrix(matrix, i);
 			if (matrix[i][j] == '<')

@@ -3,10 +3,10 @@
 static void	ask_for_input(char *word, t_file *file)
 {
 	char	*line;
-	int		i;
+	//int		i;
 	char	*tmp;
 
-	i = 0;
+	//i = 0;
 	line = NULL;
 	tmp = ft_strdup(".tmp.");
 	file->heredoc = ft_strjoin(tmp, file->filename);

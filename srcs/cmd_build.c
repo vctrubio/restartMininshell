@@ -39,7 +39,7 @@ static void	create_infile(char *str, t_cmd *cmd)
 static void	create_heredoc(char *str, t_cmd *cmd)
 {
 	t_file	*file;
-	t_file	*ptr;
+	//t_file	*ptr;
 
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
@@ -110,10 +110,7 @@ t_cmd	*init_tcmd(char ***matrix)
 		if (!is_redir(***matrix))
 		{
 			if (ft_strexact("cat", **matrix)) //or anything that reads from STDIN
-			{
 				cmd->flag = 1;
-				//obviously this needs more validating
-			}
 			cmd->args[i++] = ft_strdup((**matrix));
 		}
 		else
@@ -133,6 +130,7 @@ void	build_cmds(char **matrix)
 	t_cmd *ptr;
 	t_cmd *ptr_next;
 	char **ptr_to_free;
+	
 
 	ptr_to_free = matrix;
 	ptr = init_tcmd(&matrix);
@@ -147,6 +145,23 @@ void	build_cmds(char **matrix)
 	free_arrays(ptr_to_free);
 }
 
+void	ft_my_var_exansion(t_cmd *ptr)
+{
+	
+	while (ptr!= NULL)
+	{
+		while(*(ptr->args))
+		{
+			printf("%s \n",*(ptr->args));
+		}
+	// 	if (needs_to_exanpd(str))
+	// 		change_values(str);
+		ptr=ptr->next;
+	}
+	//char	*cmd;
+	//cmd = ft_var_expansion(*matrix)
+}
+
 bool	add_cmds(char **matrix)
 {
 	validate_rl(matrix);
@@ -157,6 +172,9 @@ bool	add_cmds(char **matrix)
 	}
 	else
 		build_cmds(matrix);
+	//HERE -> echo $PWD
+	//-> echo /pwd/
+	ft_my_var_exansion(_shell()->head);
 	init_heredoc();
 	return (true);	
 }

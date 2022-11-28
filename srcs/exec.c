@@ -2,7 +2,7 @@
 
 static void	child_proces(int *p, t_cmd *cmd)
 {
-	int		ret;
+	//int		ret;
 	t_file	*ptr;
 	if (cmd->file_in)
 	{
@@ -49,16 +49,26 @@ void	loop_execution(t_cmd *cmd)
 
 	while (cmd)
 	{
-		pipe(p);
 		path = ft_get_exec_path(cmd->args);
+		if (!path)
+		{
+			printf("PATH %s-------------\n", path);
+			printf("bash: la: command not found\n");
+			_shell()->exit_code = 127;
+			cmd = cmd->next;
+			continue;
+		}
+		// printf("SHW E THE PATH\n");
+		// printf("PATH %s-------------\n", path);
+		pipe(p);
+		
+		
 		pid = fork();
-		if (pid == -1)
-			exit(EXIT_FAILURE);
-		else if (pid == 0)
+		if (pid == 0)
 		{
 			child_proces(p, cmd);
 			ret = execve(path, cmd->args, _shell()->envp);
-			printf("bad execution\n");
+			// printf("bad execution %d\n", ret);
 			exit(ret);
 		}
 		else
@@ -71,6 +81,8 @@ void	loop_execution(t_cmd *cmd)
 			}
 			else
 				waitpid(pid, &status, WUNTRACED);
+			_shell()->exit_code = status/256;
+			// printf("status CODE %d\n", _shell()->exit_code);
 			close(p[1]);
 			if (cmd->file)
 			{
