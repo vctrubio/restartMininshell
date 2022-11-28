@@ -172,6 +172,11 @@ bool	add_cmds(char **matrix)
 	//HERE -> echo $PWD
 	//-> echo /pwd/
 	//ft_my_var_exansion(_shell()->head);
+	// char *ret_cmd;
+	
+	// char *str=ft_strdup("asaddfsd $PATH");
+	// ret_cmd=ft_var_expansion(str);
+	// printf("ret_str= %s",ret_cmd);
 	init_heredoc();
 	return (true);	
 }

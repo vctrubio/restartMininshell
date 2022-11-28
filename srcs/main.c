@@ -20,6 +20,7 @@ void	minishell(void)
 		if (ft_strexact(line, "exit"))
 			break ;
 		add_history(line);
+		line = ft_var_expansion(line);
 		// add_cmds(line_to_matrix(line));
 		if (add_cmds(line_to_matrix(line)))
 			loop_execution(_shell()->head);
