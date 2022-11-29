@@ -1,15 +1,16 @@
 #include "../include/minishell.h"
-//validations of user input
 
-// static void	ft_validate_pipe_matrix(char **line, int i, int j)
-// {
-// 	// if (i == 0 && j == 0)
-// 	// 	_shell()->valid_input = false;
-// 	// if (line[i + 1] == 0)
-// 	// 	_shell()->valid_input = false;
-// 	// if (line[i + 1][0] == '|')
-// 	// 	_shell()->valid_input = false;
-// }
+static void	ft_validate_pipe_matrix(char **line, int i)
+{
+	if (line[i])
+	{
+		if (line[i][1])
+		{
+			if (line[i][1] == '|')
+			_shell()->valid_input = false;
+		}
+	}
+}
 
 static void	ft_validate_redir_output_matrix(char **line, int i) //>
 {
@@ -28,21 +29,9 @@ static void	ft_validate_redir_input_matrix(char **line, int i) //<
 	{
 		if ((line[i + 1][0] == '>') || (line[i + 1][0] == '<'))
 			_shell()->valid_input = false;
-		if (line[i + 2] && !ft_strexact(line[i + 2], "|") && ft_strexact(line[i], "<<"))
-		{
-			_shell()->valid_input = false;
-		}
-		// if (line[i + 3] && !ft_strexact(line[i + 3], "|") && ft_strexact(line[i], "<"))
-		// {
-		// 	_shell()->valid_input = false;
-		// }
-		//THIS NEEDS TO BE FIXED. <Makefile grep e .... (bascailly can go on for ever.) it just works for CAT for now
 	}
 	else
-	{
-		// printf("NO\n");
 		_shell()->valid_input = false;
-	}
 }
 
 void	validate_rl(char **matrix)
@@ -64,7 +53,7 @@ void	validate_rl(char **matrix)
 					i++;
 			}
 			if (matrix[i][j] == '|')
-				// ft_validate_pipe_matrix(matrix, i, j);
+				ft_validate_pipe_matrix(matrix, i);
 			if (matrix[i][j] == '>')
 				ft_validate_redir_output_matrix(matrix, i);
 			if (matrix[i][j] == '<')

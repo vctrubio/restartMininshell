@@ -23,14 +23,18 @@ static void	create_file(char *str, t_cmd *cmd)
 static void	create_infile(char *str, t_cmd *cmd)
 {
 	t_file	*file;
-
+	t_file	*ptr;
+	
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
 	file->type = R_IN;
 	file->next = NULL;
 	if (cmd->file_in)
 	{
-		printf("ERROR READING FROM 2 FILES\n");  //TO BE HANDLED
+		ptr = cmd->file_in;
+		while (ptr->next)
+			ptr = ptr->next;
+		ptr->next = file;
 	}
 	else
 		cmd->file_in = file;
@@ -39,7 +43,7 @@ static void	create_infile(char *str, t_cmd *cmd)
 static void	create_heredoc(char *str, t_cmd *cmd)
 {
 	t_file	*file;
-	//t_file	*ptr;
+	t_file	*ptr;
 
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
@@ -47,7 +51,10 @@ static void	create_heredoc(char *str, t_cmd *cmd)
 	file->next = NULL;
 	if (cmd->heredoc)
 	{
-		printf("ERROR READING FROM 2 FILES in HEREDOC\n");  //TO BE HANDLED
+		ptr = cmd->heredoc;
+		while (ptr->next)
+			ptr = ptr->next;
+		ptr->next = file;
 	}
 	else
 		cmd->heredoc = file;
