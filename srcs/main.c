@@ -21,7 +21,6 @@ void	minishell(void)
 			break ;
 		add_history(line);
 		line = ft_var_expansion(line);
-		// add_cmds(line_to_matrix(line));
 		if (add_cmds(line_to_matrix(line)))
 			loop_execution(_shell()->head);
 		// printf("\n--ARGS INPUT--\n");
@@ -29,7 +28,6 @@ void	minishell(void)
 		// 	print_tcmd(_shell()->head);
 		if (_shell()->head)
 			free_cmds(_shell()->head);
-		// printf("LAST EXIT CALL OF PROGRAM %d\n", _shell()->exit_code);
 		free(line);
 		line = NULL;
 	}
@@ -46,8 +44,3 @@ int	main(int ac, char **av, char **ev)
 	close_shell();
 	return (1);
 }
-
-// NOTE problem when 
-//heredoc is just on its own for execve: << EOF
-//NEED to work on validations again.
-// cat < file (gives segfault, should give error beforhand)
