@@ -60,12 +60,6 @@ static void	create_heredoc(char *str, t_cmd *cmd)
 		cmd->heredoc = file;
 }
 
-void	cmd_build_in_file(t_cmd *cmd, char ****str)
-{
-	
-}
-
-
 void	set_redir(t_cmd *cmd, char ****str)
 {
 	if (ft_strexact(***str, "|"))
