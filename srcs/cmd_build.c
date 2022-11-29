@@ -60,6 +60,12 @@ static void	create_heredoc(char *str, t_cmd *cmd)
 		cmd->heredoc = file;
 }
 
+void	cmd_build_in_file(t_cmd *cmd, char ****str)
+{
+	
+}
+
+
 void	set_redir(t_cmd *cmd, char ****str)
 {
 	if (ft_strexact(***str, "|"))
@@ -78,13 +84,31 @@ void	set_redir(t_cmd *cmd, char ****str)
 	}
 	else if (ft_strexact(***str, "<"))
 	{
-		//if t_cmd->args[0]
+
+		if (ft_strlen(cmd->args[0]) != 0) //ie: ls < Makefile cat (==ls: cat: No such file or directory)
+		{
+			printf("ERROR-- What to do\n");
+		}
 		**(str) = **str + 1;
 		create_infile(***str, cmd);
 		**(str) = **str + 1;
-		//IF 	if (***str == NULL) GONNA BREAK OUR CODE FOR NOW || PROBLEM HERE
-		cmd->args[0] = ft_strdup((***str));
-		cmd->args[1] = 0;
+		if (***str)
+		{
+			int count = 0;
+			// while (***str &&!is_redir(***str[0]))
+			// {
+			// 	cmd->args[count++] = ft_strdup((***str));
+			// 	**(str) = **str + 1;
+			// }
+			// cmd->args[count] = 0; //THIS NEEDS WORK
+			cmd->args[count++] = ft_strdup((***str));
+			cmd->args[count] = 0;
+		}
+		else
+		{
+			//ERROR SHOULD NOT SHOT THIS PRINTF
+			printf("BAAAAD INPUT NO CMD AFTE INFILE\n");
+		}
 	}
 	else if (ft_strexact(***str, "<<"))
 	{
@@ -93,7 +117,7 @@ void	set_redir(t_cmd *cmd, char ****str)
 		create_heredoc(***str, cmd);
 	}
 	**(str) = **str + 1;
-	if (***str && is_redir(****str)) //AND NOT HERE DOC
+	if (***str && is_redir(****str))
 		set_redir(cmd, str);
 }
 
@@ -113,7 +137,7 @@ t_cmd	*init_tcmd(char ***matrix)
 	cmd->fd_in = 0;
 	cmd->args = malloc((1 + ft_matrix_get_num_col(*matrix)) * sizeof(char **));
 	i = 0;
-	// printf("EVALUTADE ----------%s\n", **matrix);
+	cmd->args[i] = ft_strdup("");
 	while (**matrix != NULL)
 	{
 		if (!is_redir(***matrix))
