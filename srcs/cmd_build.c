@@ -78,10 +78,11 @@ void	set_redir(t_cmd *cmd, char ****str)
 	}
 	else if (ft_strexact(***str, "<"))
 	{
+		//if t_cmd->args[0]
 		**(str) = **str + 1;
 		create_infile(***str, cmd);
 		**(str) = **str + 1;
-		//IF 	if (***str == NULL) GONNA BREAK OUR CODE FOR NOW
+		//IF 	if (***str == NULL) GONNA BREAK OUR CODE FOR NOW || PROBLEM HERE
 		cmd->args[0] = ft_strdup((***str));
 		cmd->args[1] = 0;
 	}
@@ -112,6 +113,7 @@ t_cmd	*init_tcmd(char ***matrix)
 	cmd->fd_in = 0;
 	cmd->args = malloc((1 + ft_matrix_get_num_col(*matrix)) * sizeof(char **));
 	i = 0;
+	// printf("EVALUTADE ----------%s\n", **matrix);
 	while (**matrix != NULL)
 	{
 		if (!is_redir(***matrix))
@@ -142,6 +144,7 @@ void	build_cmds(char **matrix)
 	ptr_to_free = matrix;
 	ptr = init_tcmd(&matrix);
 	_shell()->head = ptr;
+
 	while (*matrix != NULL)
 	{
 		ptr_next = init_tcmd(&matrix);
