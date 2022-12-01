@@ -1,5 +1,23 @@
 #include "../include/minishell.h"
 
+void	init_remove_qt(void)
+{
+	t_cmd 	*ptr;
+	int		i = 0;
+
+	ptr = _shell()->head;
+	while (ptr)
+	{
+		i = 0;
+		while (ptr->args[i])
+		{
+			parse_clean(ptr->args[i]);
+			i++;
+		}
+		ptr = ptr->next;
+	}
+}
+
 void	minishell(void)
 {
 	char	*line;
@@ -22,8 +40,10 @@ void	minishell(void)
 		add_history(line);
 		line = ft_var_expansion(line);
 		if (add_cmds(line_to_matrix(line)))
-			print_tcmd(_shell()->head);
-			// loop_execution(_shell()->head);
+		{
+			init_remove_qt();
+			loop_execution(_shell()->head);
+		}
 		// printf("\n--ARGS INPUT--\n");
 		// if (_shell()->head)
 		// 	print_tcmd(_shell()->head);
@@ -40,6 +60,8 @@ int	main(int ac, char **av, char **ev)
 {
 	(void)ac;
 	(void)av;
+	if (ac != 1)
+		return (0);
 	init_shell(ev);
 	minishell();
 	close_shell();
