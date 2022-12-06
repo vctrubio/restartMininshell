@@ -1,12 +1,13 @@
 #include "../include/minishell.h"
 //Removing Quotes
 
-char *parse_clean(char *str)
+char *parse_clean(char **p2str)
 {
 	char	*cpy;
 	int		i;
+	char	*str;
 
-	// printf("intro to parse_clean of (%s)\n", str);
+	str = *p2str;
 	cpy = malloc(sizeof(char) * ft_strlen(str) + 1);
 	i = 0;
 	while (*str)
@@ -23,11 +24,13 @@ char *parse_clean(char *str)
 			while (*str && *str != '"')
 				cpy[i++] = *(str++);
 		}
-		else 
+		else
 			cpy[i++] = *str;
 		str++;
 	}
 	cpy[i] = 0;
-	free(str);
+	free(*p2str);
+	*p2str = cpy;
+	printf("CPY %s-------------\n", cpy);
 	return (cpy);
 }

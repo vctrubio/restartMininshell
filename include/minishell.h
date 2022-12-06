@@ -110,7 +110,7 @@ int						ft_strcount_char(char *str, char l);
 char					**line_to_matrix(char *line);
 
 //parse_clean.c //for late to remove quotes- but we will do this at the very end
-char					*parse_clean(char *str);
+char					*parse_clean(char **p2str);
 void					dollar_for_money(char **outup, char **input);
 
 //parse_envp.c

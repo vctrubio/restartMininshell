@@ -11,7 +11,7 @@ void	init_remove_qt(void)
 		i = 0;
 		while (ptr->args[i])
 		{
-			printf("PARSE CLEAN= %s\n", parse_clean(ptr->args[i]));
+			printf("PARSE CLEAN= %s\n", parse_clean(&(ptr->args[i])));
 			i++;
 		}
 		ptr = ptr->next;
