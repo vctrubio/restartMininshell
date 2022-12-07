@@ -133,6 +133,18 @@ int	ft_echo(char **argv)
 	return (0);
 }
 
+int	ft_pwd(char **argv)
+{
+	char	cwd[256];
+
+	(void)argv;
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+		perror("getcwd() error");
+	else
+		printf("%s\n", cwd);
+	return (0);
+}
+
 void	ft_export_no_args(void)
 {
 	t_vars	vars;
@@ -214,6 +226,12 @@ void	loop_execution(t_cmd *cmd)
 	while (cmd)
 	{
 		
+		if (ft_strexact("pwd", cmd->args[0]))
+		{
+			ft_pwd(cmd->args);
+			cmd = cmd->next;
+			continue;
+		}
 		if (ft_strexact("echo", cmd->args[0]))
 		{
 			ft_echo(cmd->args);
