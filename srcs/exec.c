@@ -52,7 +52,7 @@ void	loop_execution(t_cmd *cmd)
 		path = ft_get_exec_path(cmd->args);
 		if (!path)
 		{
-			printf("cmd->args %s-------------\n", cmd->args);
+			printf("cmd->args %s-------------\n", *(cmd->args));
 			printf("PATH %s-------------\n", path);
 			printf("bash: la: command not found\n");
 			_shell()->exit_code = 127;
