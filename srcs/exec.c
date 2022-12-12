@@ -248,33 +248,33 @@ void	run_builtin(t_cmd *cmd)
 		_shell()->exit_code = ft_unset(cmd->args);
 }
 
-void clean_hidden_chars(char **p2str)
-{
-	char	*cpy;
-	int		i;
-	char	*str;
+// void clean_hidden_chars(char **p2str)
+// {
+// 	char	*cpy;
+// 	int		i;
+// 	char	*str;
 
-	str = *p2str;
-	cpy = malloc(sizeof(char) * ft_strlen(str) + 1);
-	i = 0;
+// 	str = *p2str;
+// 	cpy = malloc(sizeof(char) * ft_strlen(str) + 1);
+// 	i = 0;
 
-	while (*str)
-	{
-		if (*str == 2)
-		{
-			str++;
-			while (*str && *str != 3)
-				cpy[i++] = *(str++);
-		}
-		else
-			cpy[i++] = *str;
-		if(*str != '\0')
-			str++;
-	}
-	cpy[i] = 0;
-	free(*p2str);
-	*p2str = cpy;
-}
+// 	while (*str)
+// 	{
+// 		if (*str == 2)
+// 		{
+// 			str++;
+// 			while (*str && *str != 3)
+// 				cpy[i++] = *(str++);
+// 		}
+// 		else
+// 			cpy[i++] = *str;
+// 		if(*str != '\0')
+// 			str++;
+// 	}
+// 	cpy[i] = 0;
+// 	free(*p2str);
+// 	*p2str = cpy;
+// }
 
 void	loop_execution(t_cmd *cmd)
 {
@@ -286,23 +286,14 @@ void	loop_execution(t_cmd *cmd)
 
 	while (cmd)
 	{
-		
-		printf("\nFT_LEN=%d\n",ft_strlen(*(cmd->args)));
-		if((*(cmd->args))[0]==2)
-		{
-			clean_hidden_chars(&(cmd->args[0]));
-			//printf("COMECA COM LLLLLLLL");
-			int i=0;
-			while((*(cmd->args))[i]!='\0')
-			{
-				printf("\nChar %d = %d\n",i,(*(cmd->args))[i]);
-				i++;
-			}
-		}
-		
 		if (check_if_builtin(cmd))
 		{
 			run_builtin(cmd);
+			cmd = cmd->next;
+			continue;
+		}
+		if(*cmd->args==NULL)
+		{
 			cmd = cmd->next;
 			continue;
 		}
@@ -310,6 +301,7 @@ void	loop_execution(t_cmd *cmd)
 		if (!path)
 		{
 			
+			print_arrays((cmd->args));
 			printf("cmd->args %s-------------\n", *(cmd->args));
 			printf("PATH %s-------------\n", path);
 			printf("bash: la: command not found\n");

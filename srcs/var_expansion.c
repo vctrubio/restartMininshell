@@ -38,7 +38,7 @@ t_vars	ft_exp_helper(t_vars v, char *str)
 			break ;
 	}
 	v.tmp_str = ft_substr(str, v.start, v.i - v.start);
-	v.tmp_str2 = ft_getenv(v.tmp_str, 0);
+	v.tmp_str2 = ft_getenv(v.tmp_str, 1);
 	if (v.tmp_str2)
 		v.matrix[v.j++] = v.tmp_str2;
 	free(v.tmp_str);
