@@ -215,6 +215,67 @@ int	ft_unset(char **argv)
 	return (0);
 }
 
+int	check_if_builtin(t_cmd *cmd)
+{
+	if (ft_strexact("pwd", cmd->args[0]))
+		return (1);
+	if (ft_strexact("echo", cmd->args[0]))
+		return (1);
+	if (ft_strexact("env", cmd->args[0]))
+		return (1);
+	if (ft_strexact("cd", cmd->args[0]))
+		return (1);
+	if (ft_strexact("export", cmd->args[0]))
+		return (1);
+	if (ft_strexact("unset", cmd->args[0]))
+		return (1);
+	return (0);
+}
+
+void	run_builtin(t_cmd *cmd)
+{
+	if (ft_strexact("pwd", cmd->args[0]))
+		_shell()->exit_code = ft_pwd(cmd->args);
+	if (ft_strexact("echo", cmd->args[0]))
+		_shell()->exit_code = ft_echo(cmd->args);
+	if (ft_strexact("env", cmd->args[0]))
+		_shell()->exit_code = ft_env(cmd->args);
+	if (ft_strexact("cd", cmd->args[0]))
+		_shell()->exit_code = ft_cd(cmd->args);
+	if (ft_strexact("export", cmd->args[0]))
+		_shell()->exit_code = ft_export(cmd->args);
+	if (ft_strexact("unset", cmd->args[0]))
+		_shell()->exit_code = ft_unset(cmd->args);
+}
+
+void clean_hidden_chars(char **p2str)
+{
+	char	*cpy;
+	int		i;
+	char	*str;
+
+	str = *p2str;
+	cpy = malloc(sizeof(char) * ft_strlen(str) + 1);
+	i = 0;
+
+	while (*str)
+	{
+		if (*str == 2)
+		{
+			str++;
+			while (*str && *str != 3)
+				cpy[i++] = *(str++);
+		}
+		else
+			cpy[i++] = *str;
+		if(*str != '\0')
+			str++;
+	}
+	cpy[i] = 0;
+	free(*p2str);
+	*p2str = cpy;
+}
+
 void	loop_execution(t_cmd *cmd)
 {
 	int		p[2];
@@ -226,45 +287,29 @@ void	loop_execution(t_cmd *cmd)
 	while (cmd)
 	{
 		
-		if (ft_strexact("pwd", cmd->args[0]))
+		printf("\nFT_LEN=%d\n",ft_strlen(*(cmd->args)));
+		if((*(cmd->args))[0]==2)
 		{
-			ft_pwd(cmd->args);
-			cmd = cmd->next;
-			continue;
+			clean_hidden_chars(&(cmd->args[0]));
+			//printf("COMECA COM LLLLLLLL");
+			int i=0;
+			while((*(cmd->args))[i]!='\0')
+			{
+				printf("\nChar %d = %d\n",i,(*(cmd->args))[i]);
+				i++;
+			}
 		}
-		if (ft_strexact("echo", cmd->args[0]))
+		
+		if (check_if_builtin(cmd))
 		{
-			ft_echo(cmd->args);
-			cmd = cmd->next;
-			continue;
-		}
-		if (ft_strexact("env", cmd->args[0]))
-		{
-			ft_env(cmd->args);
-			cmd = cmd->next;
-			continue;
-		}
-		if (ft_strexact("cd", cmd->args[0]))
-		{
-			ft_cd(cmd->args);
-			cmd = cmd->next;
-			continue;
-		}
-		if (ft_strexact("export", cmd->args[0]))
-		{
-			ft_export(cmd->args);
-			cmd = cmd->next;
-			continue;
-		}
-		if (ft_strexact("unset", cmd->args[0]))
-		{
-			ft_unset(cmd->args);
+			run_builtin(cmd);
 			cmd = cmd->next;
 			continue;
 		}
 		path = ft_get_exec_path(cmd->args);
 		if (!path)
 		{
+			
 			printf("cmd->args %s-------------\n", *(cmd->args));
 			printf("PATH %s-------------\n", path);
 			printf("bash: la: command not found\n");

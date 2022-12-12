@@ -2,8 +2,8 @@
 
 void	init_remove_qt(void)
 {
-	t_cmd 	*ptr;
-	int		i = 0;
+	t_cmd	*ptr;
+	int		i;
 
 	ptr = _shell()->head;
 	while (ptr)
@@ -11,7 +11,10 @@ void	init_remove_qt(void)
 		i = 0;
 		while (ptr->args[i])
 		{
-			printf("PARSE CLEAN= %s\n", parse_clean(&(ptr->args[i])));
+			// printf("Before CLEAN= %s\n", ptr->args[i]);
+			// printf("PARSE CLEAN= %s\n", parse_clean(&(ptr->args[i])));
+			// printf("After CLEAN= %s\n", ptr->args[i]);
+			parse_clean(&(ptr->args[i]));
 			i++;
 		}
 		ptr = ptr->next;
@@ -43,6 +46,7 @@ void	minishell(void)
 		{
 			init_remove_qt();
 			loop_execution(_shell()->head);
+			printf("status CODE %d\n", _shell()->exit_code);
 		}
 		// printf("\n--ARGS INPUT--\n");
 		// if (_shell()->head)
