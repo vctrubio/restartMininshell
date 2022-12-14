@@ -11,9 +11,6 @@ void	init_remove_qt(void)
 		i = 0;
 		while (ptr->args[i])
 		{
-			// printf("Before CLEAN= %s\n", ptr->args[i]);
-			// printf("PARSE CLEAN= %s\n", parse_clean(&(ptr->args[i])));
-			// printf("After CLEAN= %s\n", ptr->args[i]);
 			parse_clean(&(ptr->args[i]));
 			i++;
 		}
@@ -51,8 +48,8 @@ void	minishell(void)
 		// printf("\n--ARGS INPUT--\n");
 		// if (_shell()->head)
 		// 	print_tcmd(_shell()->head);
-		// if (_shell()->head)
-		// 	free_cmds(_shell()->head);
+		if (_shell()->head)
+			free_cmds(_shell()->head);
 		free(line);
 		line = NULL;
 	}

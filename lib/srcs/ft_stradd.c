@@ -1,11 +1,11 @@
 #include "../libft.h"
 
-void ft_stradd(char **str, char *add)
+void	ft_stradd(char **str, char *add)
 {
-	int i;
+	int	i;
 
 	if (*str == NULL)
-		return;
+		return ;
 	i = 0;
 	while ((*str)[i])
 		i++;

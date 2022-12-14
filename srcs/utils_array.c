@@ -17,10 +17,12 @@ void	print_tcmd(t_cmd *cmd)
 	}
 	if (cmd->heredoc)
 	{
-		printf("FILE HEREDOC: %s (%d)\n", cmd->heredoc->filename, cmd->heredoc->type);
+		printf("FILE HEREDOC: %s (%d)\n", cmd->heredoc->filename,
+				cmd->heredoc->type);
 	}
 	if (cmd->file_in)
-		printf("FILE_IN: %s (%d)\n", cmd->file_in->filename, cmd->file_in->type);
+		printf("FILE_IN: %s (%d)\n", cmd->file_in->filename,
+				cmd->file_in->type);
 	printf("(%d) type__________\n", cmd->type);
 	if (cmd->next)
 		print_tcmd(cmd->next);

@@ -10,7 +10,7 @@ int	ft_is_var_from_expansion(char *str, t_vars *vars)
 			|| (vars->inner_quote == 0 && vars->outer_quote == 2)
 			|| (vars->outer_quote == 2 && vars->inner_quote == 1))
 		&& (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1]) || str[i
-					+ 1] == '?') && str[i + 1] != '\'' && str[i + 1] != '"'))
+				+ 1] == '?') && str[i + 1] != '\'' && str[i + 1] != '"'))
 	{
 		if (str && (str - 1) && (str - 2) && (*str - 2) == '$' && *(str
 				- 1) == '?')
@@ -38,7 +38,7 @@ t_vars	ft_exp_helper(t_vars v, char *str)
 			break ;
 	}
 	v.tmp_str = ft_substr(str, v.start, v.i - v.start);
-	v.tmp_str2 = ft_getenv(v.tmp_str, 1);
+	v.tmp_str2 = ft_getenv(v.tmp_str, 0);
 	if (v.tmp_str2)
 		v.matrix[v.j++] = v.tmp_str2;
 	free(v.tmp_str);
@@ -132,13 +132,4 @@ void	ft_get_quotes_inner_outer(char c, t_vars *vars)
 				vars->inner_quote = 0;
 		}
 	}
-}
-
-int	ft_isalnum(int c)
-{
-	if ((c >= '0' && c <= '9') || (c >= 'a'
-			&& c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1);
-	else
-		return (0);
 }

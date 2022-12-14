@@ -1,6 +1,6 @@
 #include "../libft.h"
 
-int		ft_strexist(char *s, char c)
+int	ft_strexist(char *s, char c)
 {
 	while (c != *s)
 	{

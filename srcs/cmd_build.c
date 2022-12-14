@@ -24,7 +24,7 @@ static void	create_infile(char *str, t_cmd *cmd)
 {
 	t_file	*file;
 	t_file	*ptr;
-	
+
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
 	file->type = R_IN;
@@ -62,6 +62,8 @@ static void	create_heredoc(char *str, t_cmd *cmd)
 
 void	set_redir(t_cmd *cmd, char ****str)
 {
+	int	count;
+
 	if (ft_strexact(***str, "|"))
 		;
 	else if (ft_strexact(***str, ">"))
@@ -78,8 +80,8 @@ void	set_redir(t_cmd *cmd, char ****str)
 	}
 	else if (ft_strexact(***str, "<"))
 	{
-
-		if (ft_strlen(cmd->args[0]) != 0) //ie: ls < Makefile cat (==ls: cat: No such file or directory)
+		if (ft_strlen(cmd->args[0]) != 0)
+		//ie: ls < Makefile cat (==ls: cat: No such file or directory)
 		{
 			printf("ERROR-- What to do\n");
 		}
@@ -88,7 +90,7 @@ void	set_redir(t_cmd *cmd, char ****str)
 		**(str) = **str + 1;
 		if (***str)
 		{
-			int count = 0;
+			count = 0;
 			// while (***str &&!is_redir(***str[0]))
 			// {
 			// 	cmd->args[count++] = ft_strdup((***str));
@@ -131,12 +133,13 @@ t_cmd	*init_tcmd(char ***matrix)
 	cmd->fd_in = 0;
 	cmd->args = malloc((1 + ft_matrix_get_num_col(*matrix)) * sizeof(char **));
 	i = 0;
-	cmd->args[i] = ft_strdup("");
+	//cmd->args[i] = ft_strdup(""); COMMENTED OUT BECAUSE IT CREATES A LEAK.... dont know if needed
 	while (**matrix != NULL)
 	{
 		if (!is_redir(***matrix))
 		{
-			if (ft_strexact("cat", **matrix)) //or anything that reads from STDIN
+			if (ft_strexact("cat", **matrix))
+			//or anything that reads from STDIN
 				cmd->flag = 1;
 			cmd->args[i++] = ft_strdup((**matrix));
 		}
@@ -154,15 +157,13 @@ t_cmd	*init_tcmd(char ***matrix)
 
 void	build_cmds(char **matrix)
 {
-	t_cmd *ptr;
-	t_cmd *ptr_next;
-	char **ptr_to_free;
-	
+	t_cmd	*ptr;
+	t_cmd	*ptr_next;
+	char	**ptr_to_free;
 
 	ptr_to_free = matrix;
 	ptr = init_tcmd(&matrix);
 	_shell()->head = ptr;
-
 	while (*matrix != NULL)
 	{
 		ptr_next = init_tcmd(&matrix);
@@ -170,18 +171,17 @@ void	build_cmds(char **matrix)
 		ptr_next->prev = ptr;
 		ptr = ptr->next;
 	}
-	free_arrays(ptr_to_free);
+	// free_arrays(ptr_to_free);
+	ft_matrix_free(ptr_to_free);
 }
 
 void	ft_my_var_exansion(t_cmd *ptr)
 {
-	
-	while (ptr!= NULL)
+	while (ptr != NULL)
 	{
-		
-	// 	if (needs_to_exanpd(str))
-	// 		change_values(str);
-		ptr=ptr->next;
+		// 	if (needs_to_exanpd(str))
+		// 		change_values(str);
+		ptr = ptr->next;
 	}
 	//char	*cmd;
 	//cmd = ft_var_expansion(*matrix)
@@ -201,10 +201,10 @@ bool	add_cmds(char **matrix)
 	//-> echo /pwd/
 	//ft_my_var_exansion(_shell()->head);
 	// char *ret_cmd;
-	
+
 	// char *str=ft_strdup("asaddfsd $PATH");
 	// ret_cmd=ft_var_expansion(str);
 	// printf("ret_str= %s",ret_cmd);
 	init_heredoc();
-	return (true);	
+	return (true);
 }

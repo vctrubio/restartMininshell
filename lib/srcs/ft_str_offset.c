@@ -1,6 +1,6 @@
 #include "../libft.h"
 
-char		*ft_str_offset(char *str, int i)
+char	*ft_str_offset(char *str, int i)
 {
 	char	*str2;
 	int		i2;

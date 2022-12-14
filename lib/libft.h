@@ -45,5 +45,7 @@ char				**ft_split(char const *s, char c);
 void				*ft_memmove(void *dest, const void *src, size_t n);
 int					ft_strncmp(const char *str1, const char *str2, size_t n);
 void				ft_bzero(void *str, size_t l);
+void				*ft_calloc(size_t count, size_t size);
+int					ft_isalpha(int c);
 
 #endif

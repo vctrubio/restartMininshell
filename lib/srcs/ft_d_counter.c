@@ -14,4 +14,3 @@ int	ft_d_counter(int n)
 	}
 	return (counter);
 }
-

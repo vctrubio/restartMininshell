@@ -39,6 +39,7 @@ static char	*buffer_scan_for_quotes(char *str)
 	f = 0;
 	k = 0;
 	i = -1;
+	c = 0;
 	while (str[++i])
 	{
 		if ((str[i] == '\'' || str[i] == '"'))
@@ -59,7 +60,7 @@ static char	*buffer_to_string(char **buff)
 	char	*str;
 	int		i;
 
-	str = calloc(sizeof(char), (ft_strlen(*buff) + 1));
+	str = ft_calloc(sizeof(char), (ft_strlen(*buff) + 1));
 	i = 0;
 	while (**buff)
 	{
@@ -75,12 +76,13 @@ static char	*buffer_to_string(char **buff)
 				str[i++] = *(*buff)++;
 			return (str);
 		}
-		if ((**buff == '\'' || **buff == '"') && *(*buff + 1) == **buff)
-		{
-			(*buff)++;
-			(*buff)++;
-		}
-		if ((**buff == '\'' || **buff == '"') && (**buff + 1 != **buff))
+		//if ((**buff == '\'' || **buff == '"' || **buff == 2) && *(*buff
+		// + 1) == **buff)
+		if (ft_strexist("'\"2", **buff) && *(*buff + 1) == **buff)
+			(*buff) += 2;
+		//if ((**buff == '\'' || **buff == '"' || **buff == 2) && (**buff
+		// + 1 != **buff))
+		if (ft_strexist("'\"2", **buff) && (**buff + 1 != **buff))
 			str = buffer_quotes(&(*buff), **buff, str, i);
 		else if (**buff)
 			str[i++] = *(*buff)++;

@@ -1,8 +1,8 @@
 #include "../include/minishell.h"
 
-int ft_strcount_char(char *str, char l)
+int	ft_strcount_char(char *str, char l)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!str || !l)
@@ -16,15 +16,15 @@ int ft_strcount_char(char *str, char l)
 	return (i);
 }
 
-int is_redir(int c)
+int	is_redir(int c)
 {
 	return (c == '<' || c == '>' || c == '|');
 }
 
-int r_size(char *s)
+int	r_size(char *s)
 {
-	int is_special;
-	int size;
+	int	is_special;
+	int	size;
 
 	size = 0;
 	is_special = -1;

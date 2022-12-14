@@ -5,7 +5,8 @@ int	ft_get_exec_path_chk_access(char *path, char **env_path, char ***matrix)
 	if (access(path, F_OK) != -1)
 	{
 		free(*env_path);
-		free_arrays(*matrix);
+		// free_arrays(*matrix);
+		ft_matrix_free(*matrix);
 		return (1);
 	}
 	return (0);
@@ -20,24 +21,24 @@ char	*ft_get_exec_path(char **argv)
 	int		i;
 
 	if (access(argv[0], F_OK) != -1)
-		return (argv[0]);
+		return (ft_strdup(argv[0]));
 	tmp_str = ft_getenv("PATH", 1);
 	if (!tmp_str)
 		return (NULL);
 	env_path = ft_strdup(tmp_str);
 	free(tmp_str);
 	matrix = ft_strsplit(env_path, ':');
-	i = 0;
-	while (matrix[i] != NULL)
+	i = -1;
+	while (matrix[++i] != NULL)
 	{
 		path = ft_concat3(matrix[i], "/", argv[0]);
 		if (ft_get_exec_path_chk_access(path, &env_path, &(matrix)))
 			return (path);
 		free(path);
-		(i)++;
 	}
 	free(env_path);
-	free_arrays(matrix);
+	// free_arrays(matrix);
+	ft_matrix_free(matrix);
 	return (NULL);
 }
 
@@ -57,7 +58,7 @@ char	*ft_getenv(char *name, int trimmed)
 		if (split[1] == NULL)
 			ret = NULL;
 		else if (!trimmed)
-			ret = ft_concat_string_between_chars(2, split[1], 3);
+			ret = ft_concat_string_between_chars(2, split[1], 2);
 		else
 			ret = ft_strdup(split[1]);
 		ft_matrix_free(split);

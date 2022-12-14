@@ -10,15 +10,15 @@ static void	ask_for_input(char *word, t_file *file)
 	tmp = ft_strdup(".tmp.");
 	file->heredoc = ft_strjoin(tmp, file->filename);
 	file->fd = open(file->heredoc, O_RDWR | O_CREAT | O_TRUNC, 0777);
-	while(1)
+	while (1)
 	{
 		filename = ft_strdup(file->filename);
 		ft_stradd(&filename, ">>");
 		line = readline(filename);
 		if (ft_strexact(line, word))
-				break;
+			break ;
 		write(file->fd, line, ft_strlen(line));
-        write(file->fd, "\n", 1);
+		write(file->fd, "\n", 1);
 		free(line);
 		line = NULL;
 		free(filename);

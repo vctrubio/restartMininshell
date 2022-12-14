@@ -15,7 +15,7 @@ void	*ft_realloc(void *ptr, size_t size)
 		exit(EXIT_FAILURE);
 	}
 	ft_memset(new_ptr, 0, size);
-	ft_memcpy(new_ptr, ptr, size); // void	*ft_memcpy(void *dest, const void *src, size_t n)
+	ft_memcpy(new_ptr, ptr, size);
 	free(ptr);
 	return (new_ptr);
 }

@@ -3,7 +3,7 @@
 int	ft_wrdcnt(const char *str, char c)
 {
 	unsigned int	i;
-	int		count;
+	int				count;
 
 	i = 0;
 	count = 0;

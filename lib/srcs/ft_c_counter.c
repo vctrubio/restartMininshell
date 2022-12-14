@@ -2,7 +2,7 @@
 
 int	count_words(char *str, char c)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (*str)
@@ -11,7 +11,7 @@ int	count_words(char *str, char c)
 			str++;
 		if (*str == 0)
 			return (i);
-		while (*str && *str != c )
+		while (*str && *str != c)
 			str++;
 		if (*str == 0)
 			return (i + 1);

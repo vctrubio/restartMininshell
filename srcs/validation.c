@@ -7,7 +7,7 @@ static void	ft_validate_pipe_matrix(char **line, int i)
 		if (line[i][1])
 		{
 			if (line[i][1] == '|')
-			_shell()->valid_input = false;
+				_shell()->valid_input = false;
 		}
 	}
 }

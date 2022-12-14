@@ -24,7 +24,7 @@ static int	ft_strsave(int fd, char **line, char **store)
 		return (0);
 	}
 }
-// strsave has to check for \n o \0, 
+// strsave has to check for \n o \0,
 // i counter ++, tmp
 // if new line, line substr until new line,
 // tmp becomes rest
@@ -41,17 +41,17 @@ static int	ft_check_return(int fd, char **line, char **storage, int reader)
 		*line = ft_strdup("");
 		return (0);
 	}
-	return(ft_strsave(fd, line, storage));
+	return (ft_strsave(fd, line, storage));
 }
 
-	// buff equal no null and readc
-	// if no store, duplicate
-	// tmp join string af what we have
-	// free
-	// new store of temp
-	// if - temp (ie store) has new line, break and call return
+// buff equal no null and readc
+// if no store, duplicate
+// tmp join string af what we have
+// free
+// new store of temp
+// if - temp (ie store) has new line, break and call return
 
-int			get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static char	*storage[1000];
 	char		buffer[BUFFER_SIZE + 1];
@@ -60,8 +60,11 @@ int			get_next_line(int fd, char **line)
 
 	if (!line || BUFFER_SIZE <= 0 || fd < 0)
 		return (-1);
-	while ((reader = read(fd, buffer, BUFFER_SIZE)) > 0)
+	while (1)
 	{
+		reader = read(fd, buffer, BUFFER_SIZE);
+		if (reader <= 0)
+			break ;
 		buffer[reader] = '\0';
 		if (!storage[fd])
 			storage[fd] = ft_strdup("");
@@ -69,7 +72,7 @@ int			get_next_line(int fd, char **line)
 		free(storage[fd]);
 		storage[fd] = tmp;
 		if (ft_strchr(storage[fd], '\n'))
-			break;
+			break ;
 	}
-	return(ft_check_return(fd, line, storage, reader));
+	return (ft_check_return(fd, line, storage, reader));
 }
