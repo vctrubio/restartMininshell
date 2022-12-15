@@ -178,6 +178,8 @@ void					ft_putchar_fd(char c, int fd);
 //utils2.c
 int						ft_isalnum(int c);
 void					ft_swap2str(char **str1, char **str2);
+char					*ft_itoa(int n);
+int						ft_atoi(const char *str);
 
 //validate.c
 void					validate_rl(char **matrix);
