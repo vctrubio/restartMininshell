@@ -30,14 +30,17 @@ char	**ft_matrix_dup(char **matrix, int push)
 	return (list);
 }
 
-char	**ft_matrix_push(char **matrix, char *str)
+char	**ft_matrix_push(char **matrix, char *str_getsdeleted)
 {
 	int		col_num;
 	char	**list;
+	char	*str;
 
+	str = str_getsdeleted;
 	col_num = ft_matrix_get_num_col(matrix);
 	list = ft_matrix_dup(matrix, 1);
 	list[col_num] = ft_strdup(str);
+	free(str);
 	ft_chk_n_exit_if_null_pchar(list[col_num], NULL);
 	ft_matrix_free(matrix);
 	return (list);

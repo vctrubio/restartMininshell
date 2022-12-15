@@ -122,16 +122,18 @@ t_cmd	*init_tcmd(char ***matrix)
 	t_cmd	*cmd;
 	int		i;
 
-	cmd = malloc(sizeof(t_cmd));
-	cmd->type = NADA;
-	cmd->file = NULL;
-	cmd->file_in = NULL;
-	cmd->heredoc = NULL;
-	cmd->next = NULL;
-	cmd->prev = NULL;
-	cmd->flag = 0;
-	cmd->fd_in = 0;
-	cmd->args = malloc((1 + ft_matrix_get_num_col(*matrix)) * sizeof(char **));
+	// cmd = malloc(sizeof(t_cmd));
+	// cmd->type = NADA;
+	// cmd->file = NULL;
+	// cmd->file_in = NULL;
+	// cmd->heredoc = NULL;
+	// cmd->next = NULL;
+	// cmd->prev = NULL;
+	// cmd->flag = 0;
+	// cmd->fd_in = 0;
+	// cmd->args = malloc((1 + ft_matrix_get_num_col(*matrix))
+	// * sizeof(char **));
+	cmd = ft_inicialize_cmd(*matrix);
 	i = 0;
 	//cmd->args[i] = ft_strdup(""); COMMENTED OUT BECAUSE IT CREATES A LEAK.... dont know if needed
 	while (**matrix != NULL)
@@ -139,7 +141,7 @@ t_cmd	*init_tcmd(char ***matrix)
 		if (!is_redir(***matrix))
 		{
 			if (ft_strexact("cat", **matrix))
-			//or anything that reads from STDIN
+				//or anything that reads from STDIN
 				cmd->flag = 1;
 			cmd->args[i++] = ft_strdup((**matrix));
 		}

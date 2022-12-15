@@ -86,29 +86,6 @@ char	*ft_var_expansion(char *str)
 	return (v.tmp_str);
 }
 
-void	ft_inicialize_vars(t_vars *vars)
-{
-	vars->i = 0;
-	vars->j = 0;
-	vars->k = 0;
-	vars->l = 0;
-	vars->m = 0;
-	vars->start = 0;
-	vars->end = 0;
-	vars->size = 0;
-	vars->inner_quote = 0;
-	vars->outer_quote = 0;
-	vars->str = NULL;
-	vars->str2 = NULL;
-	vars->tmp_str = NULL;
-	vars->tmp_str2 = NULL;
-	vars->matrix = NULL;
-	vars->matrix2 = NULL;
-	vars->tmp_matrix = NULL;
-	vars->tmp_matrix2 = NULL;
-	vars->p2p2p = NULL;
-}
-
 void	ft_get_quotes_inner_outer(char c, t_vars *vars)
 {
 	int	num;

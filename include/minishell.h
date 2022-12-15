@@ -25,11 +25,11 @@ enum					e_type
 
 struct					s_file
 {
-	char		*filename;
-	char		*heredoc;
-	int			fd;
-	t_type		type;
-	t_file		*next;
+	char				*filename;
+	char				*heredoc;
+	int					fd;
+	t_type				type;
+	t_file				*next;
 };
 
 struct					s_cmd
@@ -55,29 +55,29 @@ typedef struct s_envp
 
 typedef struct s_vars
 {
-	int			i;
-	int			j;
-	int			k;
-	int			l;
-	int			m;
-	int			start;
-	int			end;
-	int			size;
-	int			inner_quote;
-	int			outer_quote;
-	char		*ptr2str;
-	char		*ptr2char;
-	char		***p2p2p;
-	char		*str;
-	char		*str2;
-	char		*tmp_str;
-	char		*tmp_str2;
-	char		**matrix;
-	char		**matrix2;
-	char		**tmp_matrix;
-	char		**tmp_matrix2;
+	int					i;
+	int					j;
+	int					k;
+	int					l;
+	int					m;
+	int					start;
+	int					end;
+	int					size;
+	int					inner_quote;
+	int					outer_quote;
+	char				*ptr2str;
+	char				*ptr2char;
+	char				***p2p2p;
+	char				*str;
+	char				*str2;
+	char				*tmp_str;
+	char				*tmp_str2;
+	char				**matrix;
+	char				**matrix2;
+	char				**tmp_matrix;
+	char				**tmp_matrix2;
 
-}				t_vars;
+}						t_vars;
 
 //array.c
 void					print_tcmd(t_cmd *cmd);
@@ -92,8 +92,8 @@ int						ft_export(char **argv);
 
 //built_ins_background.c
 int						ft_setenv(char *name, char *value, int overwrite);
-int						set_cd_folder_return_if_free_folder_or_not(char **argv,
-							char **ptr2folder);
+int	set_cd_folder_return_if_free_folder_or_not(char **argv,
+												char **ptr2folder);
 void					ft_export_no_args(void);
 int						ft_unset(char **argv);
 
@@ -123,6 +123,10 @@ void					free_cmds(t_cmd *first);
 //heredoc.c
 void					init_heredoc(void);
 
+//initializers.c
+void					ft_inicialize_vars(t_vars *vars);
+t_cmd					*ft_inicialize_cmd(char **matrix);
+
 //matrix_fts.c
 char					**ft_matrix_dup(char **matrix, int push);
 int						ft_matrix_get_num_col(char **matrix);
@@ -130,12 +134,13 @@ char					**ft_matrix_push(char **matrix, char *str);
 void					ft_matrix_free(char **matrix);
 
 //matrix_utils.c
-char					**ft_matrix_remove_col_by_index(char **matrix,
-							int index);
-void					ft_print_matrix_add_str2line_start(char **matrix,
-							char *str, char *glue);
-void					ft_chk_n_exit_if_null_ppchar(char **matrix,
-							char *error_str);
+char	**ft_matrix_remove_col_by_index(char **matrix,
+										int index);
+void	ft_print_matrix_add_str2line_start(char **matrix,
+										char *str,
+										char *glue);
+void	ft_chk_n_exit_if_null_ppchar(char **matrix,
+									char *error_str);
 void					ft_chk_n_exit_if_null_pchar(char *str, char *error_str);
 
 //path.c
@@ -182,7 +187,7 @@ int						ft_is_var_from_expansion(char *str, t_vars *vars);
 t_vars					ft_exp_helper(t_vars v, char *str);
 t_vars					ft_nexp_helper(t_vars v, char *str);
 char					*ft_var_expansion(char *str);
-void					ft_inicialize_vars(t_vars *vars);
+
 void					ft_get_quotes_inner_outer(char c, t_vars *vars);
 
 #endif
