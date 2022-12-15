@@ -47,9 +47,15 @@ void	loop_execution(t_cmd *cmd)
 	int		status;
 	char	*path;
 	int		ret;
+	t_file	*file;
 
 	while (cmd)
 	{
+		if (*cmd->args == NULL)
+		{
+			cmd = cmd->next;
+			continue ;
+		}
 		if (check_if_builtin_not_pipe(cmd))
 		{
 			run_builtin_not_piped(cmd);
@@ -90,11 +96,12 @@ void	loop_execution(t_cmd *cmd)
 			close(p[1]);
 			if (cmd->file)
 			{
-				while (cmd->file)
+				file = cmd->file;
+				while (file)
 				{
-					close(cmd->file->fd);
-					cmd->file = cmd->file->next;
-					if (cmd->file)
+					close(file->fd);
+					file = file->next;
+					if (file)
 						loop_execution(cmd);
 				}
 			}

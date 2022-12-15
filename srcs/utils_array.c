@@ -2,17 +2,20 @@
 
 void	print_tcmd(t_cmd *cmd)
 {
-	int	i;
+	int		i;
+	t_file	*file;
 
+	file = NULL;
 	i = -1;
 	while (cmd->args[++i])
 		printf("ARGS[%d]= %s\n", i, cmd->args[i]);
 	if (cmd->file)
 	{
-		while (cmd->file)
+		file = cmd->file;
+		while (file)
 		{
-			printf("FILE_OUT: %s (%d)\n", cmd->file->filename, cmd->file->type);
-			cmd->file = cmd->file->next;
+			printf("FILE_OUT: %s (%d)\n", file->filename, file->type);
+			file = file->next;
 		}
 	}
 	if (cmd->heredoc)

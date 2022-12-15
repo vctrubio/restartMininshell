@@ -173,8 +173,8 @@ void	build_cmds(char **matrix)
 		ptr_next->prev = ptr;
 		ptr = ptr->next;
 	}
-	// free_arrays(ptr_to_free);
-	ft_matrix_free(ptr_to_free);
+	free_arrays(ptr_to_free);
+	//ft_matrix_free(ptr_to_free);
 }
 
 void	ft_my_var_exansion(t_cmd *ptr)

@@ -29,8 +29,8 @@ void	free_cmds(t_cmd *first)
 		return ;
 	while (first)
 	{
-		// free_arrays(first->args);
-		ft_matrix_free(first->args);
+		free_arrays(first->args);
+		// ft_matrix_free(first->args);
 		if (first->file)
 		{
 			free_files(first->file);
