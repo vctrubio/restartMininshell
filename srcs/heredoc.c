@@ -23,6 +23,8 @@ static void	ask_for_input(char *word, t_file *file)
 		line = NULL;
 		free(filename);
 	}
+	free(line);
+	free(filename);
 	free(tmp);
 	close(file->fd);
 }

@@ -9,7 +9,8 @@ void	ft_stradd(char **str, char *add)
 	i = 0;
 	while ((*str)[i])
 		i++;
-	(*str) = realloc((*str), ft_strlen(*str) + ft_strlen(add) + 1); //ft_realloc
+	(*str) = ft_realloc((*str), ft_strlen(*str) + ft_strlen(add) + 1);
+		//ft_realloc
 	while (*add)
 	{
 		(*str)[i++] = *add;
