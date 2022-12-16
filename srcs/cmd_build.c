@@ -152,6 +152,8 @@ t_cmd	*init_tcmd(char ***matrix)
 		}
 		*(matrix) = *matrix + 1;
 	}
+	if (i > 1)
+		cmd->flag = 0;
 	if (!cmd->file_in)
 		cmd->args[i] = NULL;
 	return (cmd);

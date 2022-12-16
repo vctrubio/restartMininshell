@@ -36,7 +36,8 @@ static void	child_proces(int *p, t_cmd *cmd)
 	}
 	else if (cmd->next)
 		dup2(p[1], 1);
-	close(cmd->fd_in);
+	if (!(cmd->flag && cmd->next))
+		close(cmd->fd_in);
 	close(p[0]);
 }
 
@@ -48,6 +49,7 @@ void	loop_execution(t_cmd *cmd)
 	char	*path;
 	int		ret;
 	t_file	*file;
+	char	*tmpstr;
 
 	while (cmd)
 	{
@@ -87,8 +89,9 @@ void	loop_execution(t_cmd *cmd)
 		{
 			if (cmd->flag && cmd->next)
 			{
-				readline(">r");
 				kill(pid, SIGKILL);
+				tmpstr = readline(">r");
+				free(tmpstr);
 			}
 			else
 				waitpid(pid, &status, WUNTRACED);
