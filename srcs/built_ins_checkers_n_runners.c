@@ -8,6 +8,8 @@ int	check_if_builtin_not_pipe(t_cmd *cmd)
 		return (1);
 	if (ft_strexact("unset", cmd->args[0]))
 		return (1);
+	if (ft_strexact("exit", cmd->args[0]))
+		return (1);
 	return (0);
 }
 
@@ -32,6 +34,8 @@ int	run_builtin_not_piped(t_cmd *cmd)
 		ret = ft_export(cmd->args);
 	if (ft_strexact("unset", cmd->args[0]))
 		ret = ft_unset(cmd->args);
+	if (ft_strexact("exit", cmd->args[0]))
+		ret = ft_exit(cmd->args);
 	return (ret);
 }
 

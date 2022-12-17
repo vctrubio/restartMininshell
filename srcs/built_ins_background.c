@@ -89,3 +89,17 @@ int	ft_unset(char **argv)
 		_shell()->envp = ft_matrix_remove_col_by_index(_shell()->envp, i);
 	return (0);
 }
+
+int	ft_exit(char **argv)
+{
+	if (argv[1])
+	{
+		_shell()->exit_code = ft_atoi(argv[1]);
+		return (ft_atoi(argv[1]));
+	}
+	else
+	{
+		_shell()->exit_code = 0;
+		return (0);
+	}
+}

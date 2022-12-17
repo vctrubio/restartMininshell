@@ -50,7 +50,9 @@ void	loop_execution(t_cmd *cmd)
 	int		ret;
 	t_file	*file;
 	char	*tmpstr;
+	int		bs_cat;
 
+	bs_cat = 0;
 	while (cmd)
 	{
 		if (*cmd->args == NULL)
@@ -60,7 +62,9 @@ void	loop_execution(t_cmd *cmd)
 		}
 		if (check_if_builtin_not_pipe(cmd))
 		{
-			run_builtin_not_piped(cmd);
+			_shell()->exit_code = run_builtin_not_piped(cmd);
+			if (!cmd->next && !cmd->prev && ft_strexact("exit", cmd->args[0]))
+				_shell()->exit = 1;
 			cmd = cmd->next;
 			continue ;
 		}
@@ -76,6 +80,8 @@ void	loop_execution(t_cmd *cmd)
 		}
 		pipe(p);
 		pid = fork();
+		if (cmd)
+			cmd->fd_in = p[0];
 		if (pid == 0)
 		{
 			child_proces(p, cmd);
@@ -89,13 +95,11 @@ void	loop_execution(t_cmd *cmd)
 		{
 			if (cmd->flag && cmd->next)
 			{
+				bs_cat++;
 				kill(pid, SIGKILL);
-				tmpstr = readline(">r");
-				free(tmpstr);
 			}
 			else
 				waitpid(pid, &status, WUNTRACED);
-			_shell()->exit_code = status / 256;
 			close(p[1]);
 			if (cmd->file)
 			{
@@ -109,10 +113,16 @@ void	loop_execution(t_cmd *cmd)
 				}
 			}
 			cmd = cmd->next;
-			if (cmd)
-				cmd->fd_in = p[0];
+			// if (cmd)
+			// 	cmd->fd_in = p[0];
 			if (path)
 				free(path);
 		}
+	}
+	_shell()->exit_code = status / 256;
+	while (bs_cat--)
+	{
+		tmpstr = readline("");
+		free(tmpstr);
 	}
 }

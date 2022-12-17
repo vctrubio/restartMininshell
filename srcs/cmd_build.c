@@ -62,7 +62,8 @@ static void	create_heredoc(char *str, t_cmd *cmd)
 
 void	set_redir(t_cmd *cmd, char ****str)
 {
-	int	count;
+	int		count;
+	char	**p2matrix;
 
 	if (ft_strexact(***str, "|"))
 		;
@@ -85,9 +86,13 @@ void	set_redir(t_cmd *cmd, char ****str)
 		{
 			printf("ERROR-- What to do\n");
 		}
-		**(str) = **str + 1;
-		create_infile(***str, cmd);
-		**(str) = **str + 1;
+		p2matrix = **str + 1;
+		print_arrays(p2matrix);
+		//**(str) = **str + 1;
+		//create_infile(***str, cmd);
+		create_infile(*p2matrix, cmd);
+		**(str) = **str + 2;
+		//**(str) = **str + 1;
 		if (***str)
 		{
 			count = 0;
@@ -112,7 +117,8 @@ void	set_redir(t_cmd *cmd, char ****str)
 		**(str) = **str + 1;
 		create_heredoc(***str, cmd);
 	}
-	**(str) = **str + 1;
+	if (***(str) != NULL)
+		**(str) = **str + 1;
 	if (***str && is_redir(****str))
 		set_redir(cmd, str);
 }
@@ -122,17 +128,6 @@ t_cmd	*init_tcmd(char ***matrix)
 	t_cmd	*cmd;
 	int		i;
 
-	// cmd = malloc(sizeof(t_cmd));
-	// cmd->type = NADA;
-	// cmd->file = NULL;
-	// cmd->file_in = NULL;
-	// cmd->heredoc = NULL;
-	// cmd->next = NULL;
-	// cmd->prev = NULL;
-	// cmd->flag = 0;
-	// cmd->fd_in = 0;
-	// cmd->args = malloc((1 + ft_matrix_get_num_col(*matrix))
-	// * sizeof(char **));
 	cmd = ft_inicialize_cmd(*matrix);
 	i = 0;
 	//cmd->args[i] = ft_strdup(""); COMMENTED OUT BECAUSE IT CREATES A LEAK.... dont know if needed

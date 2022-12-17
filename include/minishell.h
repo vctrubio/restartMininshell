@@ -50,6 +50,7 @@ typedef struct s_envp
 	char				**envp;
 	t_cmd				*head;
 	int					exit_code;
+	int					exit;
 	bool				valid_input;
 }						t_envp;
 
@@ -96,6 +97,7 @@ int	set_cd_folder_return_if_free_folder_or_not(char **argv,
 												char **ptr2folder);
 void					ft_export_no_args(void);
 int						ft_unset(char **argv);
+int						ft_exit(char **argv);
 
 //built_ins_checkers_n_runners.c
 int						check_if_builtin_not_pipe(t_cmd *cmd);

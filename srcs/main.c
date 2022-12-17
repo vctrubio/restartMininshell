@@ -46,7 +46,7 @@ void	minishell(void)
 	char	*exit_code_str;
 
 	ft_setenv("?", 0, 1);
-	while (43)
+	while (!_shell()->exit)
 	{
 		_shell()->valid_input = true;
 		signal(SIGINT, ft_handler);
@@ -61,12 +61,12 @@ void	minishell(void)
 			continue ;
 		if (ft_strlen(line) == 0)
 			continue ;
-		if (!ft_strncmp(line, "exit", 4))
-		{
-			if (line[4] != '\0')
-				_shell()->exit_code = ft_atoi(line + 5);
-			break ;
-		}
+		// if (!ft_strncmp(line, "exit", 4))
+		// {
+		// 	if (line[4] != '\0')
+		// 		_shell()->exit_code = ft_atoi(line + 5);
+		// 	break ;
+		// }
 		add_history(line);
 		line = ft_var_expansion(line);
 		if (add_cmds(line_to_matrix(line)))

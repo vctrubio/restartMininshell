@@ -15,6 +15,7 @@ void	init_shell(char **ev)
 	shell = _shell();
 	shell->envp = ft_matrix_dup(ev, 0);
 	shell->exit_code = 0;
+	shell->exit = 0;
 }
 
 void	close_shell(void)
