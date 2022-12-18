@@ -11,7 +11,7 @@ void	ft_handler(int signum)
 		if (pid == -1)
 		{
 			printf("\n");
-			// rl_replace_line("", 0);
+			rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
 		}
@@ -49,7 +49,7 @@ void	minishell(void)
 	{
 		_shell()->valid_input = true;
 		line = readline("minishell.42> ");
-		if (line == NULL && printf("EXIT PROGRAM BUG OR CTRL+D as needed\n"))
+		if (line == NULL)
 			exit(0);
 		if (!line || line[0] == '\0' || ft_strlen(line) == 0)
 		{

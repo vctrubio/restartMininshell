@@ -142,7 +142,7 @@ bool	add_cmds(char **matrix)
 	validate_rl(matrix);
 	if (_shell()->valid_input == false)
 	{
-		printf("INVALID USER INPUT... ERROR IN PARSING... TBD\n");
+		printf("ERROR: SYNTAX ERROR...\n");
 		return (false);
 	}
 	else
