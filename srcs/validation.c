@@ -12,7 +12,7 @@ static void	ft_validate_pipe_matrix(char **line, int i)
 	}
 }
 
-static void	ft_validate_redir_output_matrix(char **line, int i) //>
+static void	ft_validate_redir_output_matrix(char **line, int i)
 {
 	if (line[i + 1])
 	{
@@ -23,7 +23,7 @@ static void	ft_validate_redir_output_matrix(char **line, int i) //>
 		_shell()->valid_input = false;
 }
 
-static void	ft_validate_redir_input_matrix(char **line, int i) //<
+static void	ft_validate_redir_input_matrix(char **line, int i)
 {
 	if (line[i + 1])
 	{

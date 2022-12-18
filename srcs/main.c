@@ -22,7 +22,7 @@ void	ft_handler(int signum)
 		write(1, "\n", 1);
 }
 
-void	init_remove_qt(void)
+int	init_remove_qt(void)
 {
 	t_cmd	*ptr;
 	int		i;
@@ -38,57 +38,35 @@ void	init_remove_qt(void)
 		}
 		ptr = ptr->next;
 	}
+	return (1);
 }
 
 void	minishell(void)
 {
 	char	*line;
-	char	*exit_code_str;
 
-	ft_setenv("?", 0, 1);
 	while (!_shell()->exit)
 	{
 		_shell()->valid_input = true;
-		signal(SIGINT, ft_handler);
-		signal(SIGQUIT, SIG_IGN);
 		line = readline("minishell.42> ");
-		if (line == NULL)
-		{
-			printf("EXIT PROGRAM BUG OR CTRL+D as needed\n");
+		if (line == NULL && printf("EXIT PROGRAM BUG OR CTRL+D as needed\n"))
 			exit(0);
-		}
 		if (!line || line[0] == '\0' || ft_strlen(line) == 0)
 		{
 			if (line[0] == '\0' || ft_strlen(line) == 0)
 				free(line);
 			continue ;
 		}
-		// if (!ft_strncmp(line, "exit", 4))
-		// {
-		// 	if (line[4] != '\0')
-		// 		_shell()->exit_code = ft_atoi(line + 5);
-		// 	break ;
-		// }
 		add_history(line);
 		line = ft_var_expansion(line);
-		if (add_cmds(line_to_matrix(line)))
-		{
-			init_remove_qt();
+		if (add_cmds(line_to_matrix(line)) && init_remove_qt())
 			loop_execution(_shell()->head);
-			//exit_code_str = ft_itoa(_shell()->exit_code);
-			//ft_setenv("?", exit_code_str, 1);
-			//free(exit_code_str);
-		}
-		// printf("\n--ARGS INPUT--\n");
-		// if (_shell()->head)
-		// 	print_tcmd(_shell()->head);
 		if (_shell()->head)
 			free_cmds(_shell()->head);
 		free(line);
 		line = NULL;
 	}
 	free(line);
-	line = NULL;
 }
 
 int	main(int ac, char **av, char **ev)
@@ -97,6 +75,8 @@ int	main(int ac, char **av, char **ev)
 	(void)av;
 	if (ac != 1)
 		return (0);
+	signal(SIGINT, ft_handler);
+	signal(SIGQUIT, SIG_IGN);
 	init_shell(ev);
 	minishell();
 	close_shell();

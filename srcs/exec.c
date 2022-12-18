@@ -74,15 +74,15 @@ void	loop_execution(t_cmd *cmd)
 {
 	int		p[2];
 	pid_t	pid;
-	int		status;
+	int		status_bs[2];
 	char	*path;
 	int		ret;
 	t_file	*file;
 	char	*tmpstr;
 	int		bs_cat;
 
-	bs_cat = 0;
-	while (cmd)
+	status_bs[1] = 0;
+	while (cmd && cmd->args[0])
 	{
 		if (loop_part1(&cmd, &path))
 			continue ;
@@ -101,10 +101,10 @@ void	loop_execution(t_cmd *cmd)
 		}
 		else
 		{
-			if (cmd->flag == 2 && ++bs_cat)
+			if (cmd->flag == 2 && ++status_bs[1])
 				kill(pid, SIGKILL);
 			else
-				waitpid(pid, &status, WUNTRACED);
+				waitpid(pid, &status_bs[0], WUNTRACED);
 			close(p[1]);
 			if (cmd->file)
 			{
@@ -114,16 +114,21 @@ void	loop_execution(t_cmd *cmd)
 					close(file->fd);
 					file = file->next;
 					if (file)
+					{
+						free((cmd->file)->filename);
+						free(cmd->file);
+						cmd->file = file;
 						loop_execution(cmd);
+					}
 				}
 			}
 			cmd = cmd->next;
 			if (path)
 				free(path);
+			_shell()->exit_code = status_bs[0] / 256;
 		}
 	}
-	_shell()->exit_code = status / 256;
-	while (bs_cat--)
+	while (status_bs[1]--)
 	{
 		tmpstr = readline("");
 		printf("\n");

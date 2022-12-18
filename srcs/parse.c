@@ -76,12 +76,8 @@ static char	*buffer_to_string(char **buff)
 				str[i++] = *(*buff)++;
 			return (str);
 		}
-		//if ((**buff == '\'' || **buff == '"' || **buff == 2) && *(*buff
-		// + 1) == **buff)
 		if (ft_strexist("'\"\2", **buff) && *(*buff + 1) == **buff)
 			(*buff) += 2;
-		//if ((**buff == '\'' || **buff == '"' || **buff == 2) && (**buff
-		// + 1 != **buff))
 		if (ft_strexist("'\"\2", **buff) && (**buff + 1 != **buff))
 			str = buffer_quotes(&(*buff), **buff, str, i);
 		else if (**buff)

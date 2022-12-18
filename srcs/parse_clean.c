@@ -28,6 +28,5 @@ char	*parse_clean(char **p2str)
 	cpy[i] = 0;
 	free(*p2str);
 	*p2str = cpy;
-	// printf("CPY %s-------------\n", cpy);
 	return (cpy);
 }

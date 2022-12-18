@@ -23,6 +23,5 @@ void	close_shell(void)
 	if (_shell()->head)
 		free_cmds(_shell()->head);
 	if (_shell()->envp)
-		//free_arrays(_shell()->envp);
-		ft_matrix_free(_shell()->envp);
+		free_arrays(_shell()->envp);
 }

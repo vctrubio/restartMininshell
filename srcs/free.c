@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-static void	free_heredoc(t_file *file)
+static int	free_heredoc(t_file *file)
 {
 	free(file->filename);
 	if (file->heredoc)
@@ -11,14 +11,16 @@ static void	free_heredoc(t_file *file)
 	if (file->next)
 		free_heredoc(file->next);
 	free(file);
+	return (1);
 }
 
-static void	free_files(t_file *file)
+static int	free_files(t_file *file)
 {
 	free(file->filename);
 	if (file->next)
 		free_files(file->next);
 	free(file);
+	return (1);
 }
 
 void	free_cmds(t_cmd *first)
@@ -30,22 +32,12 @@ void	free_cmds(t_cmd *first)
 	while (first)
 	{
 		free_arrays(first->args);
-		// ft_matrix_free(first->args);
-		if (first->file)
-		{
-			free_files(first->file);
+		if (first->file && free_files(first->file))
 			first->file = NULL;
-		}
-		if (first->file_in)
-		{
-			free_files(first->file_in);
+		if (first->file_in && free_files(first->file_in))
 			first->file_in = NULL;
-		}
-		if (first->heredoc)
-		{
-			free_heredoc(first->heredoc);
+		if (first->heredoc && free_heredoc(first->heredoc))
 			first->heredoc = NULL;
-		}
 		if (first->next)
 			next = first->next;
 		else

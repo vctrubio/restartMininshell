@@ -5,7 +5,6 @@ int	ft_get_exec_path_chk_access(char *path, char **env_path, char ***matrix)
 	if (access(path, F_OK) != -1)
 	{
 		free(*env_path);
-		// free_arrays(*matrix);
 		ft_matrix_free(*matrix);
 		return (1);
 	}
@@ -37,8 +36,7 @@ char	*ft_get_exec_path(char **argv)
 		free(path);
 	}
 	free(env_path);
-	// free_arrays(matrix);
-	ft_matrix_free(matrix);
+	free_arrays(matrix);
 	return (NULL);
 }
 
@@ -49,6 +47,8 @@ char	*ft_getenv(char *name, int trimmed)
 	char	*ret;
 
 	i = -1;
+	if (ft_strexact(name, "?"))
+		return (ft_itoa(_shell()->exit_code));
 	while (_shell()->envp[++i] != NULL && name && ft_strncmp(_shell()->envp[i],
 			name, ft_strlen(name)))
 		;

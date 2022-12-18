@@ -30,11 +30,8 @@ int	r_size(char *s)
 	is_special = -1;
 	while (s && *s)
 	{
-		if (ft_isspace(*s))
-		{
-			if (is_special != 0)
-				is_special = 0;
-		}
+		if (ft_isspace(*s) && is_special != 0)
+			is_special = 0;
 		else if (is_redir(*s))
 		{
 			is_special = 1;
