@@ -57,10 +57,12 @@ void	minishell(void)
 			printf("EXIT PROGRAM BUG OR CTRL+D as needed\n");
 			exit(0);
 		}
-		if (!line || line[0] == '\0')
+		if (!line || line[0] == '\0' || ft_strlen(line) == 0)
+		{
+			if (line[0] == '\0' || ft_strlen(line) == 0)
+				free(line);
 			continue ;
-		if (ft_strlen(line) == 0)
-			continue ;
+		}
 		// if (!ft_strncmp(line, "exit", 4))
 		// {
 		// 	if (line[4] != '\0')
@@ -73,10 +75,9 @@ void	minishell(void)
 		{
 			init_remove_qt();
 			loop_execution(_shell()->head);
-			exit_code_str = ft_itoa(_shell()->exit_code);
-			ft_setenv("?", exit_code_str, 1);
-			free(exit_code_str);
-			// printf("status CODE %d\n", _shell()->exit_code);
+			//exit_code_str = ft_itoa(_shell()->exit_code);
+			//ft_setenv("?", exit_code_str, 1);
+			//free(exit_code_str);
 		}
 		// printf("\n--ARGS INPUT--\n");
 		// if (_shell()->head)
