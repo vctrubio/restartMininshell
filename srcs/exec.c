@@ -36,7 +36,7 @@ static void	child_proces(int *p, t_cmd *cmd)
 	}
 	else if (cmd->next)
 		dup2(p[1], 1);
-	if (!(cmd->flag && cmd->next))
+	if (cmd->flag != 2)
 		close(cmd->fd_in);
 	close(p[0]);
 }
@@ -78,10 +78,13 @@ void	loop_execution(t_cmd *cmd)
 			cmd = cmd->next;
 			continue ;
 		}
-		pipe(p);
-		pid = fork();
 		if (cmd)
 			cmd->fd_in = p[0];
+		if (cmd->flag && cmd->next && (ft_strexact("ls", (cmd->next)->args[0])
+				|| ft_strexact("pwd", (cmd->next)->args[0])))
+			cmd->flag = 2;
+		pipe(p);
+		pid = fork();
 		if (pid == 0)
 		{
 			child_proces(p, cmd);
@@ -93,7 +96,7 @@ void	loop_execution(t_cmd *cmd)
 		}
 		else
 		{
-			if (cmd->flag && cmd->next)
+			if (cmd->flag == 2)
 			{
 				bs_cat++;
 				kill(pid, SIGKILL);
@@ -123,6 +126,7 @@ void	loop_execution(t_cmd *cmd)
 	while (bs_cat--)
 	{
 		tmpstr = readline("");
+		printf("\n");
 		free(tmpstr);
 	}
 }
