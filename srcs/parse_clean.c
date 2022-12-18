@@ -15,8 +15,7 @@ char	*parse_clean(char **p2str)
 	{
 		if (*str == 2 || *str == '\'' || *str == '"')
 		{
-			c = *str;
-			str++;
+			c = *str++;
 			while (*str && *str != c)
 				cpy[i++] = *(str++);
 		}

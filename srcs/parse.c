@@ -1,24 +1,6 @@
 #include "../include/minishell.h"
 //parsing of quotes
 
-static void	ft_do_quote(char **output, char c)
-{
-	char	*buff;
-	char	*tmp;
-	int		i;
-
-	i = 1;
-	buff = readline("dquote> ");
-	add_history(buff);
-	tmp = ft_strdup(buff);
-	ft_stradd(&(*output), tmp);
-	i += ft_strcount_char(tmp, c);
-	free(buff);
-	free(tmp);
-	if (i % 2 != 0)
-		ft_do_quote(output, c);
-}
-
 static char	*buffer_quotes(char **buff, char c, char *str, int i)
 {
 	str[(i)++] = *(*buff)++;
@@ -55,6 +37,16 @@ static char	*buffer_scan_for_quotes(char *str)
 	return (str);
 }
 
+static void	buffer2string_quotes(char **buff, char **str, int *i)
+{
+	if (ft_strexist("'\"\2", **buff) && *(*buff + 1) == **buff)
+		(*buff) += 2;
+	if (ft_strexist("'\"\2", **buff) && (**buff + 1 != **buff))
+		(*str) = buffer_quotes(&(*buff), **buff, (*str), *i);
+	else if (**buff)
+		(*str)[(*i)++] = *(*buff)++;
+}
+
 static char	*buffer_to_string(char **buff)
 {
 	char	*str;
@@ -76,12 +68,7 @@ static char	*buffer_to_string(char **buff)
 				str[i++] = *(*buff)++;
 			return (str);
 		}
-		if (ft_strexist("'\"\2", **buff) && *(*buff + 1) == **buff)
-			(*buff) += 2;
-		if (ft_strexist("'\"\2", **buff) && (**buff + 1 != **buff))
-			str = buffer_quotes(&(*buff), **buff, str, i);
-		else if (**buff)
-			str[i++] = *(*buff)++;
+		buffer2string_quotes(buff, &str, &i);
 	}
 	return (buffer_scan_for_quotes(str));
 }

@@ -117,6 +117,10 @@ bool					add_cmds(char **matrix);
 void					build_cmds(char **matrix);
 
 //exec.c
+void					child_proces(int *p, t_cmd *cmd);
+void					bs_cat(int bs_cat);
+
+//loop.c
 void					loop_execution(t_cmd *ptr);
 
 //free.c
@@ -155,7 +159,11 @@ char					*ft_getenv(char *name, int trimmed);
 int						ft_strcount_char(char *str, char l);
 char					**line_to_matrix(char *line);
 
-//parse_clean.c //for late to remove quotes- but we will do this at the very end
+//parse2.c
+void					ft_do_quote(char **output, char c);
+
+//parse_clean.c
+//for late to remove quotes- but we will do this at the very end
 char					*parse_clean(char **p2str);
 void					dollar_for_money(char **outup, char **input);
 
@@ -166,11 +174,6 @@ int						ft_env(char **argv);
 t_envp					*_shell(void);
 void					init_shell(char **ev);
 void					close_shell(void);
-
-//utils.c
-int						ft_strcount_char(char *str, char l);
-int						is_redir(int c);
-int						r_size(char *s);
 
 //utils_fd
 void					ft_putnbr_fd(int n, int fd);
@@ -183,6 +186,10 @@ void					ft_swap2str(char **str1, char **str2);
 char					*ft_itoa(int n);
 int						ft_atoi(const char *str);
 
+//utils_parsing.c
+int						ft_strcount_char(char *str, char l);
+int						is_redir(int c);
+int						r_size(char *s);
 //validate.c
 void					validate_rl(char **matrix);
 

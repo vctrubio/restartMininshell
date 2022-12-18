@@ -122,24 +122,13 @@ t_cmd	*init_tcmd(char ***matrix)
 	t_cmd	*cmd;
 	int		i;
 
-	cmd = malloc(sizeof(t_cmd));
-	cmd->type = NADA;
-	cmd->file = NULL;
-	cmd->file_in = NULL;
-	cmd->heredoc = NULL;
-	cmd->next = NULL;
-	cmd->prev = NULL;
-	cmd->flag = 0;
-	cmd->fd_in = 0;
-	cmd->args = malloc((1 + ft_matrix_get_num_col(*matrix)) * sizeof(char **));
+	cmd = ft_inicialize_cmd(*matrix);
 	i = 0;
-	//	cmd->args[i] = ft_strdup("");
 	while (**matrix != NULL)
 	{
 		if (!is_redir(***matrix))
 		{
 			if (ft_strexact("cat", **matrix))
-				//or anything that reads from STDIN
 				cmd->flag = 1;
 			cmd->args[i++] = ft_strdup((**matrix));
 		}
@@ -174,18 +163,6 @@ void	build_cmds(char **matrix)
 	free_arrays(ptr_to_free);
 }
 
-void	ft_my_var_exansion(t_cmd *ptr)
-{
-	while (ptr != NULL)
-	{
-		// 	if (needs_to_exanpd(str))
-		// 		change_values(str);
-		ptr = ptr->next;
-	}
-	//char	*cmd;
-	//cmd = ft_var_expansion(*matrix)
-}
-
 bool	add_cmds(char **matrix)
 {
 	validate_rl(matrix);
@@ -196,14 +173,6 @@ bool	add_cmds(char **matrix)
 	}
 	else
 		build_cmds(matrix);
-	//HERE -> echo $PWD
-	//-> echo /pwd/
-	//ft_my_var_exansion(_shell()->head);
-	// char *ret_cmd;
-
-	// char *str=ft_strdup("asaddfsd $PATH");
-	// ret_cmd=ft_var_expansion(str);
-	// printf("ret_str= %s",ret_cmd);
 	init_heredoc();
 	return (true);
 }
