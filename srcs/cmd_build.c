@@ -23,22 +23,21 @@ static void	create_file(char *str, t_cmd *cmd)
 static void	create_infile(char *str, t_cmd *cmd)
 {
 	t_file	*file;
-	// t_file	*ptr;
+	t_file	*ptr;
 
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
 	file->type = R_IN;
 	file->next = NULL;
-	if (cmd->file_in) //should only read from one in file no?¿?
+	if (cmd->file_in)
 	{
-		printf("ERROR CAN ONLY READ FROM ONE FILE\n");
-		// ptr = cmd->file_in;
-		// while (ptr->next)
-		// 	ptr = ptr->next;
-		// ptr->next = file;
+		ptr = cmd->file_in;
+		while (ptr->next)
+			ptr = ptr->next;
+		ptr->next = file;
 	}
 	else
-	cmd->file_in = file;
+		cmd->file_in = file;
 }
 
 static void	create_heredoc(char *str, t_cmd *cmd)
@@ -116,7 +115,6 @@ t_cmd	*init_tcmd(char ***matrix)
 		*(matrix) = *matrix + 1;
 	}
 	cmd->args[i] = NULL;
-	printf("completeedddd.\n");
 	return (cmd);
 }
 
@@ -126,7 +124,6 @@ void	build_cmds(char **matrix)
 	t_cmd	*ptr_next;
 	char	**ptr_to_free;
 
-	printf("init build_cmd\n");
 	ptr_to_free = matrix;
 	ptr = init_tcmd(&matrix);
 	_shell()->head = ptr;

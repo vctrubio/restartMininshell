@@ -49,6 +49,16 @@ void	loop_files(t_cmd **cmd)
 			}
 		}
 	}
+	if ((*cmd)->file_in && (*cmd)->file_in->next)
+	{
+		(*cmd)->file_in = (*cmd)->file_in->next;
+		loop_execution(*cmd);
+	}
+	if ((*cmd)->heredoc && (*cmd)->heredoc->next)
+	{
+		(*cmd)->heredoc = (*cmd)->heredoc->next;
+		loop_execution(*cmd);
+	}
 }
 
 void	loop_child(t_cmd *cmd, int *p, char *path)

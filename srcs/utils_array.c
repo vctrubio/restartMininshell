@@ -24,8 +24,15 @@ void	print_tcmd(t_cmd *cmd)
 				cmd->heredoc->type);
 	}
 	if (cmd->file_in)
-		printf("FILE_IN: %s (%d)\n", cmd->file_in->filename,
-				cmd->file_in->type);
+	{
+		file = cmd->file_in;
+		while (file)
+		{
+			printf("FILE_IN: %s (%d)\n", file->filename,
+				file->type);
+			file = file->next;
+		}
+	}
 	printf("(%d) type__________\n", cmd->type);
 	if (cmd->next)
 		print_tcmd(cmd->next);

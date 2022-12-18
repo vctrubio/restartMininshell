@@ -60,8 +60,8 @@ void	minishell(void)
 		add_history(line);
 		line = ft_var_expansion(line);
 
-		add_cmds(line_to_matrix(line));
-		print_tcmd(_shell()->head);
+		// add_cmds(line_to_matrix(line));
+		// print_tcmd(_shell()->head);
 
 		if (add_cmds(line_to_matrix(line)) && init_remove_qt())
 			loop_execution(_shell()->head);
