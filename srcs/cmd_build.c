@@ -23,21 +23,22 @@ static void	create_file(char *str, t_cmd *cmd)
 static void	create_infile(char *str, t_cmd *cmd)
 {
 	t_file	*file;
-	t_file	*ptr;
+	// t_file	*ptr;
 
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
 	file->type = R_IN;
 	file->next = NULL;
-	if (cmd->file_in)
+	if (cmd->file_in) //should only read from one in file no?¿?
 	{
-		ptr = cmd->file_in;
-		while (ptr->next)
-			ptr = ptr->next;
-		ptr->next = file;
+		printf("ERROR CAN ONLY READ FROM ONE FILE\n");
+		// ptr = cmd->file_in;
+		// while (ptr->next)
+		// 	ptr = ptr->next;
+		// ptr->next = file;
 	}
 	else
-		cmd->file_in = file;
+	cmd->file_in = file;
 }
 
 static void	create_heredoc(char *str, t_cmd *cmd)
@@ -62,8 +63,6 @@ static void	create_heredoc(char *str, t_cmd *cmd)
 
 void	set_redir(t_cmd *cmd, char ****str)
 {
-	int	count;
-
 	if (ft_strexact(***str, "|"))
 		;
 	else if (ft_strexact(***str, ">"))
@@ -79,32 +78,9 @@ void	set_redir(t_cmd *cmd, char ****str)
 		create_file(***str, cmd);
 	}
 	else if (ft_strexact(***str, "<"))
-	{
-		if (ft_strlen(cmd->args[0]) != 0)
-		//ie: ls < Makefile cat (==ls: cat: No such file or directory)
-		{
-			printf("ERROR-- What to do\n");
-		}
+	{	
 		**(str) = **str + 1;
 		create_infile(***str, cmd);
-		**(str) = **str + 1;
-		if (***str)
-		{
-			count = 0;
-			// while (***str &&!is_redir(***str[0]))
-			// {
-			// 	cmd->args[count++] = ft_strdup((***str));
-			// 	**(str) = **str + 1;
-			// }
-			// cmd->args[count] = 0; //THIS NEEDS WORK
-			cmd->args[count++] = ft_strdup((***str));
-			cmd->args[count] = 0;
-		}
-		else
-		{
-			//ERROR SHOULD NOT SHOT THIS PRINTF
-			printf("BAAAAD INPUT NO CMD AFTE INFILE\n");
-		}
 	}
 	else if (ft_strexact(***str, "<<"))
 	{
@@ -139,8 +115,8 @@ t_cmd	*init_tcmd(char ***matrix)
 		}
 		*(matrix) = *matrix + 1;
 	}
-	if (!cmd->file_in)
-		cmd->args[i] = NULL;
+	cmd->args[i] = NULL;
+	printf("completeedddd.\n");
 	return (cmd);
 }
 
@@ -150,6 +126,7 @@ void	build_cmds(char **matrix)
 	t_cmd	*ptr_next;
 	char	**ptr_to_free;
 
+	printf("init build_cmd\n");
 	ptr_to_free = matrix;
 	ptr = init_tcmd(&matrix);
 	_shell()->head = ptr;

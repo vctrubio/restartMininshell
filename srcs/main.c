@@ -11,7 +11,7 @@ void	ft_handler(int signum)
 		if (pid == -1)
 		{
 			printf("\n");
-			rl_replace_line("", 0);
+			// rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
 		}
@@ -59,8 +59,13 @@ void	minishell(void)
 		}
 		add_history(line);
 		line = ft_var_expansion(line);
+
+		add_cmds(line_to_matrix(line));
+		print_tcmd(_shell()->head);
+
 		if (add_cmds(line_to_matrix(line)) && init_remove_qt())
 			loop_execution(_shell()->head);
+
 		if (_shell()->head)
 			free_cmds(_shell()->head);
 		free(line);

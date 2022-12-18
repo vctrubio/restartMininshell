@@ -29,11 +29,6 @@ static void	ft_validate_redir_input_matrix(char **line, int i)
 	{
 		if ((line[i + 1][0] == '>') || (line[i + 1][0] == '<'))
 			_shell()->valid_input = false;
-		if (ft_strexact(line[i], "<") && !line[i + 2])
-		{
-			printf("NOTE ERROR 101\n");
-			_shell()->valid_input = false;
-		}
 	}
 	else
 		_shell()->valid_input = false;
