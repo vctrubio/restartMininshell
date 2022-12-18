@@ -1,5 +1,4 @@
 #include "../include/minishell.h"
-//Removing Quotes
 
 char	*parse_clean(char **p2str)
 {

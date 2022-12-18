@@ -65,7 +65,6 @@ void	minishell(void)
 
 		if (add_cmds(line_to_matrix(line)) && init_remove_qt())
 			loop_execution(_shell()->head);
-
 		if (_shell()->head)
 			free_cmds(_shell()->head);
 		free(line);
