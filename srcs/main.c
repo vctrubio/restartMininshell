@@ -44,6 +44,7 @@ int	init_remove_qt(void)
 void	minishell(void)
 {
 	char	*line;
+	t_cmd	original_cmd;
 
 	while (!_shell()->exit)
 	{
@@ -59,12 +60,14 @@ void	minishell(void)
 		}
 		add_history(line);
 		line = ft_var_expansion(line);
-
 		// add_cmds(line_to_matrix(line));
 		// print_tcmd(_shell()->head);
-
 		if (add_cmds(line_to_matrix(line)) && init_remove_qt())
+		{
+			original_cmd = *(_shell()->head);
 			loop_execution(_shell()->head);
+		}
+		*(_shell()->head) = original_cmd;
 		if (_shell()->head)
 			free_cmds(_shell()->head);
 		free(line);

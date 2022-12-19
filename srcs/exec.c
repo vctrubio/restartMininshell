@@ -4,7 +4,6 @@ void	child_proces(int *p, t_cmd *cmd)
 {
 	t_file	*ptr;
 
-	//int		ret;
 	if (cmd->file_in)
 	{
 		ptr = cmd->file_in;
@@ -22,13 +21,13 @@ void	child_proces(int *p, t_cmd *cmd)
 		cmd->fd_in = ptr->fd;
 	}
 	dup2(cmd->fd_in, 0);
-	if (cmd->type == R_OUT)
+	if (cmd->file && cmd->file->type == R_OUT)
 	{
 		ptr = cmd->file;
 		ptr->fd = open(ptr->filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		dup2(ptr->fd, 1);
 	}
-	else if (cmd->type == R_APP)
+	else if (cmd->file && cmd->file->type == R_APP)
 	{
 		ptr = cmd->file;
 		ptr->fd = open(ptr->filename, O_WRONLY | O_CREAT | O_APPEND, 0777);

@@ -16,9 +16,9 @@ static int	free_heredoc(t_file *file)
 
 static int	free_files(t_file *file)
 {
-	free(file->filename);
 	if (file->next)
 		free_files(file->next);
+	free(file->filename);
 	free(file);
 	return (1);
 }

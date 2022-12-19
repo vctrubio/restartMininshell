@@ -120,11 +120,12 @@ void					build_cmds(char **matrix);
 void					child_proces(int *p, t_cmd *cmd);
 void					bs_cat(int bs_cat);
 
-//loop.c
-void					loop_execution(t_cmd *ptr);
-
 //free.c
 void					free_cmds(t_cmd *first);
+
+//loop.c
+void					loop_execution(t_cmd *ptr);
+void					loop_remove_zsh(t_cmd *cmd);
 
 //heredoc.c
 void					init_heredoc(void);

@@ -2,6 +2,7 @@
 
 int	loop_part1(t_cmd **cmd, char **path)
 {
+	loop_remove_zsh(*cmd);
 	if (check_if_builtin_not_pipe(*cmd))
 	{
 		_shell()->exit_code = run_builtin_not_piped(*cmd);
@@ -21,7 +22,8 @@ int	loop_part1(t_cmd **cmd, char **path)
 		*cmd = (*cmd)->next;
 		return (1);
 	}
-	if ((*cmd)->flag && (*cmd)->next && (ft_strexact("ls",
+	if ((*cmd)->flag && (*cmd)->next && (ft_strexact("w",
+				((*cmd)->next)->args[0]) || ft_strexact("ls",
 				((*cmd)->next)->args[0]) || ft_strexact("pwd",
 				((*cmd)->next)->args[0]) || (ft_strexact("cat",
 					((*cmd)->next)->args[0]))))
@@ -31,23 +33,10 @@ int	loop_part1(t_cmd **cmd, char **path)
 
 void	loop_files(t_cmd **cmd)
 {
-	t_file	*file;
-
-	if ((*cmd)->file)
+	if ((*cmd)->file && (*cmd)->file->next)
 	{
-		file = (*cmd)->file;
-		while (file)
-		{
-			close(file->fd);
-			file = file->next;
-			if (file)
-			{
-				free(((*cmd)->file)->filename);
-				free((*cmd)->file);
-				(*cmd)->file = file;
-				loop_execution(*cmd);
-			}
-		}
+		(*cmd)->file = (*cmd)->file->next;
+		loop_execution(*cmd);
 	}
 	if ((*cmd)->file_in && (*cmd)->file_in->next)
 	{
@@ -86,6 +75,19 @@ void	loop_parent(t_cmd **p2cmd, int *pid, int *p, int *status_bs)
 	loop_files(&cmd);
 	*p2cmd = (*p2cmd)->next;
 	_shell()->exit_code = status_bs[0] / 256;
+}
+
+void	loop_remove_zsh(t_cmd *cmd)
+{
+	while (cmd->file && cmd->file->next)
+	{
+		cmd->file->fd = open(cmd->file->filename, O_WRONLY | O_CREAT | O_TRUNC,
+				0777);
+		close(cmd->file->fd);
+		cmd->file = cmd->file->next;
+	}
+	while (cmd->file_in && cmd->file_in->next)
+		cmd->file_in = cmd->file_in->next;
 }
 
 void	loop_execution(t_cmd *cmd)
