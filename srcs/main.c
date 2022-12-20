@@ -10,7 +10,7 @@ void	ft_handler(int signum)
 	{
 		if (pid == -1)
 		{
-			printf("\n");
+			write(1, "\n", 1);
 			rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
@@ -41,6 +41,15 @@ int	init_remove_qt(void)
 	return (1);
 }
 
+void	minishell_clean(char **line, t_cmd original_cmd)
+{
+	*(_shell()->head) = original_cmd;
+	if (_shell()->head)
+		free_cmds(_shell()->head);
+	free(*line);
+	*line = NULL;
+}
+
 void	minishell(void)
 {
 	char	*line;
@@ -60,18 +69,12 @@ void	minishell(void)
 		}
 		add_history(line);
 		line = ft_var_expansion(line);
-		// add_cmds(line_to_matrix(line));
-		// print_tcmd(_shell()->head);
 		if (add_cmds(line_to_matrix(line)) && init_remove_qt())
 		{
 			original_cmd = *(_shell()->head);
 			loop_execution(_shell()->head);
 		}
-		*(_shell()->head) = original_cmd;
-		if (_shell()->head)
-			free_cmds(_shell()->head);
-		free(line);
-		line = NULL;
+		minishell_clean(&line, original_cmd);
 	}
 	free(line);
 }

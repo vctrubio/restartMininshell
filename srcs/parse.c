@@ -39,9 +39,11 @@ static char	*buffer_scan_for_quotes(char *str)
 
 static void	buffer2string_quotes(char **buff, char **str, int *i)
 {
-	if (ft_strexist("'\"\2", **buff) && *(*buff + 1) == **buff)
+	if (ft_strexist("'\"\2", **buff) && *(*buff) != '\0' && *(*buff
+			+ 1) == **buff)
 		(*buff) += 2;
-	if (ft_strexist("'\"\2", **buff) && (**buff + 1 != **buff))
+	if (ft_strexist("'\"\2", **buff) && *(*buff) != '\0' && (**buff
+			+ 1 != **buff))
 		(*str) = buffer_quotes(&(*buff), **buff, (*str), *i);
 	else if (**buff)
 		(*str)[(*i)++] = *(*buff)++;

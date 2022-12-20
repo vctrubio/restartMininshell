@@ -61,6 +61,8 @@ int	ft_export(char **argv)
 	t_vars	vars;
 
 	ft_inicialize_vars(&vars);
+	if (ft_strlen(argv[1]) == 0)
+		return (0);
 	if (argv[1])
 	{
 		name_value = ft_strsplit(argv[1], '=');

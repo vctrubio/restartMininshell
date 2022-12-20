@@ -1,5 +1,18 @@
 #include "../include/minishell.h"
 
+void	loop_remove_zsh(t_cmd *cmd)
+{
+	while (cmd->file && cmd->file->next)
+	{
+		cmd->file->fd = open(cmd->file->filename, O_WRONLY | O_CREAT | O_TRUNC,
+				0777);
+		close(cmd->file->fd);
+		cmd->file = cmd->file->next;
+	}
+	while (cmd->file_in && cmd->file_in->next)
+		cmd->file_in = cmd->file_in->next;
+}
+
 int	does_next_read_stdi(t_cmd *cmd)
 {
 	if (ft_strexact("w", (cmd->next)->args[0]) || ft_strexact("ls",
@@ -22,9 +35,11 @@ void	setup_catbs(t_cmd **p2cmd)
 	}
 	if (cmd->flag && cmd->next)
 	{
-		if (does_next_read_stdi(cmd))
+		if (does_next_read_stdi(cmd) && cmd->args[1] == NULL && !cmd->file_in
+			&& !cmd->file && !cmd->heredoc)
 			cmd->flag = 2;
-		if (cmd->args[1] == NULL && (ft_strexact("cat", (cmd->next)->args[0])))
+		if (cmd->args[1] == NULL && !cmd->file_in && !cmd->file && !cmd->heredoc
+			&& (ft_strexact("cat", (cmd->next)->args[0])))
 			cmd->flag = 2;
 	}
 }
@@ -99,19 +114,6 @@ void	loop_parent(t_cmd **p2cmd, int *pid, int *p, int *status_bs)
 	loop_files(&cmd);
 	*p2cmd = (*p2cmd)->next;
 	_shell()->exit_code = status_bs[0] / 256;
-}
-
-void	loop_remove_zsh(t_cmd *cmd)
-{
-	while (cmd->file && cmd->file->next)
-	{
-		cmd->file->fd = open(cmd->file->filename, O_WRONLY | O_CREAT | O_TRUNC,
-				0777);
-		close(cmd->file->fd);
-		cmd->file = cmd->file->next;
-	}
-	while (cmd->file_in && cmd->file_in->next)
-		cmd->file_in = cmd->file_in->next;
 }
 
 void	loop_execution(t_cmd *cmd)
