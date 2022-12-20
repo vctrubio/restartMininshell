@@ -79,14 +79,19 @@ void	ft_export_no_args(void)
 
 int	ft_unset(char **argv)
 {
-	int	i;
+	int		i;
+	char	**envp;
 
+	envp = NULL;
 	i = -1;
 	while (_shell()->envp[++i] != NULL && ft_strncmp(_shell()->envp[i], argv[1],
 			ft_strlen(argv[1])))
 		;
 	if (_shell()->envp[i] != NULL)
-		_shell()->envp = ft_matrix_remove_col_by_index(_shell()->envp, i);
+	{
+		envp = ft_matrix_remove_col_by_index(_shell()->envp, i);
+		_shell()->envp = envp;
+	}
 	return (0);
 }
 

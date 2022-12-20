@@ -1,7 +1,38 @@
 #include "../include/minishell.h"
 
+int	does_next_read_stdi(t_cmd *cmd)
+{
+	if (ft_strexact("w", (cmd->next)->args[0]) || ft_strexact("ls",
+			(cmd->next)->args[0]) || ft_strexact("pwd", (cmd->next)->args[0]))
+		return (1);
+	return (0);
+}
+
+void	setup_catbs(t_cmd **p2cmd)
+{
+	t_cmd	*cmd;
+
+	cmd = *p2cmd;
+	if (cmd->flag && cmd->next && cmd->next->next)
+	{
+		if (cmd->args[1] == NULL && ft_strexact("cat", cmd->args[0])
+			&& ft_strexact("cat", (cmd->next)->args[0])
+			&& !does_next_read_stdi(cmd->next))
+			*p2cmd = cmd->next;
+	}
+	if (cmd->flag && cmd->next)
+	{
+		if (does_next_read_stdi(cmd))
+			cmd->flag = 2;
+		if (cmd->args[1] == NULL && (ft_strexact("cat", (cmd->next)->args[0])))
+			cmd->flag = 2;
+	}
+}
+
 int	loop_part1(t_cmd **cmd, char **path)
 {
+	setup_catbs(cmd);
+	*path = NULL;
 	loop_remove_zsh(*cmd);
 	if (check_if_builtin_not_pipe(*cmd))
 	{
@@ -12,7 +43,6 @@ int	loop_part1(t_cmd **cmd, char **path)
 		*cmd = (*cmd)->next;
 		return (1);
 	}
-	*path = NULL;
 	if (!check_if_builtin_2pipe(*cmd))
 		*path = ft_get_exec_path((*cmd)->args);
 	if (!check_if_builtin_2pipe(*cmd) && !(*path))
@@ -22,12 +52,6 @@ int	loop_part1(t_cmd **cmd, char **path)
 		*cmd = (*cmd)->next;
 		return (1);
 	}
-	if ((*cmd)->flag && (*cmd)->next && (ft_strexact("w",
-				((*cmd)->next)->args[0]) || ft_strexact("ls",
-				((*cmd)->next)->args[0]) || ft_strexact("pwd",
-				((*cmd)->next)->args[0]) || (ft_strexact("cat",
-					((*cmd)->next)->args[0]))))
-		(*cmd)->flag = 2;
 	return (0);
 }
 
