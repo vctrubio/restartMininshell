@@ -50,6 +50,26 @@ void	minishell_clean(char **line, t_cmd original_cmd)
 	*line = NULL;
 }
 
+int	readline_check(char **p2line)
+{
+	char	*line;
+
+	line = *p2line;
+	if (ft_strexact("''", line) || ft_strexact("\"\"", line))
+	{
+		printf("bash: : command not found\n");
+		free(line);
+		return (1);
+	}
+	if (!line || line[0] == '\0' || ft_strlen(line) == 0)
+	{
+		if (line[0] == '\0' || ft_strlen(line) == 0)
+			free(line);
+		return (1);
+	}
+	return (0);
+}
+
 void	minishell(void)
 {
 	char	*line;
@@ -61,12 +81,8 @@ void	minishell(void)
 		line = readline("minishell.42> ");
 		if (line == NULL)
 			exit(0);
-		if (!line || line[0] == '\0' || ft_strlen(line) == 0)
-		{
-			if (line[0] == '\0' || ft_strlen(line) == 0)
-				free(line);
+		if (readline_check(&line))
 			continue ;
-		}
 		add_history(line);
 		line = ft_var_expansion(line);
 		if (add_cmds(line_to_matrix(line)) && init_remove_qt())
