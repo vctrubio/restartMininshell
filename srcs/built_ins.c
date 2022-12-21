@@ -61,7 +61,7 @@ int	ft_export(char **argv)
 	t_vars	vars;
 
 	ft_inicialize_vars(&vars);
-	if (ft_strlen(argv[1]) == 0)
+	if (argv[1] && ft_strlen(argv[1]) == 0)
 		return (0);
 	if (argv[1])
 	{
@@ -71,16 +71,46 @@ int	ft_export(char **argv)
 		else
 			ft_setenv(name_value[0], NULL, 1);
 		ft_matrix_free(name_value);
-		if (argv[2])
-		{
-			vars.i = 1;
-			while (argv[++vars.i])
-				printf("minishell: export \"%s\": not an identifier\n",
-						argv[vars.i]);
-			return (0);
-		}
 	}
 	else
 		ft_export_no_args();
 	return (1);
 }
+
+int	ft_setenv(char *name, char *value, int overwrite)
+{
+	int		i;
+	char	*str;
+	char	**envp;
+
+	i = -1;
+	str = NULL;
+	str = ft_setenv_str(name, value, str);
+	if (str == NULL)
+		return (0);
+	while (_shell()->envp[++i] != NULL && name && ft_strncmp(_shell()->envp[i],
+			name, ft_strlen(name)))
+		;
+	if (_shell()->envp[i] != NULL && overwrite == 1)
+	{
+		free(_shell()->envp[i]);
+		_shell()->envp[i] = ft_strdup(str);
+	}
+	else if (_shell()->envp[i] == NULL)
+	{
+		envp = ft_matrix_push(_shell()->envp, ft_strdup(str));
+		_shell()->envp = envp;
+	}
+	free(str);
+	return (1);
+}
+//IN CASE UBUNTO's SHELL admits MORE ex: export hg=12 vt=34
+// (if it only add hg... no need to add)
+// if (argv[2])
+// 		{
+// 			vars.i = 1;
+// 			while (argv[++vars.i])
+// 				printf("minishell: export \"%s\": not an identifier\n",
+// 						argv[vars.i]);
+// 			return (0);
+// 		}

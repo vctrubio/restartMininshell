@@ -1,26 +1,7 @@
 #include "../include/minishell.h"
 
-void	child_proces(int *p, t_cmd *cmd)
+void	child_process_end(int *p, t_cmd *cmd, t_file *ptr)
 {
-	t_file	*ptr;
-
-	if (cmd->file_in)
-	{
-		ptr = cmd->file_in;
-		ptr->fd = open(ptr->filename, O_RDONLY, 0777);
-		if (ptr->fd < 0)
-			perror("no such file or directory: !!!!!!!!!! DON't KNow how to handle error. TBD");
-		cmd->fd_in = ptr->fd;
-	}
-	if (cmd->heredoc)
-	{
-		ptr = cmd->heredoc;
-		ptr->fd = open(ptr->heredoc, O_RDONLY, 0777);
-		if (ptr->fd < 0)
-			perror("no such file or directory: !!!!!!!!!! DON't KNow how to handle error. TBD");
-		cmd->fd_in = ptr->fd;
-	}
-	dup2(cmd->fd_in, 0);
 	if (cmd->file && cmd->file->type == R_OUT)
 	{
 		ptr = cmd->file;
@@ -35,9 +16,34 @@ void	child_proces(int *p, t_cmd *cmd)
 	}
 	else if (cmd->next)
 		dup2(p[1], 1);
+}
+
+int	child_proces(int *p, t_cmd *cmd)
+{
+	t_file	*ptr;
+
+	if (cmd->file_in)
+	{
+		ptr = cmd->file_in;
+		ptr->fd = open(ptr->filename, O_RDONLY, 0777);
+		if (ptr->fd < 0)
+			return (1);
+		cmd->fd_in = ptr->fd;
+	}
+	if (cmd->heredoc)
+	{
+		ptr = cmd->heredoc;
+		ptr->fd = open(ptr->heredoc, O_RDONLY, 0777);
+		if (ptr->fd < 0)
+			return (1);
+		cmd->fd_in = ptr->fd;
+	}
+	dup2(cmd->fd_in, 0);
+	child_process_end(p, cmd, ptr);
 	if (cmd->flag != 2)
 		close(cmd->fd_in);
 	close(p[0]);
+	return (0);
 }
 
 void	bs_cat(int bs_cat)

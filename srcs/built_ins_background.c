@@ -1,29 +1,12 @@
 #include "../include/minishell.h"
 
-int	ft_setenv(char *name, char *value, int overwrite)
+char	*ft_setenv_str(char *name, char *value, char *str)
 {
-	int		i;
-	char	*str;
-
-	i = -1;
 	if (value == NULL)
 		str = ft_strjoin(name, "=");
 	else
 		str = ft_concat3(name, "=", value);
-	if (str == NULL)
-		return (0);
-	while (_shell()->envp[++i] != NULL && name && ft_strncmp(_shell()->envp[i],
-			name, ft_strlen(name)))
-		;
-	if (_shell()->envp[i] != NULL && overwrite == 1)
-	{
-		free(_shell()->envp[i]);
-		_shell()->envp[i] = ft_strdup(str);
-	}
-	else if (_shell()->envp[i] == NULL)
-		_shell()->envp = ft_matrix_push(_shell()->envp, ft_strdup(str));
-	free(str);
-	return (1);
+	return (str);
 }
 
 int	set_cd_folder_return_if_free_folder_or_not(char **argv,

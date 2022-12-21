@@ -90,9 +90,9 @@ int						ft_pwd(char **argv);
 int						ft_echo(char **argv);
 int						ft_cd(char **argv);
 int						ft_export(char **argv);
+int						ft_setenv(char *name, char *value, int overwrite);
 
 //built_ins_background.c
-int						ft_setenv(char *name, char *value, int overwrite);
 int	set_cd_folder_return_if_free_folder_or_not(char **argv,
 												char **ptr2folder);
 void					ft_export_no_args(void);
@@ -115,17 +115,29 @@ char					*ft_concat_multi(char **s, char *glue);
 //cmd_build.c
 bool					add_cmds(char **matrix);
 void					build_cmds(char **matrix);
+void					create_file(char *str, t_cmd *cmd);
+void					create_infile(char *str, t_cmd *cmd);
+
+//cmd_build2.c
+void					set_redir(t_cmd *cmd, char ****str);
+void					create_heredoc(char *str, t_cmd *cmd);
 
 //exec.c
-void					child_proces(int *p, t_cmd *cmd);
+int						child_proces(int *p, t_cmd *cmd);
 void					bs_cat(int bs_cat);
 
 //free.c
 void					free_cmds(t_cmd *first);
+void					minishell_clean(char **line, t_cmd original_cmd);
 
 //loop.c
 void					loop_execution(t_cmd *ptr);
 void					loop_remove_zsh(t_cmd *cmd);
+
+//loop_utils
+void					loop_remove_zsh(t_cmd *cmd);
+int						does_next_read_stdi(t_cmd *cmd);
+void					setup_catbs(t_cmd **p2cmd);
 
 //heredoc.c
 void					init_heredoc(void);
@@ -162,6 +174,7 @@ char					**line_to_matrix(char *line);
 
 //parse2.c
 void					ft_do_quote(char **output, char c);
+int						readline_check(char **p2line);
 
 //parse_clean.c
 //for late to remove quotes- but we will do this at the very end

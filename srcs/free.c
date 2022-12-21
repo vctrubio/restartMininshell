@@ -49,3 +49,13 @@ void	free_cmds(t_cmd *first)
 		free(first);
 	_shell()->head = NULL;
 }
+
+void	minishell_clean(char **line, t_cmd original_cmd)
+{
+	if (original_cmd.args)
+		*(_shell()->head) = original_cmd;
+	if (_shell()->head)
+		free_cmds(_shell()->head);
+	free(*line);
+	*line = NULL;
+}

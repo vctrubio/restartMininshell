@@ -28,8 +28,7 @@ void	print_tcmd(t_cmd *cmd)
 		file = cmd->file_in;
 		while (file)
 		{
-			printf("FILE_IN: %s (%d)\n", file->filename,
-				file->type);
+			printf("FILE_IN: %s (%d)\n", file->filename, file->type);
 			file = file->next;
 		}
 	}

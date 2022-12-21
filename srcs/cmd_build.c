@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-static void	create_file(char *str, t_cmd *cmd)
+void	create_file(char *str, t_cmd *cmd)
 {
 	t_file	*file;
 	t_file	*ptr;
@@ -20,7 +20,7 @@ static void	create_file(char *str, t_cmd *cmd)
 		cmd->file = file;
 }
 
-static void	create_infile(char *str, t_cmd *cmd)
+void	create_infile(char *str, t_cmd *cmd)
 {
 	t_file	*file;
 	t_file	*ptr;
@@ -38,58 +38,6 @@ static void	create_infile(char *str, t_cmd *cmd)
 	}
 	else
 		cmd->file_in = file;
-}
-
-static void	create_heredoc(char *str, t_cmd *cmd)
-{
-	t_file	*file;
-	t_file	*ptr;
-
-	file = malloc(sizeof(t_file));
-	file->filename = ft_strdup(str);
-	file->type = HEREDOC;
-	file->next = NULL;
-	if (cmd->heredoc)
-	{
-		ptr = cmd->heredoc;
-		while (ptr->next)
-			ptr = ptr->next;
-		ptr->next = file;
-	}
-	else
-		cmd->heredoc = file;
-}
-
-void	set_redir(t_cmd *cmd, char ****str)
-{
-	if (ft_strexact(***str, "|"))
-		;
-	else if (ft_strexact(***str, ">"))
-	{
-		cmd->type = R_OUT;
-		**(str) = **str + 1;
-		create_file(***str, cmd);
-	}
-	else if (ft_strexact(***str, ">>"))
-	{
-		cmd->type = R_APP;
-		**(str) = **str + 1;
-		create_file(***str, cmd);
-	}
-	else if (ft_strexact(***str, "<"))
-	{	
-		**(str) = **str + 1;
-		create_infile(***str, cmd);
-	}
-	else if (ft_strexact(***str, "<<"))
-	{
-		cmd->type = HEREDOC;
-		**(str) = **str + 1;
-		create_heredoc(***str, cmd);
-	}
-	**(str) = **str + 1;
-	if (***str && is_redir(****str))
-		set_redir(cmd, str);
 }
 
 t_cmd	*init_tcmd(char ***matrix)

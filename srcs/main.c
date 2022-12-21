@@ -41,48 +41,11 @@ int	init_remove_qt(void)
 	return (1);
 }
 
-void	minishell_clean(char **line, t_cmd original_cmd)
-{
-	*(_shell()->head) = original_cmd;
-	if (_shell()->head)
-		free_cmds(_shell()->head);
-	free(*line);
-	*line = NULL;
-}
-
-int	readline_check(char **p2line)
-{
-	char	*line;
-
-	line = *p2line;
-	if (ft_strexact("''", line) || ft_strexact("\"\"", line)
-		|| ft_strexact("..", line) || ft_strexact(".", line))
-	{
-		if (ft_strexact(".", line))
-		{
-			printf("bash: .: filename argument required\n");
-			printf("\t.: usage: . filename [arguments]\n");
-		}
-		else if (ft_strexact("..", line))
-			printf("bash: ..: command not found\n");
-		else
-			printf("bash: : command not found\n");
-		free(line);
-		return (1);
-	}
-	if (!line || line[0] == '\0' || ft_strlen(line) == 0)
-	{
-		if (line[0] == '\0' || ft_strlen(line) == 0)
-			free(line);
-		return (1);
-	}
-	return (0);
-}
-
 void	minishell(void)
 {
 	char	*line;
 	t_cmd	original_cmd;
+	char	**matrix;
 
 	while (!_shell()->exit)
 	{
@@ -94,11 +57,14 @@ void	minishell(void)
 			continue ;
 		add_history(line);
 		line = ft_var_expansion(line);
-		if (add_cmds(line_to_matrix(line)) && init_remove_qt())
+		matrix = line_to_matrix(line);
+		if (add_cmds(matrix) && init_remove_qt())
 		{
 			original_cmd = *(_shell()->head);
 			loop_execution(_shell()->head);
 		}
+		else
+			free_arrays(matrix);
 		minishell_clean(&line, original_cmd);
 	}
 	free(line);
