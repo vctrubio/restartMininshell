@@ -55,9 +55,18 @@ int	readline_check(char **p2line)
 	char	*line;
 
 	line = *p2line;
-	if (ft_strexact("''", line) || ft_strexact("\"\"", line))
+	if (ft_strexact("''", line) || ft_strexact("\"\"", line)
+		|| ft_strexact("..", line) || ft_strexact(".", line))
 	{
-		printf("bash: : command not found\n");
+		if (ft_strexact(".", line))
+		{
+			printf("bash: .: filename argument required\n");
+			printf("\t.: usage: . filename [arguments]\n");
+		}
+		else if (ft_strexact("..", line))
+			printf("bash: ..: command not found\n");
+		else
+			printf("bash: : command not found\n");
 		free(line);
 		return (1);
 	}

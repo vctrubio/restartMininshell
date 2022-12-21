@@ -52,6 +52,8 @@ char	*ft_getenv(char *name, int trimmed)
 	while (_shell()->envp[++i] != NULL && name && ft_strncmp(_shell()->envp[i],
 			name, ft_strlen(name)))
 		;
+	if (_shell()->envp[i][ft_strlen(name)] != '=')
+		return (NULL);
 	if (_shell()->envp[i] != NULL)
 	{
 		split = ft_strsplit(_shell()->envp[i], '=');
