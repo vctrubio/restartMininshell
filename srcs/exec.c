@@ -11,7 +11,6 @@ void	child_proces(int *p, t_cmd *cmd)
 		if (ptr->fd < 0)
 			perror("no such file or directory: !!!!!!!!!! DON't KNow how to handle error. TBD");
 		cmd->fd_in = ptr->fd;
-		exit(1);
 	}
 	if (cmd->heredoc)
 	{
@@ -20,7 +19,6 @@ void	child_proces(int *p, t_cmd *cmd)
 		if (ptr->fd < 0)
 			perror("no such file or directory: !!!!!!!!!! DON't KNow how to handle error. TBD");
 		cmd->fd_in = ptr->fd;
-		exit(1);
 	}
 	dup2(cmd->fd_in, 0);
 	if (cmd->file && cmd->file->type == R_OUT)
