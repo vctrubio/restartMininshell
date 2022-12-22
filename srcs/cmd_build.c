@@ -6,7 +6,7 @@
 /*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:27 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:39:18 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/22 15:51:59 by vrubio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_cmd	*init_tcmd(char ***matrix)
 		else
 		{
 			set_redir(cmd, &matrix);
-			if (**matrix && ft_strexact(**matrix, "|"))
+			if (**matrix && !ft_strexact(**matrix, "|"))
 				continue ;
 			else
 				break ;
@@ -111,6 +111,5 @@ bool	add_cmds(char **matrix)
 	else
 		build_cmds(matrix);
 	init_heredoc();
-	print_tcmd(_shell()->head);
 	return (true);
 }
