@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgoncalv <hgoncalv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 10:56:06 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 12:26:15 by hgoncalv         ###   ########.fr       */
+/*   Updated: 2022/12/22 14:58:37 by vrubio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int						ft_cd(char **argv);
 int						ft_export(char **argv);
 int						ft_setenv(char *name, char *value, int overwrite);
 char					*ft_setenv_str(char *name, char *value, char *str);
+void					ft_handler(int signum);
 
 //built_ins_background.c
 int						set_cd_folder_return_if_free_folder_or_not(char **argv, \
