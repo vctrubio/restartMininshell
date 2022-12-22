@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/22 10:56:06 by vrubio            #+#    #+#             */
+/*   Updated: 2022/12/22 10:57:38 by vrubio           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -94,8 +106,8 @@ int						ft_setenv(char *name, char *value, int overwrite);
 char					*ft_setenv_str(char *name, char *value, char *str);
 
 //built_ins_background.c
-int	set_cd_folder_return_if_free_folder_or_not(char **argv,
-												char **ptr2folder);
+int						set_cd_folder_return_if_free_folder_or_not(char **argv, \
+						char **ptr2folder);
 void					ft_export_no_args(void);
 int						ft_unset(char **argv);
 int						ft_exit(char **argv);
@@ -154,12 +166,11 @@ char					**ft_matrix_push(char **matrix, char *str);
 void					ft_matrix_free(char **matrix);
 
 //matrix_utils.c
-char	**ft_matrix_remove_col_by_index(char **matrix,
+char					**ft_matrix_remove_col_by_index(char **matrix, \
 										int index);
-void	ft_print_matrix_add_str2line_start(char **matrix,
-										char *str,
-										char *glue);
-void	ft_chk_n_exit_if_null_ppchar(char **matrix,
+void					ft_print_matrix_add_str2line_start(char **matrix, \
+										char *str, char *glue);
+void					ft_chk_n_exit_if_null_ppchar(char **matrix, \
 									char *error_str);
 void					ft_chk_n_exit_if_null_pchar(char *str, char *error_str);
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   loop.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/22 11:16:21 by vrubio            #+#    #+#             */
+/*   Updated: 2022/12/22 11:23:45 by vrubio           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	loop_part1(t_cmd **cmd, char **path)
@@ -68,11 +80,11 @@ void	loop_parent(t_cmd **p2cmd, int *pid, int *p, int *status_bs)
 	cmd = *p2cmd;
 	if (cmd->flag == 2 && ++(status_bs[1]))
 		kill(*pid, SIGKILL);
-	else
-		waitpid(*pid, &status_bs[0], WUNTRACED);
+	// else
+	// 	waitpid(*pid, &status_bs[0], WUNTRACED);
 	close(p[1]);
 	loop_files(&cmd);
-	*p2cmd = (*p2cmd)->next;
+	*p2cmd = (*p2cmd)->next;== 2 
 	_shell()->exit_code = status_bs[0] / 256;
 }
 
@@ -101,5 +113,9 @@ void	loop_execution(t_cmd *cmd)
 				free(path);
 		}
 	}
+	// if (cmd->flag && ++(status_bs[1]))
+	// 	kill(pid, SIGKILL);
+	// else
+	waitpid(pid, &status_bs[0], WUNTRACED);
 	bs_cat(status_bs[1]);
 }
