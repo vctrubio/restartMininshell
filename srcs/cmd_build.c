@@ -6,7 +6,7 @@
 /*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:27 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:19:28 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/22 15:24:59 by vrubio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ bool	add_cmds(char **matrix)
 	}
 	else
 		build_cmds(matrix);
-	print_tcmd(_shell()->head);
+	// print_tcmd(_shell()->head);
 	init_heredoc();
 	return (true);
 }
