@@ -67,16 +67,6 @@ t_cmd	*init_tcmd(char ***matrix)
 				continue ;
 			else
 				break;
-			if (**matrix)
-			{
-				if (is_new_redir(***matrix))
-				{
-					set_redir(cmd, &matrix);
-					continue;
-				}
-				else
-					break;
-			}
 		}
 		*(matrix) = *matrix + 1;
 	}

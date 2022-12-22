@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgoncalv <hgoncalv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 10:56:06 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 12:26:15 by hgoncalv         ###   ########.fr       */
+/*   Updated: 2022/12/22 15:02:23 by vrubio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_vars
 
 }						t_vars;
 
+void	ft_handler(int signum);
 //array.c
 void					print_tcmd(t_cmd *cmd);
 void					print_arrays(char **a);
