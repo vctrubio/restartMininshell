@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strsplit.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/22 10:59:34 by vrubio            #+#    #+#             */
+/*   Updated: 2022/12/22 11:03:28 by vrubio           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libft.h"
 
 char	**ft_strsplit(char const *str, char c)
 {
-	char **split;
-	int i;
-	int i2;
-	int cnt;
+	char	**split;
+	int		i;
+	int		i2;
+	int		cnt;
 
 	i = 0;
 	i2 = 0;

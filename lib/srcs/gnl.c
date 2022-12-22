@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gnl.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/22 11:01:09 by vrubio            #+#    #+#             */
+/*   Updated: 2022/12/22 11:01:18 by vrubio           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libft.h"
 
 static int	ft_strsave(int fd, char **line, char **store)
@@ -24,14 +36,7 @@ static int	ft_strsave(int fd, char **line, char **store)
 		return (0);
 	}
 }
-// strsave has to check for \n o \0,
-// i counter ++, tmp
-// if new line, line substr until new line,
-// tmp becomes rest
-// free store[fd]
-// return 1
 
-// return-quick check not -1 or line is not NULL
 static int	ft_check_return(int fd, char **line, char **storage, int reader)
 {
 	if (reader == -1)
@@ -43,13 +48,6 @@ static int	ft_check_return(int fd, char **line, char **storage, int reader)
 	}
 	return (ft_strsave(fd, line, storage));
 }
-
-// buff equal no null and readc
-// if no store, duplicate
-// tmp join string af what we have
-// free
-// new store of temp
-// if - temp (ie store) has new line, break and call return
 
 int	get_next_line(int fd, char **line)
 {

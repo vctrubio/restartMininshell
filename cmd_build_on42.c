@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_build.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hgoncalv <hgoncalv@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/22 11:25:38 by vrubio            #+#    #+#             */
+/*   Updated: 2022/12/22 13:11:14 by hgoncalv         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	create_file(char *str, t_cmd *cmd)
@@ -40,11 +52,6 @@ void	create_infile(char *str, t_cmd *cmd)
 		cmd->file_in = file;
 }
 
-int	is_new_redir(int c)
-{
-	return (c == '<' || c == '>');
-}
-
 t_cmd	*init_tcmd(char ***matrix)
 {
 	t_cmd	*cmd;
@@ -63,20 +70,17 @@ t_cmd	*init_tcmd(char ***matrix)
 		else
 		{
 			set_redir(cmd, &matrix);
-			if (**matrix && ft_strexact(**matrix, "|"))
-				continue ;
-			else
-				break;
 			if (**matrix)
 			{
-				if (is_new_redir(***matrix))
+				if (!is_new_redir(***matrix))
 				{
-					set_redir(cmd, &matrix);
-					continue;
+					*(matrix) = *matrix + 1;
+					continue ;
 				}
 				else
 					break;
 			}
+		
 		}
 		*(matrix) = *matrix + 1;
 	}
@@ -113,7 +117,6 @@ bool	add_cmds(char **matrix)
 	}
 	else
 		build_cmds(matrix);
-	print_tcmd(_shell()->head);
 	init_heredoc();
 	return (true);
 }
