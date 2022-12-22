@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: hgoncalv <hgoncalv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:16:21 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 11:23:45 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/22 13:14:30 by hgoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ void	loop_parent(t_cmd **p2cmd, int *pid, int *p, int *status_bs)
 	cmd = *p2cmd;
 	if (cmd->flag == 2 && ++(status_bs[1]))
 		kill(*pid, SIGKILL);
-	// else
-	// 	waitpid(*pid, &status_bs[0], WUNTRACED);
+	else
+		waitpid(*pid, &status_bs[0], WUNTRACED);
 	close(p[1]);
 	loop_files(&cmd);
-	*p2cmd = (*p2cmd)->next;== 2 
+	*p2cmd = (*p2cmd)->next;
 	_shell()->exit_code = status_bs[0] / 256;
 }
 
@@ -95,6 +95,7 @@ void	loop_execution(t_cmd *cmd)
 	int		status_bs[2];
 	char	*path;
 
+	// print_tcmd(_shell()->head);
 	status_bs[1] = 0;
 	while (cmd && cmd->args[0])
 	{
@@ -113,9 +114,9 @@ void	loop_execution(t_cmd *cmd)
 				free(path);
 		}
 	}
-	// if (cmd->flag && ++(status_bs[1]))
-	// 	kill(pid, SIGKILL);
-	// else
+	if (cmd->flag && ++(status_bs[1]))
+		kill(pid, SIGKILL);
+	else
 	waitpid(pid, &status_bs[0], WUNTRACED);
 	bs_cat(status_bs[1]);
 }

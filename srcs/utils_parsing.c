@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: hgoncalv <hgoncalv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:26:19 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 11:26:20 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/22 12:25:54 by hgoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ int	ft_strcount_char(char *str, char l)
 int	is_redir(int c)
 {
 	return (c == '<' || c == '>' || c == '|');
+}
+
+int	is_new_redir(int c)
+{
+	return (c == '<' || c == '>');
 }
 
 int	r_size(char *s)

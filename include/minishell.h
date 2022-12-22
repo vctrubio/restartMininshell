@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: hgoncalv <hgoncalv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 10:56:06 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 10:57:38 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/22 12:26:15 by hgoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,7 @@ void					close_shell(void);
 void					ft_putnbr_fd(int n, int fd);
 void					ft_putstr_fd(char *s, int fd);
 void					ft_putchar_fd(char c, int fd);
+int						is_new_redir(int c);
 
 //utils2.c
 int						ft_isalnum(int c);
