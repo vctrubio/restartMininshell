@@ -6,7 +6,7 @@
 /*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:20:19 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:20:45 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/22 15:31:44 by vrubio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_is_var_from_expansion(char *str, t_vars *vars)
 	if (((vars->outer_quote == 0 && vars->inner_quote == 0)
 			|| (vars->inner_quote == 0 && vars->outer_quote == 2)
 			|| (vars->outer_quote == 2 && vars->inner_quote == 1))
-		&& (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1]) || str[i
+		&& (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1]) || str[i \
 				+ 1] == '?') && str[i + 1] != '\'' && str[i + 1] != '"'))
 	{
 		if (str && (str - 1) && (str - 2) && (*str - 2) == '$' && *(str

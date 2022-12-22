@@ -6,7 +6,7 @@
 /*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:22 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:19:23 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/22 15:32:04 by vrubio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ void	unset_loop(char *argv)
 
 	envp = NULL;
 	i = -1;
-	while (_shell()->envp[++i] != NULL && *argv && ft_strncmp(_shell()->envp[i], argv,
-		ft_strlen(argv)))
+	while (_shell()->envp[++i] != NULL
+		&& *argv && ft_strncmp(_shell()->envp[i], argv, ft_strlen(argv)))
 		;
 	if (_shell()->envp[i] != NULL)
 	{
@@ -101,18 +101,4 @@ int	ft_unset(char **argv)
 		}
 	}
 	return (0);
-}
-
-int	ft_exit(char **argv)
-{
-	if (argv[1])
-	{
-		_shell()->exit_code = ft_atoi(argv[1]);
-		return (ft_atoi(argv[1]));
-	}
-	else
-	{
-		_shell()->exit_code = 0;
-		return (0);
-	}
 }

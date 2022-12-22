@@ -6,7 +6,7 @@
 /*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:17:04 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:19:43 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/22 15:31:13 by vrubio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	loop_execution(t_cmd *cmd)
 		{
 			loop_parent(&cmd, &pid, p, status_bs);
 			if (path)
-				free(path);		
+				free(path);
 		}
 	}
 	bs_cat(status_bs[1]);

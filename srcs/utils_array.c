@@ -6,11 +6,16 @@
 /*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:20:07 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:24:41 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/22 15:30:21 by vrubio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	is_new_redir(int c)
+{
+	return (c == '<' || c == '>');
+}
 
 // void	print_tcmd(t_cmd *cmd)
 // {

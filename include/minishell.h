@@ -6,7 +6,7 @@
 /*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 10:56:06 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:02:23 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/22 15:35:26 by vrubio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_vars
 
 }						t_vars;
 
-void	ft_handler(int signum);
+void					ft_handler(int signum);
 //array.c
 void					print_tcmd(t_cmd *cmd);
 void					print_arrays(char **a);
@@ -192,7 +192,6 @@ int						readline_check(char **p2line);
 //parse_clean.c
 //for late to remove quotes- but we will do this at the very end
 char					*parse_clean(char **p2str);
-void					dollar_for_money(char **outup, char **input);
 
 //parse_envp.c
 int						ft_env(char **argv);

@@ -6,7 +6,7 @@
 /*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:25 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:19:26 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/22 15:34:22 by vrubio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_cd(char **argv)
 	char	pwd[256];
 	int		ret;
 
-	if(argv[1] && argv[2])
+	if (argv[1] && argv[2])
 	{
 		printf("cd: too many arguments\n");
 		return (1);
@@ -48,7 +48,7 @@ int	ft_echo(char **argv)
 	i = 1;
 	while (argv[i] != NULL && ft_strexact(argv[i], "-n"))
 		i++;
-	if (ft_strexact(argv[i-1], "-n"))
+	if (ft_strexact(argv[i - 1], "-n"))
 		flag = 1;
 	while (argv[i] != NULL)
 	{
@@ -82,7 +82,7 @@ void	ft_export_loop(char **argv)
 	name_value = ft_strsplit(*argv, '=');
 	if (name_value[1])
 	{
-		tmpstr = ft_concat_multi(name_value+1,"=");
+		tmpstr = ft_concat_multi(name_value + 1, "=");
 		ft_setenv(name_value[0], tmpstr, 1);
 		free(tmpstr);
 	}
@@ -91,7 +91,7 @@ void	ft_export_loop(char **argv)
 		if (name_value[0] && (*argv)[ft_strlen(name_value[0])] == '=')
 			ft_setenv(name_value[0], NULL, 1);
 	}
-	ft_matrix_free(name_value);	
+	ft_matrix_free(name_value);
 }
 
 int	ft_export(char **argv)
@@ -109,33 +109,5 @@ int	ft_export(char **argv)
 	}
 	else
 		ft_export_no_args();
-	return (1);
-}
-
-int	ft_setenv(char *name, char *value, int overwrite)
-{
-	int		i;
-	char	*str;
-	char	**envp;
-
-	i = -1;
-	str = NULL;
-	str = ft_setenv_str(name, value, str);
-	if (str == NULL)
-		return (0);
-	while (_shell()->envp[++i] != NULL && name && ft_strncmp(_shell()->envp[i],
-			name, ft_strlen(name)))
-		;
-	if (_shell()->envp[i] != NULL && overwrite == 1)
-	{
-		free(_shell()->envp[i]);
-		_shell()->envp[i] = ft_strdup(str);
-	}
-	else if (_shell()->envp[i] == NULL)
-	{
-		envp = ft_matrix_push(_shell()->envp, ft_strdup(str));
-		_shell()->envp = envp;
-	}
-	free(str);
 	return (1);
 }
