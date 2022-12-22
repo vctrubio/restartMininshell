@@ -7,6 +7,11 @@ int	ft_cd(char **argv)
 	char	pwd[256];
 	int		ret;
 
+	if(argv[1] && argv[2])
+	{
+		printf("cd: too many arguments\n");
+		return (1);
+	}
 	if (getcwd(pwd, sizeof(pwd)) == NULL)
 		perror("getcwd() error");
 	to_free = set_cd_folder_return_if_free_folder_or_not(argv, &folder);
@@ -25,10 +30,14 @@ int	ft_cd(char **argv)
 int	ft_echo(char **argv)
 {
 	int	i;
+	int	flag;
 
+	flag = 0;
 	i = 1;
-	while (argv[i] != NULL && ft_strncmp(argv[i], "-n", 2) == 0)
+	while (argv[i] != NULL && ft_strexact(argv[i], "-n"))
 		i++;
+	if (ft_strexact(argv[i-1], "-n"))
+		flag = 1;
 	while (argv[i] != NULL)
 	{
 		ft_putstr_fd(argv[i], 1);
@@ -36,9 +45,7 @@ int	ft_echo(char **argv)
 		if (argv[i] != NULL)
 			ft_putchar_fd(' ', 1);
 	}
-	if (argv[1] == NULL || ft_strncmp(argv[1], "-n", 2) != 0
-		|| (ft_strncmp(argv[1], "-n", 2) == 0 && argv[1][2]
-			&& !ft_isalpha(argv[1][2])))
+	if (!flag)
 		ft_putchar_fd('\n', 1);
 	return (0);
 }
@@ -63,13 +70,15 @@ void	ft_export_loop(char **argv)
 	name_value = ft_strsplit(*argv, '=');
 	if (name_value[1])
 	{
-		printf("--%s\n",name_value[1]);
 		tmpstr = ft_concat_multi(name_value+1,"=");
 		ft_setenv(name_value[0], tmpstr, 1);
 		free(tmpstr);
 	}
 	else
-		ft_setenv(name_value[0], NULL, 1);
+	{
+		if (name_value[0] && (*argv)[ft_strlen(name_value[0])] == '=')
+			ft_setenv(name_value[0], NULL, 1);
+	}
 	ft_matrix_free(name_value);	
 }
 

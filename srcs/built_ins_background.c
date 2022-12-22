@@ -60,20 +60,33 @@ void	ft_export_no_args(void)
 	ft_matrix_free(vars.matrix);
 }
 
-int	ft_unset(char **argv)
+void	unset_loop(char *argv)
 {
 	int		i;
 	char	**envp;
 
 	envp = NULL;
 	i = -1;
-	while (_shell()->envp[++i] != NULL && argv[1] && ft_strncmp(_shell()->envp[i], argv[1],
-			ft_strlen(argv[1])))
+	while (_shell()->envp[++i] != NULL && *argv && ft_strncmp(_shell()->envp[i], argv,
+		ft_strlen(argv)))
 		;
 	if (_shell()->envp[i] != NULL)
 	{
 		envp = ft_matrix_remove_col_by_index(_shell()->envp, i);
 		_shell()->envp = envp;
+	}
+}
+
+int	ft_unset(char **argv)
+{
+	argv++;
+	if (*argv)
+	{
+		while (*argv)
+		{
+			unset_loop(*argv);
+			argv++;
+		}
 	}
 	return (0);
 }
