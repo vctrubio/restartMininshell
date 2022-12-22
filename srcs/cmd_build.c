@@ -62,6 +62,11 @@ t_cmd	*init_tcmd(char ***matrix)
 		}
 		else
 		{
+			set_redir(cmd, &matrix);
+			if (**matrix && ft_strexact(**matrix, "|"))
+				continue ;
+			else
+				break;
 			if (**matrix)
 			{
 				if (is_new_redir(***matrix))
@@ -108,6 +113,7 @@ bool	add_cmds(char **matrix)
 	}
 	else
 		build_cmds(matrix);
+	print_tcmd(_shell()->head);
 	init_heredoc();
 	return (true);
 }

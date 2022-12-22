@@ -2,5 +2,7 @@ include
 lib
 Makefile
 minishell
+okey
 out
+outifile
 srcs
