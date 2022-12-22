@@ -1,20 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   loop.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hgoncalv <hgoncalv@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/22 11:16:21 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 13:14:30 by hgoncalv         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 int	loop_part1(t_cmd **cmd, char **path)
 {
-	setup_catbs(cmd);
+	//setup_catbs(cmd);
 	*path = NULL;
 	loop_remove_zsh(*cmd);
 	if (check_if_builtin_not_pipe(*cmd))
@@ -77,11 +65,12 @@ void	loop_parent(t_cmd **p2cmd, int *pid, int *p, int *status_bs)
 {
 	t_cmd	*cmd;
 
+	(void)pid;
 	cmd = *p2cmd;
-	if (cmd->flag == 2 && ++(status_bs[1]))
-		kill(*pid, SIGKILL);
-	else
-		waitpid(*pid, &status_bs[0], WUNTRACED);
+	// if (cmd->flag == 2 && ++(status_bs[1]))
+	// 	kill(*pid, SIGKILL);
+	// else
+	// 	waitpid(*pid, &status_bs[0], WUNTRACED);
 	close(p[1]);
 	loop_files(&cmd);
 	*p2cmd = (*p2cmd)->next;
@@ -95,28 +84,38 @@ void	loop_execution(t_cmd *cmd)
 	int		status_bs[2];
 	char	*path;
 
-	// print_tcmd(_shell()->head);
 	status_bs[1] = 0;
+	pipe(p);
+	pid = fork();
+	signal(SIGINT, ft_handler);
+	signal(SIGQUIT, SIG_IGN);
+	int once=0;
 	while (cmd && cmd->args[0])
 	{
 		if (loop_part1(&cmd, &path))
 			continue ;
 		if (cmd)
 			cmd->fd_in = p[0];
-		pipe(p);
-		pid = fork();
+		
+		
 		if (pid == 0)
 			loop_child(cmd, p, path);
 		else
 		{
+			if(once++!=0){
+				pid = fork();
+				signal(SIGINT, ft_handler);
+				signal(SIGQUIT, SIG_IGN);
+			}
 			loop_parent(&cmd, &pid, p, status_bs);
 			if (path)
 				free(path);
 		}
 	}
-	if (cmd->flag && ++(status_bs[1]))
-		kill(pid, SIGKILL);
-	else
-	waitpid(pid, &status_bs[0], WUNTRACED);
-	bs_cat(status_bs[1]);
+	if(pid>0)
+	{
+		waitpid(0, &status_bs[0], 0);
+		close(p[1]);
+	}
+	//bs_cat(status_bs[1]);
 }
