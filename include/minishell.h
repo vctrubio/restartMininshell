@@ -18,7 +18,7 @@ enum					e_type
 {
 	NADA,
 	R_OUT,
-	R_IN, //NOT USING/CALLING ATM
+	R_IN,
 	R_APP,
 	HEREDOC,
 };
@@ -91,6 +91,7 @@ int						ft_echo(char **argv);
 int						ft_cd(char **argv);
 int						ft_export(char **argv);
 int						ft_setenv(char *name, char *value, int overwrite);
+char					*ft_setenv_str(char *name, char *value, char *str);
 
 //built_ins_background.c
 int	set_cd_folder_return_if_free_folder_or_not(char **argv,

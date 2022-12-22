@@ -55,22 +55,36 @@ int	ft_pwd(char **argv)
 	return (0);
 }
 
-int	ft_export(char **argv)
+void	ft_export_loop(char **argv)
 {
 	char	**name_value;
-	t_vars	vars;
+	char	*tmpstr;
 
-	ft_inicialize_vars(&vars);
-	if (argv[1] && ft_strlen(argv[1]) == 0)
-		return (0);
-	if (argv[1])
+	name_value = ft_strsplit(*argv, '=');
+	if (name_value[1])
 	{
-		name_value = ft_strsplit(argv[1], '=');
-		if (name_value[1])
-			ft_setenv(name_value[0], name_value[1], 1);
-		else
-			ft_setenv(name_value[0], NULL, 1);
-		ft_matrix_free(name_value);
+		printf("--%s\n",name_value[1]);
+		tmpstr = ft_concat_multi(name_value+1,"=");
+		ft_setenv(name_value[0], tmpstr, 1);
+		free(tmpstr);
+	}
+	else
+		ft_setenv(name_value[0], NULL, 1);
+	ft_matrix_free(name_value);	
+}
+
+int	ft_export(char **argv)
+{
+	if (*argv && ft_strlen(*argv) == 0)
+		return (0);
+	argv++;
+	if (*argv)
+	{
+		while (*argv != NULL)
+		{
+			ft_export_loop(argv);
+			argv++;
+		}
 	}
 	else
 		ft_export_no_args();
@@ -104,13 +118,3 @@ int	ft_setenv(char *name, char *value, int overwrite)
 	free(str);
 	return (1);
 }
-//IN CASE UBUNTO's SHELL admits MORE ex: export hg=12 vt=34
-// (if it only add hg... no need to add)
-// if (argv[2])
-// 		{
-// 			vars.i = 1;
-// 			while (argv[++vars.i])
-// 				printf("minishell: export \"%s\": not an identifier\n",
-// 						argv[vars.i]);
-// 			return (0);
-// 		}

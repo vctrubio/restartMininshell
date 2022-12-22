@@ -67,7 +67,7 @@ int	ft_unset(char **argv)
 
 	envp = NULL;
 	i = -1;
-	while (_shell()->envp[++i] != NULL && ft_strncmp(_shell()->envp[i], argv[1],
+	while (_shell()->envp[++i] != NULL && argv[1] && ft_strncmp(_shell()->envp[i], argv[1],
 			ft_strlen(argv[1])))
 		;
 	if (_shell()->envp[i] != NULL)
