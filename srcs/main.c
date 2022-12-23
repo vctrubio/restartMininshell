@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:50 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:19:51 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/23 19:13:46 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	minishell(void)
 		if (add_cmds(matrix) && init_remove_qt())
 		{
 			original_cmd = *(_shell()->head);
-			loop_execution(_shell()->head);
+			ft_loop();
+			// loop_execution(_shell()->head);
 		}
 		else
 			free_arrays(matrix);

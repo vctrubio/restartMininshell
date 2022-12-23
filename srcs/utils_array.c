@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:20:07 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/23 17:41:17 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/23 19:12:37 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	print_tcmd(t_cmd *cmd)
 			file = file->next;
 		}
 	}
-	printf("(%d) type__________\n", cmd->type);
+	printf("__________\n");
 	if (cmd->next)
 		print_tcmd(cmd->next);
 }
