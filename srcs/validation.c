@@ -62,7 +62,7 @@ void	validate_rl(char **matrix)
 			{
 				c = matrix[i][j];
 				while (matrix[i][j] && matrix[i][j] != c)
-					i++;
+					j++;
 			}
 			if (matrix[i][j] == '|')
 				ft_validate_pipe_matrix(matrix, i);
