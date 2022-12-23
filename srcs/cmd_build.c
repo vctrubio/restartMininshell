@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:27 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/23 17:46:26 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/23 17:49:43 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,11 @@ void	create_infile(char *str, t_cmd *cmd)
 		cmd->file_in = file;
 }
 
-t_cmd	*init_tcmd(char ***matrix)
+t_cmd	*init_tcmd(char ***matrix, int i)
 {
 	t_cmd	*cmd;
-	int		i;
 
 	cmd = ft_inicialize_cmd(*matrix);
-	i = 0;
 	while (**matrix != NULL)
 	{
 		if (!is_redir(***matrix))
@@ -91,11 +89,11 @@ void	build_cmds(char **matrix)
 	char	**ptr_to_free;
 
 	ptr_to_free = matrix;
-	ptr = init_tcmd(&matrix);
+	ptr = init_tcmd(&matrix, 0);
 	_shell()->head = ptr;
 	while (*matrix != NULL)
 	{
-		ptr_next = init_tcmd(&matrix);
+		ptr_next = init_tcmd(&matrix, 0);
 		ptr->next = ptr_next;
 		ptr_next->prev = ptr;
 		ptr = ptr->next;
