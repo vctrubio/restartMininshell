@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:27 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/23 17:44:39 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/23 17:46:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ t_cmd	*init_tcmd(char ***matrix)
 			set_redir(cmd, &matrix);
 			if (**matrix && !ft_strexact(**matrix, "|"))
 				continue ;
-			else
-				break ;
 		}
 		*(matrix) = *matrix + 1;
 	}
