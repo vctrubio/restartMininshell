@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:17:04 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:31:13 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/23 17:42:43 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	loop_execution(t_cmd *cmd)
 	char	*path;
 
 	status_bs[1] = 0;
+	printf("printing loop...\n");
+	print_tcmd(_shell()->head);
 	while (cmd && cmd->args[0])
 	{
 		if (loop_part1(&cmd, &path))

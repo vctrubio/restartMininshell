@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_build.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:27 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:51:59 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/23 17:44:39 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ t_cmd	*init_tcmd(char ***matrix)
 				cmd->flag = 1;
 			cmd->args[i++] = ft_strdup((**matrix));
 		}
+		else if (ft_strexact(**matrix, "|"))
+		{
+			*(matrix) = *matrix + 1;
+			break;
+		}	
 		else
 		{
 			set_redir(cmd, &matrix);
