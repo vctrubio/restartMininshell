@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 10:56:06 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:35:26 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/23 17:57:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ void					minishell_clean(char **line, t_cmd original_cmd);
 //loop.c
 void					loop_execution(t_cmd *ptr);
 void					loop_remove_zsh(t_cmd *cmd);
+void 					ft_loop(void);
 
 //loop_utils
 void					loop_remove_zsh(t_cmd *cmd);
