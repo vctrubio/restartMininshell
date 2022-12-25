@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:20:14 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:20:15 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/25 14:44:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,11 @@ void	validate_rl(char **matrix)
 					j++;
 			}
 			if (matrix[i][j] == '|')
+			{
+				if (i == 0 && j == 0)
+					_shell()->valid_input = false;
 				ft_validate_pipe_matrix(matrix, i);
+			}
 			if (matrix[i][j] == '>')
 				ft_validate_redir_output_matrix(matrix, i);
 			if (matrix[i][j] == '<')
