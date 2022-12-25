@@ -74,7 +74,8 @@ void	minishell(void)
 		{
 			original_cmd = *(_shell()->head);
 			// ft_loop();
-			loop_execution(_shell()->head);
+			//loop_execution(_shell()->head);
+			pipe_commands(_shell()->head);
 		}
 		else
 			free_arrays(matrix);
