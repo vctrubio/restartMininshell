@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_build2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:28 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:19:29 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/25 13:03:48 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ static void	set_redir_back(t_cmd *cmd, char ****str)
 
 void	set_redir(t_cmd *cmd, char ****str)
 {
-	if (ft_strexact(***str, "|"))
-		;
-	else if (ft_strexact(***str, ">"))
+	if (ft_strexact(***str, ">"))
 	{
 		cmd->type = R_OUT;
 		**(str) = **str + 1;

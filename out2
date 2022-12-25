@@ -1,4 +1,6 @@
-reading/has a file_out
+has a file_out
+wE HAVE FD0
+wE HAVE FD1
 include
 lib
 Makefile

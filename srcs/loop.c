@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:17:04 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/23 19:30:23 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 14:15:50 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,12 @@ void	loop_execution(t_cmd *cmd)
 	pid_t	pid;
 	int		status_bs[2];
 	char	*path;
-
+	int		wpd[2];
+	
 	status_bs[1] = 0;
 	// printf("printing loop...\n");
 	// print_tcmd(_shell()->head);
+	pipe(wpd);
 	while (cmd && cmd->args[0])
 	{
 		if (loop_part1(&cmd, &path))
