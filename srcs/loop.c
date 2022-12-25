@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:17:04 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 14:46:46 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 15:50:37 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,13 @@ void	loop_parent(t_cmd **p2cmd, int *pid, int *p, int *status_bs)
 	t_cmd	*cmd;
 
 	cmd = *p2cmd;
-	if (cmd->flag == 2 && ++(status_bs[1]))
-		kill(*pid, SIGKILL);
-	else
-		waitpid(*pid, &status_bs[0], WUNTRACED);
 	close(p[1]);
+	close(p[0]);
+	// if (cmd->flag == 2000 && ++(status_bs[1]))
+	// 	kill(*pid, SIGKILL);
+	// else
+	waitpid(*pid, &status_bs[0], WUNTRACED);
+	
 	*p2cmd = (*p2cmd)->next;
 	_shell()->exit_code = status_bs[0] / 256;
 }
