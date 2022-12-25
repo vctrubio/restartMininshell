@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 10:56:06 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/23 17:57:04 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 11:03:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void					bs_cat(int bs_cat);
 //free.c
 void					free_cmds(t_cmd *first);
 void					minishell_clean(char **line, t_cmd original_cmd);
-
+int						free_files(t_file *file);
 //loop.c
 void					loop_execution(t_cmd *ptr);
 void					loop_remove_zsh(t_cmd *cmd);

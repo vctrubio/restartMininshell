@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:50 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/23 19:13:46 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 11:03:52 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	minishell(void)
 		if (add_cmds(matrix) && init_remove_qt())
 		{
 			original_cmd = *(_shell()->head);
-			ft_loop();
+			// ft_loop();
 			// loop_execution(_shell()->head);
 		}
 		else

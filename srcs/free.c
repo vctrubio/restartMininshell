@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:36 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:19:37 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/23 20:28:25 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	free_heredoc(t_file *file)
 	return (1);
 }
 
-static int	free_files(t_file *file)
+int	free_files(t_file *file)
 {
 	if (file->next)
 		free_files(file->next);
