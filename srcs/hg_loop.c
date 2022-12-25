@@ -212,7 +212,7 @@ void	pipe_commands(t_cmd *cmd)
 			free(path);
 		if (loop_part1(&curr, &path))
 		{
-			// i++;
+			i++;
 			continue ;
 		}
 		pid = fork();
