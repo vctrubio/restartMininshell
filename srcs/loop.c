@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:17:04 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 17:23:53 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 17:35:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,28 +53,27 @@ void	loop_child(t_cmd *cmd, int *p, char *path)
 	exit(ret);
 }
 
-void	loop_parent(t_cmd **p2cmd, int *pid, int *p, int *status_bs)
+void	loop_parent(t_cmd **p2cmd, int *pid, int *p)
 {
 	t_cmd	*cmd;
-
+	int		status;
+	
 	cmd = *p2cmd;
-	waitpid(0, &status_bs[0], WUNTRACED);
+	waitpid(*pid, &status, WUNTRACED);
 	if (cmd->next)
 		cmd->next->fd_in = dup(p[0]);
 	close(p[1]);
 	close(p[0]);
 	*p2cmd = (*p2cmd)->next;
-	_shell()->exit_code = status_bs[0] / 256;
+	_shell()->exit_code = status / 256;
 }
 
 void	loop_execution(t_cmd *cmd)
 {
 	int		p[2];
 	pid_t	pid;
-	int		status_bs[2];
 	char	*path;
 	
-	status_bs[1] = 0;
 	printf("printing loop...\n");
 	print_tcmd(_shell()->head);
 	while (cmd && cmd->args[0])
@@ -89,10 +88,9 @@ void	loop_execution(t_cmd *cmd)
 			loop_child(cmd, p, path);
 		else
 		{
-			loop_parent(&cmd, &pid, p, status_bs);
+			loop_parent(&cmd, &pid, p);
 			if (path)
 				free(path);
 		}
 	}
-	bs_cat(status_bs[1]);
 }
