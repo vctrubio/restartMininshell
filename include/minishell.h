@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 10:56:06 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 13:45:01 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 14:23:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ struct					s_file
 	char				*heredoc;
 	int					fd;
 	t_type				type;
-	t_file				*next;
 };
 
 struct					s_cmd
@@ -49,7 +48,6 @@ struct					s_cmd
 	char				**args;
 	t_type				type;
 	t_file				*file;
-	t_file				*heredoc;
 	t_file				*file_in;
 	t_cmd				*next;
 	t_cmd				*prev;

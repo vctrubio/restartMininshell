@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:37 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:19:38 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/25 14:37:48 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,12 @@ static void	ask_for_input(char *word, t_file *file)
 void	init_heredoc(void)
 {
 	t_cmd	*cmd;
-	t_file	*ptr;
 
 	cmd = _shell()->head;
 	while (cmd != NULL)
 	{
-		if (cmd->heredoc)
-		{
-			ptr = cmd->heredoc;
-			while (ptr)
-			{
-				ask_for_input(ptr->filename, ptr);
-				ptr = ptr->next;
-			}
-		}
+		if (cmd->file_in && (cmd->file_in->type == HEREDOC))
+			ask_for_input(cmd->file_in->filename, cmd->file_in);
 		cmd = cmd->next;
 	}
 }

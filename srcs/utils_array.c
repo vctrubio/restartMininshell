@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -29,25 +30,12 @@ void	print_tcmd(t_cmd *cmd)
 	if (cmd->file)
 	{
 		file = cmd->file;
-		while (file)
-		{
 			printf("FILE_OUT: %s (%d)\n", file->filename, file->type);
-			file = file->next;
-		}
-	}
-	if (cmd->heredoc)
-	{
-		printf("FILE HEREDOC: %s (%d)\n", cmd->heredoc->filename, 
-				cmd->heredoc->type);
 	}
 	if (cmd->file_in)
 	{
 		file = cmd->file_in;
-		while (file)
-		{
 			printf("FILE_IN: %s (%d)\n", file->filename, file->type);
-			file = file->next;
-		}
 	}
 	printf("__________\n");
 	if (cmd->next)

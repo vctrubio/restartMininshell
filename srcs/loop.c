@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:17:04 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 14:15:50 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 14:32:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,6 @@ int	loop_part1(t_cmd **cmd, char **path)
 	return (0);
 }
 
-void	loop_files(t_cmd **cmd)
-{
-	if ((*cmd)->file && (*cmd)->file->next)
-	{
-		(*cmd)->file = (*cmd)->file->next;
-		loop_execution(*cmd);
-	}
-	if ((*cmd)->file_in && (*cmd)->file_in->next)
-	{
-		(*cmd)->file_in = (*cmd)->file_in->next;
-		loop_execution(*cmd);
-	}
-	if ((*cmd)->heredoc && (*cmd)->heredoc->next)
-	{
-		(*cmd)->heredoc = (*cmd)->heredoc->next;
-		loop_execution(*cmd);
-	}
-}
-
 void	loop_child(t_cmd *cmd, int *p, char *path)
 {
 	int	ret;
@@ -83,7 +64,6 @@ void	loop_parent(t_cmd **p2cmd, int *pid, int *p, int *status_bs)
 	else
 		waitpid(*pid, &status_bs[0], WUNTRACED);
 	close(p[1]);
-	loop_files(&cmd);
 	*p2cmd = (*p2cmd)->next;
 	_shell()->exit_code = status_bs[0] / 256;
 }
@@ -97,8 +77,8 @@ void	loop_execution(t_cmd *cmd)
 	int		wpd[2];
 	
 	status_bs[1] = 0;
-	// printf("printing loop...\n");
-	// print_tcmd(_shell()->head);
+	printf("printing loop...\n");
+	print_tcmd(_shell()->head);
 	pipe(wpd);
 	while (cmd && cmd->args[0])
 	{

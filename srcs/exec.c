@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:34 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:19:35 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/25 14:37:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,10 @@ int	child_proces(int *p, t_cmd *cmd)
 	if (cmd->file_in)
 	{
 		ptr = cmd->file_in;
-		ptr->fd = open(ptr->filename, O_RDONLY, 0777);
-		if (ptr->fd < 0)
-			return (1);
-		cmd->fd_in = ptr->fd;
-	}
-	if (cmd->heredoc)
-	{
-		ptr = cmd->heredoc;
-		ptr->fd = open(ptr->heredoc, O_RDONLY, 0777);
+		if (ptr->type == HEREDOC)
+			ptr->fd = open(ptr->heredoc, O_RDONLY, 0777);
+		else
+			ptr->fd = open(ptr->filename, O_RDONLY, 0777);
 		if (ptr->fd < 0)
 			return (1);
 		cmd->fd_in = ptr->fd;

@@ -14,14 +14,6 @@ void	handle_files(t_cmd *cmd)
 		cmd->fd_in = ptr->fd;
 		printf("OK copied file_in work\n");
 	}
-	if (cmd->heredoc)
-	{
-		ptr = cmd->heredoc;
-		ptr->fd = open(ptr->heredoc, O_RDONLY, 0777);
-		if (ptr->fd < 0)
-			return ;
-		cmd->fd_in = ptr->fd;
-	}
 
 	if (cmd->file)
 	{

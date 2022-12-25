@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:27 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 11:18:12 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 14:26:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	create_file(char *str, t_cmd *cmd)
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
 	file->type = cmd->type;
-	file->next = NULL;
 	if (cmd->file)
 		free_files(cmd->file);
 	cmd->file = file;
@@ -31,8 +30,7 @@ void	create_infile(char *str, t_cmd *cmd)
 
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
-	file->type = R_IN;
-	file->next = NULL;
+	file->type = cmd->type;
 	if (cmd->file_in)
 		free_files(cmd->file_in);
 	cmd->file_in = file;

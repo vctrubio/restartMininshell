@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:40 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:19:41 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/25 14:39:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	setup_catbs(t_cmd **p2cmd)
 	if (cmd->flag && cmd->next)
 	{
 		if (does_next_read_stdi(cmd) && cmd->args[1] == NULL && !cmd->file_in
-			&& !cmd->file && !cmd->heredoc)
+			&& !cmd->file)
 			cmd->flag = 2;
-		if (cmd->args[1] == NULL && !cmd->file_in && !cmd->file && !cmd->heredoc
+		if (cmd->args[1] == NULL && !cmd->file_in && !cmd->file
 			&& (ft_strexact("cat", (cmd->next)->args[0])))
 			cmd->flag = 2;
 	}

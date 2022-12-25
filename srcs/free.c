@@ -6,30 +6,14 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:36 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/23 20:28:25 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 14:27:13 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	free_heredoc(t_file *file)
-{
-	free(file->filename);
-	if (file->heredoc)
-	{
-		remove(file->heredoc);
-		free(file->heredoc);
-	}
-	if (file->next)
-		free_heredoc(file->next);
-	free(file);
-	return (1);
-}
-
 int	free_files(t_file *file)
 {
-	if (file->next)
-		free_files(file->next);
 	free(file->filename);
 	free(file);
 	return (1);
@@ -48,8 +32,6 @@ void	free_cmds(t_cmd *first)
 			first->file = NULL;
 		if (first->file_in && free_files(first->file_in))
 			first->file_in = NULL;
-		if (first->heredoc && free_heredoc(first->heredoc))
-			first->heredoc = NULL;
 		if (first->next)
 			next = first->next;
 		else

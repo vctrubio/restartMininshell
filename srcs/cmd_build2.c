@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:28 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 13:03:48 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 14:34:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	set_redir_back(t_cmd *cmd, char ****str)
 {
 	if (ft_strexact(***str, "<"))
 	{
+		cmd->type = R_IN;
 		**(str) = **str + 1;
 		create_infile(***str, cmd);
 	}
@@ -23,7 +24,7 @@ static void	set_redir_back(t_cmd *cmd, char ****str)
 	{
 		cmd->type = HEREDOC;
 		**(str) = **str + 1;
-		create_heredoc(***str, cmd);
+		create_infile(***str, cmd);
 	}
 }
 
@@ -45,24 +46,4 @@ void	set_redir(t_cmd *cmd, char ****str)
 	**(str) = **str + 1;
 	if (***str && is_redir(****str))
 		set_redir(cmd, str);
-}
-
-void	create_heredoc(char *str, t_cmd *cmd)
-{
-	t_file	*file;
-	t_file	*ptr;
-
-	file = malloc(sizeof(t_file));
-	file->filename = ft_strdup(str);
-	file->type = HEREDOC;
-	file->next = NULL;
-	if (cmd->heredoc)
-	{
-		ptr = cmd->heredoc;
-		while (ptr->next)
-			ptr = ptr->next;
-		ptr->next = file;
-	}
-	else
-		cmd->heredoc = file;
 }
