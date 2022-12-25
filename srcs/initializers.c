@@ -43,6 +43,9 @@ t_cmd	*ft_inicialize_cmd(char **matrix)
 	cmd->type = NADA;
 	cmd->file = NULL;
 	cmd->file_in = NULL;
+
+	// cmd->heredoc = NULL;
+
 	cmd->next = NULL;
 	cmd->prev = NULL;
 	cmd->flag = 0;
