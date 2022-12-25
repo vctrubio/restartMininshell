@@ -6,24 +6,13 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:40 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 14:39:14 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 14:39:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	loop_remove_zsh(t_cmd *cmd)
-{
-	while (cmd->file && cmd->file->next)
-	{
-		cmd->file->fd = open(cmd->file->filename, O_WRONLY | O_CREAT | O_TRUNC,
-				0777);
-		close(cmd->file->fd);
-		cmd->file = cmd->file->next;
-	}
-	while (cmd->file_in && cmd->file_in->next)
-		cmd->file_in = cmd->file_in->next;
-}
+
 
 int	does_next_read_stdi(t_cmd *cmd)
 {

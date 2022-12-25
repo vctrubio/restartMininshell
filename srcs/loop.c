@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:17:04 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 14:32:14 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 14:39:49 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	loop_part1(t_cmd **cmd, char **path)
 {
 	setup_catbs(cmd);
 	*path = NULL;
-	loop_remove_zsh(*cmd);
 	if (check_if_builtin_not_pipe(*cmd))
 	{
 		_shell()->exit_code = run_builtin_not_piped(*cmd);
