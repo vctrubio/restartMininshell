@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:17:04 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 17:21:09 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 17:23:53 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,11 @@ void	loop_parent(t_cmd **p2cmd, int *pid, int *p, int *status_bs)
 	t_cmd	*cmd;
 
 	cmd = *p2cmd;
-	waitpid(*pid, &status_bs[0], WUNTRACED);
+	waitpid(0, &status_bs[0], WUNTRACED);
 	if (cmd->next)
 		cmd->next->fd_in = dup(p[0]);
 	close(p[1]);
 	close(p[0]);
-	// close(cmd->fd_in);
 	*p2cmd = (*p2cmd)->next;
 	_shell()->exit_code = status_bs[0] / 256;
 }
