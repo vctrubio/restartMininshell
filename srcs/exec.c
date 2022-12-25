@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:34 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 14:37:16 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 15:53:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ int	child_proces(int *p, t_cmd *cmd)
 	}
 	dup2(cmd->fd_in, 0);
 	child_process_end(p, cmd, ptr);
-	if (cmd->flag != 2)
+	// if (cmd->flag != 2) //not needed i dont think
 		close(cmd->fd_in);
 	close(p[0]);
+	if (cmd->next == NULL)
+		close(p[1]);
 	return (0);
 }
 
