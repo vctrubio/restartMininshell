@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:34 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 17:26:55 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 18:25:13 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	child_proces(int *p, t_cmd *cmd)
 {
 	t_file	*ptr;
 
+	//to implenet -- mulktiple files, i can do 
 	if (cmd->file_in)
 	{
 		ptr = cmd->file_in;

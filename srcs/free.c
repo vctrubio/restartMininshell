@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:36 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 14:27:13 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 18:06:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 int	free_files(t_file *file)
 {
+	if (file->next)
+		free_files(file->next);
 	free(file->filename);
+	if (file->heredoc)
+		free(file->filename);
 	free(file);
 	return (1);
 }

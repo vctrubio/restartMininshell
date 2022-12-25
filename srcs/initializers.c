@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:38 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:19:39 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/25 18:04:11 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ t_cmd	*ft_inicialize_cmd(char **matrix)
 	cmd->type = NADA;
 	cmd->file = NULL;
 	cmd->file_in = NULL;
+
 	// cmd->heredoc = NULL;
+
 	cmd->next = NULL;
 	cmd->prev = NULL;
 	cmd->flag = 0;

@@ -2,6 +2,10 @@
 	"files.associations": {
 		"minishell.h": "c",
 		"signal.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"array": "c",
+		"string_view": "c",
+		"initializer_list": "c",
+		"utility": "c"
 	}
 }
