@@ -14,7 +14,6 @@ void	handle_files(t_cmd *cmd)
 		cmd->fd_in = ptr->fd;
 		printf("OK copied file_in work\n");
 	}
-
 	if (cmd->file)
 	{
 		ptr = cmd->file; //maybe leak because same ptr used twice
@@ -45,40 +44,35 @@ void	handle_pipe(t_cmd *cmd, int *fd)
 	}
 }
 
-
 void	do_child(t_cmd *cmd, int *fd, char **path)
 {
-	int		ptr_out;
-	
+	int	ptr_out;
+
 	*path = ft_get_exec_path(cmd->args);
 	printf("path is %s,\n...\n", *path);
-
 	handle_files(cmd);
 	handle_pipe(cmd, fd);
 	execve(*path, cmd->args, _shell()->envp);
 	printf("command not found....\n");
-
 }
 
-void	do_parent()
+void	do_parent(void)
 {
-	int status;
+	int	status;
 
 	waitpid(0, &status, 0);
 	printf("\n--------in the parent\n");
 	//set return code
-
 }
 
 void	ft_loop(void)
 {
-	printf("running....\n");
-	print_tcmd(_shell()->head);
-
-	int 	fd[2];
+	int		fd[2];
 	t_cmd	*cmd;
 	char	*path;
-	
+
+	printf("running....\n");
+	print_tcmd(_shell()->head);
 	cmd = _shell()->head;
 	if (!cmd)
 		return ;
@@ -87,8 +81,6 @@ void	ft_loop(void)
 		printf("do exit....\n");
 		exit(1);
 	}
-
-
 	while (cmd)
 	{
 		pipe(fd);
@@ -100,7 +92,7 @@ void	ft_loop(void)
 		{
 			do_parent();
 			// if (path)
-			// 	free(path); idk why but doesnt want to 
+			// 	free(path); idk why but doesnt want to
 		}
 		printf(",\n");
 		cmd = cmd->next;
