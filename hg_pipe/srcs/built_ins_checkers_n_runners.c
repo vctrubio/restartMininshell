@@ -40,6 +40,9 @@ int	run_builtin_not_piped(t_cmd *cmd)
 {
 	int	ret;
 
+	ret = -42;
+	if (cmd->next)
+		return (ret);
 	if (ft_strexact("cd", cmd->args[0]))
 		ret = ft_cd(cmd->args);
 	if (ft_strexact("export", cmd->args[0]))
