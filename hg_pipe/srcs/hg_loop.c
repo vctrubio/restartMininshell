@@ -52,7 +52,7 @@ int	redirect_output(t_cmd *cmd)
 		exit(1);
 	}
 	close(outputfd);
-	return (0);
+	return (outputfd);
 }
 
 int	redirect_input(t_cmd *cmd)

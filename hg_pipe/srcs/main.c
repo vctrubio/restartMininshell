@@ -55,6 +55,8 @@ int	init_remove_qt(void)
 
 void	run_only_builtins(t_cmd *cmd)
 {
+	int	fd_output;
+
 	if (ft_strexact("exit", cmd->args[0]))
 	{
 		_shell()->exit = 1;
@@ -63,10 +65,15 @@ void	run_only_builtins(t_cmd *cmd)
 	else if (check_if_builtin(cmd))
 	{
 		redirect_input(cmd);
-		printf("\nINSIDE  CHECK BUILTINs\n");
-		redirect_output(cmd);
+		fd_output = redirect_output(cmd);
 		_shell()->exit_code = run_builtin(cmd);
-		//ERROR STDOUT is not returning to default (no problem inside pipes but outside is not good)
+		if (dup2(STDOUT_FILENO, STDOUT_FILENO) < 0)
+		{
+			perror("dup2");
+			exit(1);
+		}
+		close(fd_output);
+		//ERROR STDOUT is not returning to default (no problem inside pipes but outside is not)
 		//dup2(STDOUT_FILENO, STDOUT_FILENO);
 		return ;
 	}
