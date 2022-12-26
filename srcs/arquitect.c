@@ -12,7 +12,7 @@ typedef struct
 	char	*args[MAX_COMMANDS];
 }			Command;
 
-void	pipe_commands_vitor(Command *commands, int num_commands)
+void	pipe_commands(Command *commands, int num_commands)
 {
 	int		i;
 	int		pipes[2 * num_commands];

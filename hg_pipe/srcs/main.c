@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:50 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 17:57:31 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 14:41:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	minishell(void)
 		{
 			original_cmd = *(_shell()->head);
 			// ft_loop();
-			loop_execution(_shell()->head);
+			//loop_execution(_shell()->head);
+			pipe_commands(_shell()->head);
 		}
 		else
 			free_arrays(matrix);
