@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 10:56:06 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 14:40:04 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/26 12:35:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ void					minishell_clean(char **line, t_cmd original_cmd);
 int						free_files(t_file *file);
 //loop.c
 void					loop_execution(t_cmd *ptr);
-void					ft_loop(void);
 int						loop_part1(t_cmd **cmd, char **path);
 
 //loop_utils

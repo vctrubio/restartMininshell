@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:17:04 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/26 12:19:31 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/26 12:38:31 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,11 @@ int	redirect_input(t_cmd *cmd)
 		else
 			ptr->fd = open(ptr->filename, O_RDONLY, 0777);
 		if (ptr->fd < 0)
+		{
+			printf("SHOOT AN ERROR\n");
 			return (1);
-		cmd->fd_in = ptr->fd;
+		}
+		// cmd->fd_in = ptr->fd;
 	}
 	if (ptr->fd < 0)
 	{
@@ -137,7 +140,7 @@ void	pipe_commands(t_cmd *cmd)
 		pid = fork();
 		if (pid == 0)
 		{
-			redirect_input(curr);
+			redirect_input(curr); //if SHOOT AN ERROR- file does not exist- do what?
 			if (i > 0)
 			{
 				if (dup2(pipes[j - 2], STDIN_FILENO) < 0)
