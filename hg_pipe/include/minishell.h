@@ -116,6 +116,8 @@ int						check_if_builtin_not_pipe(t_cmd *cmd);
 int						check_if_builtin_2pipe(t_cmd *cmd);
 int						run_builtin_not_piped(t_cmd *cmd);
 int						run_builtin_2pipe(t_cmd *cmd);
+int						check_if_builtin(t_cmd *cmd);
+int						run_builtin(t_cmd *cmd);
 
 //concat.c
 char					*ft_concat3(char *s1, char *s2, char *s3);

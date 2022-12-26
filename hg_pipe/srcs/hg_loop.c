@@ -92,7 +92,6 @@ int	redirect_input(t_cmd *cmd)
 	return (0);
 }
 
-
 void	pipe_commands(t_cmd *cmd)
 {
 	int		num_commands;
@@ -106,6 +105,19 @@ void	pipe_commands(t_cmd *cmd)
 	int		i;
 	int		j;
 
+	if (!(cmd->next))
+	{
+		if (ft_strexact("exit", cmd->args[0]))
+		{
+			_shell()->exit = 1;
+			return ;
+		}
+		else if (check_if_builtin(cmd))
+		{
+			_shell()->exit_code = run_builtin(cmd);
+			return ;
+		}
+	}
 	path = NULL;
 	num_commands = count_cmds(cmd);
 	pipes = malloc(sizeof(int) * 2 * num_commands);
@@ -131,16 +143,12 @@ void	pipe_commands(t_cmd *cmd)
 		j = i * 2;
 		if (path)
 			free(path);
-		if (loop_part1(&curr, &path))
-		{
-			i++;
-			num_commands--;
-			continue ;
-		}
+		path = ft_get_exec_path(curr->args);
 		pid = fork();
 		if (pid == 0)
 		{
-			redirect_input(curr); //if SHOOT AN ERROR- file does not exist- do what?
+			redirect_input(curr);
+			//if SHOOT AN ERROR- file does not exist- do what?
 			if (i > 0)
 			{
 				if (dup2(pipes[j - 2], STDIN_FILENO) < 0)
@@ -164,8 +172,9 @@ void	pipe_commands(t_cmd *cmd)
 				i++;
 			}
 			redirect_output(curr);
-			if (check_if_builtin_2pipe(cmd))
-				ret = run_builtin_2pipe(cmd);
+			// if (check_if_builtin_2pipe(cmd))
+			if (check_if_builtin(cmd))
+				ret = run_builtin(cmd);
 			else
 				ret = execve(path, cmd->args, _shell()->envp);
 			exit(ret);
