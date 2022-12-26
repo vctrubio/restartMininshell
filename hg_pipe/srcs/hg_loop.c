@@ -46,7 +46,7 @@ int	redirect_output(t_cmd *cmd)
 		perror("open");
 		exit(1);
 	}
-	if (dup2(outputfd, STDOUT_FILENO) < 0)
+	if (dup2(outputfd, 1) < 0)
 	{
 		perror("dup2");
 		exit(1);

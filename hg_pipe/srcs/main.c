@@ -56,7 +56,10 @@ int	init_remove_qt(void)
 void	run_only_builtins(t_cmd *cmd)
 {
 	int	fd_output;
+	int	original_stdout;
 
+	fd_output = -42;
+	original_stdout = dup(1);
 	if (ft_strexact("exit", cmd->args[0]))
 	{
 		_shell()->exit = 1;
@@ -67,14 +70,12 @@ void	run_only_builtins(t_cmd *cmd)
 		redirect_input(cmd);
 		fd_output = redirect_output(cmd);
 		_shell()->exit_code = run_builtin(cmd);
-		if (dup2(STDOUT_FILENO, STDOUT_FILENO) < 0)
+		if (fd_output != -42)
 		{
-			perror("dup2");
-			exit(1);
+			dup2(original_stdout, 1);
+			close(original_stdout);
 		}
 		close(fd_output);
-		//ERROR STDOUT is not returning to default (no problem inside pipes but outside is not)
-		//dup2(STDOUT_FILENO, STDOUT_FILENO);
 		return ;
 	}
 }
