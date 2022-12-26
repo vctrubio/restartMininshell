@@ -7,7 +7,7 @@ LIBFT		=	lib/libft.a
 CC			=	gcc
 
 # CFLAGS		=	 -Werror -Wall -Wextra -g -I $(HEADER)  -fsanitize=address
-CFLAGS		=	-g -I $(HEADER)  -fsanitize=address
+CFLAGS		=	-Werror -Wall -Wextra -g -I $(HEADER)  -fsanitize=address
 
 SRCS		=	$(wildcard ./srcs/*.c)
 

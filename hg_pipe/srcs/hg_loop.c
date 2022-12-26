@@ -69,10 +69,17 @@ int	redirect_input(t_cmd *cmd)
 		if (ptr->type == HEREDOC)
 			ptr->fd = open(ptr->heredoc, O_RDONLY, 0777);
 		else
+		{
+			if (access(ptr->filename, F_OK) == -1)
+			{
+				perror(ptr->filename);
+				exit(1);
+			}
 			ptr->fd = open(ptr->filename, O_RDONLY, 0777);
+		}
 		if (ptr->fd < 0)
 		{
-			printf("SHOOT AN ERROR\n");
+			printf("SHOOT AN ERROR INSIDE REDIRECT INPUT\n");
 			return (1);
 		}
 		// cmd->fd_in = ptr->fd;
@@ -92,35 +99,39 @@ int	redirect_input(t_cmd *cmd)
 	return (0);
 }
 
-void	pipe_commands(t_cmd *cmd)
+void	pipe_commands_cleanup(int num_commands, int *pipes, char *path)
 {
-	int		num_commands;
-	int		*pipes;
-	pid_t	pid;
-	t_cmd	*curr;
-	char	*path;
-	int		ret;
-	int		status;
-	pid_t	wpid;
-	int		i;
-	int		j;
+	int	i;
+	int	status;
+	int	wpid;
 
-	if (!(cmd->next))
+	i = 0;
+	while (i < 2 * num_commands)
 	{
-		if (ft_strexact("exit", cmd->args[0]))
-		{
-			_shell()->exit = 1;
-			return ;
-		}
-		else if (check_if_builtin(cmd))
-		{
-			_shell()->exit_code = run_builtin(cmd);
-			return ;
-		}
+		close(pipes[i]);
+		i++;
 	}
-	path = NULL;
-	num_commands = count_cmds(cmd);
-	pipes = malloc(sizeof(int) * 2 * num_commands);
+	i = 0;
+	while (i < num_commands)
+	{
+		wpid = waitpid(-1, &status, 0);
+		if (wpid < 0)
+		{
+			//perror("waitpid");
+			//exit(1);
+		}
+		_shell()->exit_code = status / 256;
+		i++;
+	}
+	if (path)
+		free(path);
+	free(pipes);
+}
+
+void	pipe_commands_build_pipes(int *pipes, int num_commands)
+{
+	int	i;
+
 	if (pipes == NULL)
 	{
 		perror("malloc");
@@ -136,6 +147,22 @@ void	pipe_commands(t_cmd *cmd)
 		}
 		i++;
 	}
+}
+
+void	pipe_commands(t_cmd *cmd)
+{
+	int		num_commands;
+	int		*pipes;
+	pid_t	pid;
+	t_cmd	*curr;
+	char	*path;
+	int		i;
+	int		j;
+
+	path = NULL;
+	num_commands = count_cmds(cmd);
+	pipes = malloc(sizeof(int) * 2 * num_commands);
+	pipe_commands_build_pipes(pipes, num_commands);
 	curr = cmd;
 	i = 0;
 	while (curr)
@@ -144,10 +171,29 @@ void	pipe_commands(t_cmd *cmd)
 		if (path)
 			free(path);
 		path = ft_get_exec_path(curr->args);
+		if (!check_if_builtin(curr) && !path)
+		{
+			printf("bash: %s: command not found\n", (curr->args)[0]);
+			_shell()->exit_code = 127;
+			curr = curr->next;
+			i++;
+			num_commands--;
+			continue ;
+		}
+		else if (!path)
+		{
+			curr = curr->next;
+			i++;
+			num_commands--;
+			continue ;
+		}
 		pid = fork();
 		if (pid == 0)
 		{
-			redirect_input(curr);
+			if (redirect_input(curr))
+			{
+				// printf("SHOOT AN ERROR\n");
+			}
 			//if SHOOT AN ERROR- file does not exist- do what?
 			if (i > 0)
 			{
@@ -172,12 +218,10 @@ void	pipe_commands(t_cmd *cmd)
 				i++;
 			}
 			redirect_output(curr);
-			// if (check_if_builtin_2pipe(cmd))
-			if (check_if_builtin(cmd))
-				ret = run_builtin(cmd);
+			if (check_if_builtin(curr))
+				exit(run_builtin(curr));
 			else
-				ret = execve(path, cmd->args, _shell()->envp);
-			exit(ret);
+				exit(execve(path, curr->args, _shell()->envp));
 		}
 		else if (pid < 0)
 		{
@@ -187,25 +231,5 @@ void	pipe_commands(t_cmd *cmd)
 		i++;
 		curr = curr->next;
 	}
-	i = 0;
-	while (i < 2 * num_commands)
-	{
-		close(pipes[i]);
-		i++;
-	}
-	i = 0;
-	while (i < num_commands)
-	{
-		wpid = waitpid(-1, &status, 0);
-		if (wpid < 0)
-		{
-			//perror("waitpid");
-			//exit(1);
-		}
-		_shell()->exit_code = status / 256;
-		i++;
-	}
-	if (path)
-		free(path);
-	free(pipes);
+	pipe_commands_cleanup(num_commands, pipes, path);
 }

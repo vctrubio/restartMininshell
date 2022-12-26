@@ -230,5 +230,7 @@ void					ft_get_quotes_inner_outer(char c, t_vars *vars);
 //hg
 int						count_cmds(t_cmd *cmd);
 void					pipe_commands(t_cmd *cmd);
+int						redirect_input(t_cmd *cmd);
+int						redirect_output(t_cmd *cmd);
 
 #endif

@@ -53,6 +53,25 @@ int	init_remove_qt(void)
 	return (1);
 }
 
+void	run_only_builtins(t_cmd *cmd)
+{
+	if (ft_strexact("exit", cmd->args[0]))
+	{
+		_shell()->exit = 1;
+		return ;
+	}
+	else if (check_if_builtin(cmd))
+	{
+		redirect_input(cmd);
+		printf("\nINSIDE  CHECK BUILTINs\n");
+		redirect_output(cmd);
+		_shell()->exit_code = run_builtin(cmd);
+		//ERROR STDOUT is not returning to default (no problem inside pipes but outside is not good)
+		//dup2(STDOUT_FILENO, STDOUT_FILENO);
+		return ;
+	}
+}
+
 void	minishell(void)
 {
 	char	*line;
@@ -74,7 +93,10 @@ void	minishell(void)
 		{
 			original_cmd = *(_shell()->head);
 			print_tcmd(_shell()->head);
-			pipe_commands(_shell()->head);
+			if (!((_shell()->head)->next) && check_if_builtin(_shell()->head))
+				run_only_builtins(_shell()->head);
+			else
+				pipe_commands(_shell()->head);
 		}
 		else
 			free_arrays(matrix);
