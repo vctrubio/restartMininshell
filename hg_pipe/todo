@@ -1,0 +1,6 @@
+-error in minishell clean when parsing imporper error = ><><><>< 
+-double heredoc <<hi <<bye (only creating the last one, which is fine, but not identical to bash)
+-cat <unexisting_file (wrong behaviour)
+
+-norminette, talk about hg_loop how is it different?
+
