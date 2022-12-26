@@ -74,8 +74,8 @@ void	run_only_builtins(t_cmd *cmd)
 		{
 			dup2(original_stdout, 1);
 			close(original_stdout);
+			close(fd_output);
 		}
-		close(fd_output);
 		return ;
 	}
 }
