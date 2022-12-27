@@ -149,6 +149,39 @@ void	pipe_commands_build_pipes(int *pipes, int num_commands)
 	}
 }
 
+void	pipe_commands_child(t_cmd *curr, int *pipes, int num_commands, int i,
+		int j)
+{
+	if (!redirect_input(curr))
+	{
+		printf("SHOOT AN ERROR\n");
+	}
+	//if SHOOT AN ERROR- file does not exist- do what?
+	if (i > 0)
+	{
+		if (dup2(pipes[j - 2], STDIN_FILENO) < 0)
+		{
+			perror("dup2");
+			exit(1);
+		}
+	}
+	if (i < num_commands - 1)
+	{
+		if (dup2(pipes[j + 1], STDOUT_FILENO) < 0)
+		{
+			perror("dup2");
+			exit(1);
+		}
+	}
+	i = 0;
+	while (i < 2 * num_commands)
+	{
+		close(pipes[i]);
+		i++;
+	}
+	redirect_output(curr);
+}
+
 void	pipe_commands(t_cmd *cmd)
 {
 	int		num_commands;
@@ -190,34 +223,7 @@ void	pipe_commands(t_cmd *cmd)
 		pid = fork();
 		if (pid == 0)
 		{
-			if (redirect_input(curr))
-			{
-				// printf("SHOOT AN ERROR\n");
-			}
-			//if SHOOT AN ERROR- file does not exist- do what?
-			if (i > 0)
-			{
-				if (dup2(pipes[j - 2], STDIN_FILENO) < 0)
-				{
-					perror("dup2");
-					exit(1);
-				}
-			}
-			if (i < num_commands - 1)
-			{
-				if (dup2(pipes[j + 1], STDOUT_FILENO) < 0)
-				{
-					perror("dup2");
-					exit(1);
-				}
-			}
-			i = 0;
-			while (i < 2 * num_commands)
-			{
-				close(pipes[i]);
-				i++;
-			}
-			redirect_output(curr);
+			pipe_commands_child(curr, pipes, num_commands, i, j);
 			if (check_if_builtin(curr))
 				exit(run_builtin(curr));
 			else
