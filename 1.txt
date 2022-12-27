@@ -1,0 +1,5 @@
+1. Do simple builtins
+3. Do quotes -- PARSE_CLEAN FT to work on
+
+TODO-
+ENVPS
