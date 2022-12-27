@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:37 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/26 12:10:05 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/27 16:20:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,18 @@ static void	ask_for_input(char *word, t_file *file)
 void	init_heredoc(void)
 {
 	t_cmd	*cmd;
-
+	t_file	*ptr;
+	
 	cmd = _shell()->head;
 	while (cmd != NULL)
 	{
-		if (cmd->file_in && (cmd->file_in->type == HEREDOC))
-			ask_for_input(cmd->file_in->filename, cmd->file_in);
+		ptr = cmd->file_in;
+		while (ptr)
+		{
+			if (ptr && (ptr->type == HEREDOC))
+				ask_for_input(ptr->filename, ptr);
+			ptr = ptr->next;
+		}
 		cmd = cmd->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:27 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/27 15:54:48 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/27 16:21:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	create_file(char *str, t_cmd *cmd)
 	file->filename = ft_strdup(str);
 	file->type = cmd->type;
 	file->heredoc = NULL;
+	file->next = NULL;
 	if (cmd->file)
 		create_n_clean_file(cmd->file);
 	cmd->file = file;
@@ -35,14 +36,22 @@ void	create_file(char *str, t_cmd *cmd)
 void	create_infile(char *str, t_cmd *cmd)
 {
 	t_file	*file;
-
+	t_file	*ptr;
+	
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
 	file->heredoc = NULL;
+	file->next = NULL;
 	file->type = cmd->type;
 	if (cmd->file_in)
-		free_files(cmd->file_in);
-	cmd->file_in = file;
+	{
+		ptr = cmd->file_in;
+		while (ptr->next)
+			ptr = ptr->next;
+		ptr->next = file;
+	}
+	else
+		cmd->file_in = file;
 }
 
 t_cmd	*init_tcmd(char ***matrix, int i)
