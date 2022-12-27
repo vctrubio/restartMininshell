@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:17:04 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/26 12:38:31 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/27 16:00:28 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,8 @@ void	pipe_commands(t_cmd *cmd)
 	int		i;
 	int		j;
 
+	if (cmd->args[0] == NULL)
+		return ;
 	path = NULL;
 	num_commands = count_cmds(cmd);
 	pipes = malloc(sizeof(int) * 2 * num_commands);

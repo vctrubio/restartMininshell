@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:50 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/27 14:55:15 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/27 15:59:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	minishell(void)
 		matrix = line_to_matrix(line);
 		if (add_cmds(matrix) && init_remove_qt())
 		{
-			// print_tcmd(_shell()->head);
+			print_tcmd(_shell()->head);
 			if (!((_shell()->head)->next) && check_if_builtin(_shell()->head))
 				run_only_builtins(_shell()->head);
 			else
