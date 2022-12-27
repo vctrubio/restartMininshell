@@ -55,14 +55,17 @@ int	run_builtin(t_cmd *cmd)
 
 int	check_if_builtin_not_pipe(t_cmd *cmd)
 {
-	if (ft_strexact("cd", cmd->args[0]))
-		return (1);
-	if (ft_strexact("export", cmd->args[0]))
-		return (1);
-	if (ft_strexact("unset", cmd->args[0]))
-		return (1);
-	if (ft_strexact("exit", cmd->args[0]))
-		return (1);
+	if (!cmd->next)
+	{
+		if (ft_strexact("cd", cmd->args[0]))
+			return (1);
+		if (ft_strexact("export", cmd->args[0]))
+			return (1);
+		if (ft_strexact("unset", cmd->args[0]))
+			return (1);
+		if (ft_strexact("exit", cmd->args[0]))
+			return (1);
+	}
 	return (0);
 }
 

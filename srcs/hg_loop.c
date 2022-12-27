@@ -82,7 +82,7 @@ int	redirect_input(t_cmd *cmd)
 	if (ptr->fd < 0)
 	{
 		perror("open");
-		return (1);
+		exit(1);
 	}
 	cmd->fd_in = ptr->fd;
 	if (dup2(ptr->fd, STDIN_FILENO) < 0)
@@ -144,8 +144,8 @@ void	pipe_commands_build_pipes(int *pipes, int num_commands)
 	}
 }
 
-void	pipe_commands_child(t_cmd *curr, int *pipes, int num_commands, int i,
-		int j)
+void	pipe_commands_dup_n_close_pipes(t_cmd *curr, int *pipes,
+		int num_commands, int i, int j)
 {
 	if (!redirect_input(curr))
 		return ;
@@ -174,62 +174,76 @@ void	pipe_commands_child(t_cmd *curr, int *pipes, int num_commands, int i,
 	redirect_output(curr);
 }
 
+int	run_if_first_level_builtins_set_path(t_cmd **curr, char **path,
+		int *num_commands, int *i)
+{
+	if (*path)
+		free(*path);
+	if (check_if_builtin_not_pipe((*curr)))
+		_shell()->exit_code = run_builtin((*curr));
+	*path = ft_get_exec_path((*curr)->args);
+	if (!check_if_builtin((*curr)) && !*path)
+	{
+		printf("bash: %s: command not found\n", ((*curr)->args)[0]);
+		_shell()->exit_code = 127;
+	}
+	if (check_if_builtin_not_pipe((*curr)) || (!check_if_builtin((*curr))
+			&& !*path))
+	{
+		*curr = (*curr)->next;
+		*(i) = *i + 1;
+		*(num_commands) = *(num_commands)-1;
+		return (1);
+	}
+	return (0);
+}
+
+void	pipe_commands_child_n_error(pid_t pid, t_cmd *curr, int *pipes,
+		char *path, int *i)
+{
+	if (pid == 0)
+	{
+		pipe_commands_dup_n_close_pipes(curr, pipes, i[2], i[0], i[1]);
+		if (check_if_builtin(curr))
+			exit(run_builtin(curr));
+		else
+			exit(execve(path, curr->args, _shell()->envp));
+	}
+	else if (pid < 0)
+	{
+		perror("fork");
+		exit(1);
+	}
+}
+
+// i[0] = i
+// i[1] = j
+// i[2] = num_commands
 void	pipe_commands(t_cmd *cmd)
 {
-	int		num_commands;
+	int		i[3];
 	int		*pipes;
 	pid_t	pid;
 	t_cmd	*curr;
 	char	*path;
-	int		i;
-	int		j;
 
 	if (cmd->args[0] == NULL)
 		return ;
 	path = NULL;
-	num_commands = count_cmds(cmd);
-	pipes = malloc(sizeof(int) * 2 * num_commands);
-	pipe_commands_build_pipes(pipes, num_commands);
+	i[2] = count_cmds(cmd);
+	pipes = malloc(sizeof(int) * 2 * i[2]);
+	pipe_commands_build_pipes(pipes, i[2]);
 	curr = cmd;
-	i = 0;
+	i[0] = 0;
 	while (curr)
 	{
-		j = i * 2;
-		if (path)
-			free(path);
-		path = ft_get_exec_path(curr->args);
-		if (!check_if_builtin(curr) && !path)
-		{
-			printf("bash: %s: command not found\n", (curr->args)[0]);
-			_shell()->exit_code = 127;
-			curr = curr->next;
-			i++;
-			num_commands--;
+		i[1] = i[0] * 2;
+		if (run_if_first_level_builtins_set_path(&curr, &path, &i[2], &i[0]))
 			continue ;
-		}
-		else if (!path)
-		{
-			curr = curr->next;
-			i++;
-			num_commands--;
-			continue ;
-		}
 		pid = fork();
-		if (pid == 0)
-		{
-			pipe_commands_child(curr, pipes, num_commands, i, j);
-			if (check_if_builtin(curr))
-				exit(run_builtin(curr));
-			else
-				exit(execve(path, curr->args, _shell()->envp));
-		}
-		else if (pid < 0)
-		{
-			perror("fork");
-			exit(1);
-		}
-		i++;
+		pipe_commands_child_n_error(pid, curr, pipes, path, i);
+		i[0]++;
 		curr = curr->next;
 	}
-	pipe_commands_cleanup(num_commands, pipes, path);
+	pipe_commands_cleanup(i[2], pipes, path);
 }

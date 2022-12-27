@@ -60,12 +60,7 @@ void	run_only_builtins(t_cmd *cmd)
 
 	fd_output = -42;
 	original_stdout = dup(1);
-	if (ft_strexact("exit", cmd->args[0]))
-	{
-		_shell()->exit = 1;
-		return ;
-	}
-	else if (check_if_builtin(cmd))
+	if (check_if_builtin(cmd))
 	{
 		redirect_input(cmd);
 		fd_output = redirect_output(cmd);
@@ -99,10 +94,11 @@ void	minishell(void)
 		if (add_cmds(matrix) && init_remove_qt())
 		{
 			print_tcmd(_shell()->head);
-			if (!((_shell()->head)->next) && check_if_builtin(_shell()->head))
-				run_only_builtins(_shell()->head);
-			else
-				pipe_commands(_shell()->head);
+			// if (!((_shell()->head)->next)
+			// && check_if_builtin(_shell()->head))
+			// 	run_only_builtins(_shell()->head);
+			// else
+			pipe_commands(_shell()->head);
 		}
 		else
 			free_arrays(matrix);

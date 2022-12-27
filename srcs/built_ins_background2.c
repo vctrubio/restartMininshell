@@ -17,11 +17,13 @@ int	ft_exit(char **argv)
 	if (argv[1])
 	{
 		_shell()->exit_code = ft_atoi(argv[1]);
+		_shell()->exit = 1;
 		return (ft_atoi(argv[1]));
 	}
 	else
 	{
 		_shell()->exit_code = 0;
+		_shell()->exit = 1;
 		return (0);
 	}
 }
