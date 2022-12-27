@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:36 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/26 12:24:37 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/25 18:06:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	free_files(t_file *file)
 {
+	if (file->next)
+		free_files(file->next);
 	free(file->filename);
 	if (file->heredoc)
 	{
@@ -21,7 +23,6 @@ int	free_files(t_file *file)
 		free(file->heredoc);
 	}
 	free(file);
-	file = NULL;
 	return (1);
 }
 
@@ -52,7 +53,7 @@ void	free_cmds(t_cmd *first)
 
 void	minishell_clean(char **line, t_cmd original_cmd)
 {
-	if (_shell()->head && original_cmd.args)
+	if (original_cmd.args)
 		*(_shell()->head) = original_cmd;
 	if (_shell()->head)
 		free_cmds(_shell()->head);

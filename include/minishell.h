@@ -91,6 +91,9 @@ typedef struct s_vars
 
 }						t_vars;
 
+
+void	pipe_commands(t_cmd *cmd);
+
 void					ft_handler(int signum);
 char					*ft_prompt(void);
 int						loop_part1(t_cmd **cmd, char **path);

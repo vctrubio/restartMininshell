@@ -73,7 +73,7 @@ void	minishell(void)
 		if (add_cmds(matrix) && init_remove_qt())
 		{
 			original_cmd = *(_shell()->head);
-			loop_execution(_shell()->head);
+			pipe_commands(_shell()->head);
 		}
 		else
 			free_arrays(matrix);
