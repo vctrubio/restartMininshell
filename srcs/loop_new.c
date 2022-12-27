@@ -4,7 +4,6 @@ void	handle_files(t_cmd *cmd)
 {
 	t_file	*ptr;
 
-	//check to see if file_in is already empty?
 	if (cmd->file_in)
 	{
 		ptr = cmd->file_in;

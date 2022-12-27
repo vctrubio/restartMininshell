@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:20:02 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:20:03 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/27 15:55:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-//parsing of quotes
 
 void	ft_do_quote(char **output, char c)
 {

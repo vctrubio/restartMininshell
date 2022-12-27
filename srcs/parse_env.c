@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:58 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:19:59 by vrubio           ###   ########.fr       */
+/*   Updated: 2022/12/27 15:55:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-//parsing of envp
 
 int	ft_env(char **argv)
 {

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:27 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/26 12:26:53 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/27 15:54:48 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ void	create_infile(char *str, t_cmd *cmd)
 	file->heredoc = NULL;
 	file->type = cmd->type;
 	if (cmd->file_in)
-			free_files(cmd->file_in);
+		free_files(cmd->file_in);
 	cmd->file_in = file;
-	//add while loop needed
 }
 
 t_cmd	*init_tcmd(char ***matrix, int i)
