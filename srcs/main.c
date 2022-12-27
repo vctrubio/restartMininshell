@@ -62,7 +62,7 @@ void	minishell(void)
 	while (!_shell()->exit)
 	{
 		_shell()->valid_input = true;
-		line = readline("minishell.42> ");
+		line = readline(ft_prompt());
 		if (line == NULL)
 			exit(0);
 		if (readline_check(&line))
@@ -73,7 +73,6 @@ void	minishell(void)
 		if (add_cmds(matrix) && init_remove_qt())
 		{
 			original_cmd = *(_shell()->head);
-			// ft_loop();
 			loop_execution(_shell()->head);
 		}
 		else
@@ -92,6 +91,7 @@ int	main(int ac, char **av, char **ev)
 	signal(SIGINT, ft_handler);
 	signal(SIGQUIT, SIG_IGN);
 	init_shell(ev);
+	_shell()->exit_code = -1;
 	minishell();
 	close_shell();
 	printf("exit\n");

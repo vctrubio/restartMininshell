@@ -20,6 +20,7 @@ void	create_file(char *str, t_cmd *cmd)
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
 	file->type = cmd->type;
+	file->heredoc = NULL;
 	file->next = NULL;
 	if (cmd->file)
 	{
@@ -39,6 +40,8 @@ void	create_infile(char *str, t_cmd *cmd)
 	file = malloc(sizeof(t_file));
 	file->filename = ft_strdup(str);
 	file->type = cmd->type;
+	file->heredoc = NULL;
+	file->next = NULL;
 	if (cmd->file_in)
 		free_files(cmd->file_in);
 	cmd->file_in = file;

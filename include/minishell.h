@@ -92,6 +92,7 @@ typedef struct s_vars
 }						t_vars;
 
 void					ft_handler(int signum);
+char					*ft_prompt(void);
 int						loop_part1(t_cmd **cmd, char **path);
 //array.c
 void					print_tcmd(t_cmd *cmd);

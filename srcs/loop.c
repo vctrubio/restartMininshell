@@ -74,8 +74,8 @@ void	loop_execution(t_cmd *cmd)
 	pid_t	pid;
 	char	*path;
 	
-	printf("printing loop...\n");
-	print_tcmd(_shell()->head);
+	// printf("printing loop...\n");
+	// print_tcmd(_shell()->head);
 	while (cmd && cmd->args[0])
 	{
 		if (loop_part1(&cmd, &path))

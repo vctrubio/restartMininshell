@@ -18,7 +18,10 @@ int	free_files(t_file *file)
 		free_files(file->next);
 	free(file->filename);
 	if (file->heredoc)
-		free(file->filename);
+	{
+		remove(file->heredoc);
+		free(file->heredoc);
+	}
 	free(file);
 	return (1);
 }
