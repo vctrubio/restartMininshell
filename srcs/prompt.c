@@ -17,7 +17,7 @@ char	*ft_prompt(void)
 	else if ( _shell()->exit_code == 127)
 		tmp = ft_strdup("\033[0;31m");
 	else
-		return (ft_strjoin(str, "$> "));
+		tmp = ft_strdup("");
 	str = ft_strjoin(tmp, str);
 	str = ft_strjoin(str, "$>\033[0m ");
 	free(tmp);

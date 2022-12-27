@@ -1,4 +1,4 @@
 -cd lib| echo hi ---- should not cd
 -double cat <nonexist <Makefile
 -double cat << HEREDOC1 <<HEREDOC2
-
+-if fd<0, handle error

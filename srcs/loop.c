@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:17:04 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 18:21:32 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/26 11:50:06 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	loop_part1(t_cmd **cmd, char **path)
 {
-	setup_catbs(cmd);
 	*path = NULL;
 	if (check_if_builtin_not_pipe(*cmd))
 	{
@@ -57,7 +56,7 @@ void	loop_parent(t_cmd **p2cmd, int *pid, int *p)
 {
 	t_cmd	*cmd;
 	int		status;
-	
+
 	cmd = *p2cmd;
 	waitpid(*pid, &status, WUNTRACED);
 	if (cmd->next)
@@ -73,9 +72,9 @@ void	loop_execution(t_cmd *cmd)
 	int		p[2];
 	pid_t	pid;
 	char	*path;
-	
-	// printf("printing loop...\n");
-	// print_tcmd(_shell()->head);
+
+	printf("printing loop...\n");
+	print_tcmd(_shell()->head);
 	while (cmd && cmd->args[0])
 	{
 		if (loop_part1(&cmd, &path))

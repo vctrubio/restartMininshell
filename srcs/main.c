@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:50 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 17:57:31 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/27 14:55:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_handler(int signum)
 		if (pid == -1)
 		{
 			write(1, "\n", 1);
-//			rl_replace_line("", 0);
+			// rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
 		}
@@ -53,16 +53,42 @@ int	init_remove_qt(void)
 	return (1);
 }
 
+void	run_only_builtins(t_cmd *cmd)
+{
+	int	fd_output;
+	int	original_stdout;
+
+	fd_output = -42;
+	original_stdout = dup(1);
+	if (ft_strexact("exit", cmd->args[0]))
+	{
+		_shell()->exit = 1;
+		return ;
+	}
+	else if (check_if_builtin(cmd))
+	{
+		redirect_input(cmd);
+		fd_output = redirect_output(cmd);
+		_shell()->exit_code = run_builtin(cmd);
+		if (fd_output != -42)
+		{
+			dup2(original_stdout, 1);
+			close(original_stdout);
+			close(fd_output);
+		}
+		return ;
+	}
+}
+
 void	minishell(void)
 {
 	char	*line;
-	t_cmd	original_cmd;
 	char	**matrix;
 
 	while (!_shell()->exit)
 	{
 		_shell()->valid_input = true;
-		line = readline(ft_prompt());
+		line = readline("minishell$> ");
 		if (line == NULL)
 			exit(0);
 		if (readline_check(&line))
@@ -72,12 +98,15 @@ void	minishell(void)
 		matrix = line_to_matrix(line);
 		if (add_cmds(matrix) && init_remove_qt())
 		{
-			original_cmd = *(_shell()->head);
-			pipe_commands(_shell()->head);
+			// print_tcmd(_shell()->head);
+			if (!((_shell()->head)->next) && check_if_builtin(_shell()->head))
+				run_only_builtins(_shell()->head);
+			else
+				pipe_commands(_shell()->head);
 		}
 		else
 			free_arrays(matrix);
-		minishell_clean(&line, original_cmd);
+		minishell_clean(&line);
 	}
 	free(line);
 }
@@ -91,7 +120,7 @@ int	main(int ac, char **av, char **ev)
 	signal(SIGINT, ft_handler);
 	signal(SIGQUIT, SIG_IGN);
 	init_shell(ev);
-	_shell()->exit_code = -1;
+	_shell()->exit_code = -42;
 	minishell();
 	close_shell();
 	printf("exit\n");

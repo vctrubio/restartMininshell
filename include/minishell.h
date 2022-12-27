@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 10:56:06 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 18:04:02 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/26 12:35:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ struct					s_file
 	char				*heredoc;
 	int					fd;
 	t_type				type;
-	t_file				*next;
 };
 
 struct					s_cmd
@@ -91,12 +90,7 @@ typedef struct s_vars
 
 }						t_vars;
 
-
-void	pipe_commands(t_cmd *cmd);
-
 void					ft_handler(int signum);
-char					*ft_prompt(void);
-int						loop_part1(t_cmd **cmd, char **path);
 //array.c
 void					print_tcmd(t_cmd *cmd);
 void					print_arrays(char **a);
@@ -111,8 +105,8 @@ int						ft_setenv(char *name, char *value, int overwrite);
 char					*ft_setenv_str(char *name, char *value, char *str);
 
 //built_ins_background.c
-int						set_cd_folder_return_if_free_folder_or_not(char **argv, \
-						char **ptr2folder);
+int	set_cd_folder_return_if_free_folder_or_not(char **argv,
+												char **ptr2folder);
 void					ft_export_no_args(void);
 int						ft_unset(char **argv);
 int						ft_exit(char **argv);
@@ -122,6 +116,8 @@ int						check_if_builtin_not_pipe(t_cmd *cmd);
 int						check_if_builtin_2pipe(t_cmd *cmd);
 int						run_builtin_not_piped(t_cmd *cmd);
 int						run_builtin_2pipe(t_cmd *cmd);
+int						check_if_builtin(t_cmd *cmd);
+int						run_builtin(t_cmd *cmd);
 
 //concat.c
 char					*ft_concat3(char *s1, char *s2, char *s3);
@@ -146,11 +142,11 @@ void					bs_cat(int bs_cat);
 
 //free.c
 void					free_cmds(t_cmd *first);
-void					minishell_clean(char **line, t_cmd original_cmd);
+void					minishell_clean(char **line);
 int						free_files(t_file *file);
 //loop.c
 void					loop_execution(t_cmd *ptr);
-void 					ft_loop(void);
+int						loop_part1(t_cmd **cmd, char **path);
 
 //loop_utils
 int						does_next_read_stdi(t_cmd *cmd);
@@ -170,11 +166,12 @@ char					**ft_matrix_push(char **matrix, char *str);
 void					ft_matrix_free(char **matrix);
 
 //matrix_utils.c
-char					**ft_matrix_remove_col_by_index(char **matrix, \
+char	**ft_matrix_remove_col_by_index(char **matrix,
 										int index);
-void					ft_print_matrix_add_str2line_start(char **matrix, \
-										char *str, char *glue);
-void					ft_chk_n_exit_if_null_ppchar(char **matrix, \
+void	ft_print_matrix_add_str2line_start(char **matrix,
+										char *str,
+										char *glue);
+void	ft_chk_n_exit_if_null_ppchar(char **matrix,
 									char *error_str);
 void					ft_chk_n_exit_if_null_pchar(char *str, char *error_str);
 
@@ -230,5 +227,11 @@ t_vars					ft_nexp_helper(t_vars v, char *str);
 char					*ft_var_expansion(char *str);
 
 void					ft_get_quotes_inner_outer(char c, t_vars *vars);
+//hg
+int						count_cmds(t_cmd *cmd);
+void					pipe_commands(t_cmd *cmd);
+int						redirect_input(t_cmd *cmd);
+int						redirect_output(t_cmd *cmd);
 
+char					*ft_prompt(void);
 #endif
