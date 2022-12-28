@@ -1,8 +1,5 @@
 -CALL to discuss
 
-
-- ls>out|wc
-
 - echo hi | sadfdasdfads | echo bye
 
 - cat <asdadsa <Makefile
