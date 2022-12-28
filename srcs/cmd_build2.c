@@ -44,6 +44,8 @@ void	set_redir(t_cmd *cmd, char ****str)
 	}
 	set_redir_back(cmd, str);
 	**(str) = **str + 1;
+	if (ft_strexact(***str, "|"))
+		return ;
 	if (***str && is_redir(****str))
 		set_redir(cmd, str);
 }

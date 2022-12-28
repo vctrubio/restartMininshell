@@ -217,6 +217,7 @@ int						ft_atoi(const char *str);
 //utils_parsing.c
 int						ft_strcount_char(char *str, char l);
 int						is_redir(int c);
+int						is_redir_non_pipe(int c);
 int						r_size(char *s);
 //validate.c
 void					validate_rl(char **matrix);

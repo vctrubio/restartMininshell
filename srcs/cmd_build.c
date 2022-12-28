@@ -61,7 +61,7 @@ t_cmd	*init_tcmd(char ***matrix, int i)
 	cmd = ft_inicialize_cmd(*matrix);
 	while (**matrix != NULL)
 	{
-		if (!is_redir(***matrix))
+		if (!is_redir(***matrix) && !ft_strexact(**matrix, "|"))
 		{
 			if (ft_strexact("cat", **matrix))
 				cmd->flag = 1;
@@ -78,7 +78,7 @@ t_cmd	*init_tcmd(char ***matrix, int i)
 			if (**matrix && !ft_strexact(**matrix, "|"))
 				continue ;
 		}
-		if (**matrix)
+		if (**matrix && ! ft_strexact(**matrix, "|"))
 			*(matrix) = *matrix + 1;
 	}
 	cmd->args[i] = NULL;
@@ -109,7 +109,7 @@ bool	add_cmds(char **matrix)
 	validate_rl(matrix);
 	if (_shell()->valid_input == false)
 	{
-		printf("ERROR: SYNTAX ERROR...\n");
+		printf("SYNTAX ERROR: unexpected token ...\n");
 		return (false);
 	}
 	else

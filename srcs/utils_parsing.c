@@ -28,6 +28,11 @@ int	ft_strcount_char(char *str, char l)
 	return (i);
 }
 
+int	is_redir_non_pipe(int c)
+{
+	return (c == '<' || c == '>');
+}
+
 int	is_redir(int c)
 {
 	return (c == '<' || c == '>' || c == '|');

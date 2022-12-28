@@ -68,6 +68,8 @@ void	validate_rl(char **matrix)
 			{
 				if (i == 0 && j == 0)
 					_shell()->valid_input = false;
+				if (matrix[i + 1] && matrix[i + 1][0] == '|')
+					_shell()->valid_input = false;
 				ft_validate_pipe_matrix(matrix, i);
 			}
 			if (matrix[i][j] == '>')
