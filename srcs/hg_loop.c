@@ -147,8 +147,7 @@ void	pipe_commands_build_pipes(int *pipes, int num_commands)
 void	pipe_commands_dup_n_close_pipes(t_cmd *curr, int *pipes,
 		int num_commands, int i, int j)
 {
-	if (!redirect_input(curr))
-		return ;
+	redirect_input(curr);
 	if (i > 0)
 	{
 		if (dup2(pipes[j - 2], STDIN_FILENO) < 0)
@@ -191,8 +190,8 @@ int	run_if_first_level_builtins_set_path(t_cmd **curr, char **path,
 			&& !*path))
 	{
 		*curr = (*curr)->next;
-		*(i) = *i + 1;
-		*(num_commands) = *(num_commands)-1;
+		*i = *i + 1;
+		*num_commands = *num_commands - 1;
 		return (1);
 	}
 	return (0);
