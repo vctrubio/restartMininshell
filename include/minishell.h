@@ -101,7 +101,7 @@ void					free_arrays(char **arr);
 int						ft_pwd(char **argv);
 int						ft_echo(char **argv);
 int						ft_cd(char **argv);
-int						ft_export(char **argv);
+int						ft_export(char **argv, int index);
 int						ft_setenv(char *name, char *value, int overwrite);
 char					*ft_setenv_str(char *name, char *value, char *str);
 
