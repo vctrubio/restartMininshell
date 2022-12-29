@@ -23,7 +23,7 @@ void	ft_handler(int signum)
 		if (pid == -1)
 		{
 			write(1, "\n", 1);
-			// rl_replace_line("", 0);
+			rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
 		}
@@ -93,7 +93,7 @@ void	minishell(void)
 		matrix = line_to_matrix(line);
 		if (add_cmds(matrix) && init_remove_qt())
 		{
-			print_tcmd(_shell()->head);
+			//print_tcmd(_shell()->head);
 			// if (!((_shell()->head)->next)
 			// && check_if_builtin(_shell()->head))
 			// 	run_only_builtins(_shell()->head);
