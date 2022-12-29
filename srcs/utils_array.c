@@ -1,13 +1,12 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   utils_array.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hgoncalv <hgoncalv@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:20:07 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/23 19:12:37 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/29 20:01:54 by hgoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +29,12 @@ void	print_tcmd(t_cmd *cmd)
 	if (cmd->file)
 	{
 		file = cmd->file;
-			printf("FILE_OUT: %s (%d)\n", file->filename, file->type);
+		printf("FILE_OUT: %s (%d)\n", file->filename, file->type);
 	}
 	if (cmd->file_in)
 	{
 		file = cmd->file_in;
-			printf("FILE_IN: %s (%d)\n", file->filename, file->type);
+		printf("FILE_IN: %s (%d)\n", file->filename, file->type);
 	}
 	printf("__________\n");
 	if (cmd->next)

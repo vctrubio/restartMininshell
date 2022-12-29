@@ -3,83 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_build.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hgoncalv <hgoncalv@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:27 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/27 16:21:58 by codespace        ###   ########.fr       */
+/*   Updated: 2022/12/29 20:19:52 by hgoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	create_n_clean_file(t_file *file)
+// -1 =break
+// 1 = continue
+// 0= do nothing
+int	init_tcmd_while(char ***matrix, int *i, t_cmd **cmd)
 {
-	file->fd = open(file->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	close(file->fd);
-	free_files(file);
-}
-
-void	create_file(char *str, t_cmd *cmd)
-{
-	t_file	*file;
-
-	file = malloc(sizeof(t_file));
-	file->filename = ft_strdup(str);
-	file->type = cmd->type;
-	file->heredoc = NULL;
-	file->next = NULL;
-	if (cmd->file)
-		create_n_clean_file(cmd->file);
-	cmd->file = file;
-}
-
-void	create_infile(char *str, t_cmd *cmd)
-{
-	t_file	*file;
-	t_file	*ptr;
-	
-	file = malloc(sizeof(t_file));
-	file->filename = ft_strdup(str);
-	file->heredoc = NULL;
-	file->next = NULL;
-	file->type = cmd->type;
-	if (cmd->file_in)
+	if (!is_redir(***matrix) && !ft_strexact(**matrix, "|"))
 	{
-		ptr = cmd->file_in;
-		while (ptr->next)
-			ptr = ptr->next;
-		ptr->next = file;
+		if (ft_strexact("cat", **matrix))
+			(*cmd)->flag = 1;
+		(*cmd)->args[(*i)++] = ft_strdup((**matrix));
+	}
+	else if (ft_strexact(**matrix, "|"))
+	{
+		*(matrix) = *matrix + 1;
+		return (-1);
 	}
 	else
-		cmd->file_in = file;
+	{
+		set_redir(*cmd, &matrix);
+		if (**matrix && !ft_strexact(**matrix, "|"))
+			return (1);
+	}
+	if (**matrix && !ft_strexact(**matrix, "|"))
+		*(matrix) = *matrix + 1;
+	return (0);
 }
 
 t_cmd	*init_tcmd(char ***matrix, int i)
 {
 	t_cmd	*cmd;
+	int		loop_ret;
 
 	cmd = ft_inicialize_cmd(*matrix);
 	while (**matrix != NULL)
 	{
-		if (!is_redir(***matrix) && !ft_strexact(**matrix, "|"))
-		{
-			if (ft_strexact("cat", **matrix))
-				cmd->flag = 1;
-			cmd->args[i++] = ft_strdup((**matrix));
-		}
-		else if (ft_strexact(**matrix, "|"))
-		{
-			*(matrix) = *matrix + 1;
-			break;
-		}	
-		else
-		{
-			set_redir(cmd, &matrix);
-			if (**matrix && !ft_strexact(**matrix, "|"))
-				continue ;
-		}
-		if (**matrix && ! ft_strexact(**matrix, "|"))
-			*(matrix) = *matrix + 1;
+		loop_ret = init_tcmd_while(matrix, &i, &cmd);
+		if (loop_ret == -1)
+			break ;
+		else if (loop_ret == 1)
+			continue ;
 	}
 	cmd->args[i] = NULL;
 	return (cmd);

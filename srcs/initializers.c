@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hgoncalv <hgoncalv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/22 15:19:38 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/26 12:05:00 by codespace        ###   ########.fr       */
+/*   Created: 2022/12/22 15:19:38 by hgoncalv          #+#    #+#             */
+/*   Updated: 2022/12/26 12:05:00 by hgoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   loop_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hgoncalv <hgoncalv@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/22 15:19:40 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/25 14:39:45 by codespace        ###   ########.fr       */
+/*   Created: 2022/12/22 15:19:40 by hgoncalv          #+#    #+#             */
+/*   Updated: 2022/12/29 20:03:08 by hgoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-
 
 int	does_next_read_stdi(t_cmd *cmd)
 {
