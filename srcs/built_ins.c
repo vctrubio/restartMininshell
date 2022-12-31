@@ -94,11 +94,11 @@ void	ft_export_loop(char **argv)
 	ft_matrix_free(name_value);
 }
 
-int	ft_export(char **argv, int index)
+int	ft_export(char **argv)
 {
 	if (*argv && ft_strlen(*argv) == 0)
 		return (0);
-	argv = argv + index;
+	argv++;
 	if (*argv)
 	{
 		while (*argv != NULL)

@@ -14,8 +14,6 @@
 
 int	check_if_builtin(t_cmd *cmd)
 {
-	if (ft_strchr(cmd->args[0], '='))
-		return (1);
 	if (ft_strexact("cd", cmd->args[0]))
 		return (1);
 	if (ft_strexact("export", cmd->args[0]))
@@ -37,8 +35,6 @@ int	run_builtin(t_cmd *cmd)
 {
 	int	ret;
 
-	if (ft_strchr(cmd->args[0], '='))
-		ret = ft_export(cmd->args, 0);
 	if (ft_strexact("pwd", cmd->args[0]))
 		ret = ft_pwd(cmd->args);
 	if (ft_strexact("echo", cmd->args[0]))
@@ -48,7 +44,7 @@ int	run_builtin(t_cmd *cmd)
 	if (ft_strexact("cd", cmd->args[0]))
 		ret = ft_cd(cmd->args);
 	if (ft_strexact("export", cmd->args[0]))
-		ret = ft_export(cmd->args, 0);
+		ret = ft_export(cmd->args);
 	if (ft_strexact("unset", cmd->args[0]) && cmd->args[1])
 		ret = ft_unset(cmd->args);
 	if (ft_strexact("exit", cmd->args[0]))
@@ -61,8 +57,6 @@ int	check_if_builtin_not_pipe(t_cmd *cmd)
 {
 	if (!cmd->next)
 	{
-		if (ft_strchr(cmd->args[0], '='))
-			return (1);
 		if (ft_strexact("cd", cmd->args[0]))
 			return (1);
 		if (ft_strexact("export", cmd->args[0]))
@@ -90,12 +84,10 @@ int	run_builtin_not_piped(t_cmd *cmd)
 {
 	int	ret;
 
-	if (ft_strchr(cmd->args[0], '='))
-		ret = ft_export(cmd->args, 0);
 	if (ft_strexact("cd", cmd->args[0]))
 		ret = ft_cd(cmd->args);
 	if (ft_strexact("export", cmd->args[0]))
-		ret = ft_export(cmd->args, 1);
+		ret = ft_export(cmd->args);
 	if (ft_strexact("unset", cmd->args[0]) && cmd->args[1])
 		ret = ft_unset(cmd->args);
 	if (ft_strexact("exit", cmd->args[0]))

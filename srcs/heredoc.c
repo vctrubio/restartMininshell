@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgoncalv <hgoncalv@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 15:19:37 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/29 20:05:28 by hgoncalv         ###   ########.fr       */
+/*   Updated: 2022/12/27 16:20:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	init_heredoc(void)
 {
 	t_cmd	*cmd;
 	t_file	*ptr;
-
+	
 	cmd = _shell()->head;
 	while (cmd != NULL)
 	{

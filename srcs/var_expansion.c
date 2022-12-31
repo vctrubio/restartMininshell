@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_expansion.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgoncalv <hgoncalv@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/22 15:20:19 by hgoncalv          #+#    #+#             */
-/*   Updated: 2022/12/22 15:31:44 by hgoncalv         ###   ########.fr       */
+/*   Created: 2022/12/22 15:20:19 by vrubio            #+#    #+#             */
+/*   Updated: 2022/12/22 15:31:44 by vrubio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

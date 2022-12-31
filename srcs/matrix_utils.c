@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgoncalv <hgoncalv@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/22 15:19:56 by hgoncalv          #+#    #+#             */
-/*   Updated: 2022/12/22 15:19:57 by hgoncalv         ###   ########.fr       */
+/*   Created: 2022/12/22 15:19:56 by vrubio            #+#    #+#             */
+/*   Updated: 2022/12/22 15:19:57 by vrubio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
