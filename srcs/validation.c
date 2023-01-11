@@ -12,8 +12,12 @@
 
 #include "../include/minishell.h"
 
-static void	ft_validate_pipe_matrix(char **line, int i)
+static void	ft_validate_pipe_matrix(char **line, int i, int j)
 {
+	if (i == 0 && j == 0)
+		_shell()->valid_input = false;
+	if (line[i + 1] && line[i + 1][0] == '|')
+		_shell()->valid_input = false;
 	if (line[i])
 	{
 		if (line[i][1])
@@ -22,6 +26,8 @@ static void	ft_validate_pipe_matrix(char **line, int i)
 				_shell()->valid_input = false;
 		}
 	}
+	if (line[i + 1] == NULL)
+		_shell()->valid_input = false;
 }
 
 static void	ft_validate_redir_output_matrix(char **line, int i)
@@ -66,11 +72,7 @@ void	validate_rl(char **matrix)
 			}
 			if (matrix[i][j] == '|')
 			{
-				if (i == 0 && j == 0)
-					_shell()->valid_input = false;
-				if (matrix[i + 1] && matrix[i + 1][0] == '|')
-					_shell()->valid_input = false;
-				ft_validate_pipe_matrix(matrix, i);
+				ft_validate_pipe_matrix(matrix, i, j);
 			}
 			if (matrix[i][j] == '>')
 				ft_validate_redir_output_matrix(matrix, i);
