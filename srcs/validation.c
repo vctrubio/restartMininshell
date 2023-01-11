@@ -12,8 +12,12 @@
 
 #include "../include/minishell.h"
 
-static void	ft_validate_pipe_matrix(char **line, int i)
+static void	ft_validate_pipe_matrix(char **line, int i, int j)
 {
+	if (i == 0 && j == 0)
+		_shell()->valid_input = false;
+	if (line[i + 1] && line[i + 1][0] == '|')
+		_shell()->valid_input = false;
 	if (line[i])
 	{
 		if (line[i][1])
@@ -21,6 +25,10 @@ static void	ft_validate_pipe_matrix(char **line, int i)
 			if (line[i][1] == '|')
 				_shell()->valid_input = false;
 		}
+	}
+	if (line[i + 1] == NULL)
+	{
+		_shell()->valid_input = false;
 	}
 }
 
@@ -52,8 +60,8 @@ void	validate_rl(char **matrix)
 	int		j;
 	char	c;
 
-	i = 0;
-	while (matrix[i])
+	i = -1;
+	while (matrix[++i])
 	{
 		j = -1;
 		while (matrix[i][++j])
@@ -65,18 +73,11 @@ void	validate_rl(char **matrix)
 					j++;
 			}
 			if (matrix[i][j] == '|')
-			{
-				if (i == 0 && j == 0)
-					_shell()->valid_input = false;
-				if (matrix[i + 1] && matrix[i + 1][0] == '|')
-					_shell()->valid_input = false;
-				ft_validate_pipe_matrix(matrix, i);
-			}
+				ft_validate_pipe_matrix(matrix, i, j);
 			if (matrix[i][j] == '>')
 				ft_validate_redir_output_matrix(matrix, i);
 			if (matrix[i][j] == '<')
 				ft_validate_redir_input_matrix(matrix, i);
 		}
-		i++;
 	}
 }
