@@ -21,6 +21,7 @@ void	print_tcmd(t_cmd *cmd)
 {
 	int		i;
 	t_file	*file;
+	t_file	*ptr;
 
 	file = NULL;
 	i = -1;
@@ -33,8 +34,12 @@ void	print_tcmd(t_cmd *cmd)
 	}
 	if (cmd->file_in)
 	{
-		file = cmd->file_in;
-		printf("FILE_IN: %s (%d)\n", file->filename, file->type);
+		ptr = cmd->file_in;
+		while (ptr)
+		{
+			printf("FILE_IN: %s (%d)\n", ptr->filename, ptr->type);
+			ptr = ptr->next;
+		}
 	}
 	printf("__________\n");
 	if (cmd->next)

@@ -18,11 +18,7 @@
 int	init_tcmd_while(char ***matrix, int *i, t_cmd **cmd)
 {
 	if (!is_redir(***matrix) && !ft_strexact(**matrix, "|"))
-	{
-		if (ft_strexact("cat", **matrix))
-			(*cmd)->flag = 1;
 		(*cmd)->args[(*i)++] = ft_strdup((**matrix));
-	}
 	else if (ft_strexact(**matrix, "|"))
 	{
 		*(matrix) = *matrix + 1;

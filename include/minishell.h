@@ -229,11 +229,16 @@ t_vars					ft_nexp_helper(t_vars v, char *str);
 char					*ft_var_expansion(char *str);
 
 void					ft_get_quotes_inner_outer(char c, t_vars *vars);
-//hg
+//piping
 int						count_cmds(t_cmd *cmd);
 void					pipe_commands(t_cmd *cmd);
 int						redirect_input(t_cmd *cmd);
 int						redirect_output(t_cmd *cmd);
+void					pipe_commands_cleanup(int num_commands, int *pipes, char *path);
+void					pipe_commands_build_pipes(int *pipes, int num_commands);
+void					pipe_commands_dup_n_close_pipes(t_cmd *curr, int *pipes,
+							int num_commands, int i, int j);
+
 
 char					*ft_prompt(void);
 #endif
