@@ -46,7 +46,14 @@ void	run_pipe(t_pipe *pipe, t_cmd *cmd)
 				
 		printf("-PATH-%s\n", pipe->path);
 		pid = fork();
-		
+		if (pid == 0)
+		{
+			//redir_pipe(cmd 
+		}
+		else
+		{
+
+		}
 
 		pipe->i++;
 		cmd = cmd->next;

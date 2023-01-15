@@ -80,5 +80,7 @@ int	redirect_input(t_cmd *cmd)
 		exit(1);
 	}
 	close(ptr->fd);
+	if (ptr)
+		return (1);
 	return (0);
 }
