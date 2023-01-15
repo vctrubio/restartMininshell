@@ -94,7 +94,8 @@ void	minishell(void)
 		if (add_cmds(matrix) && init_remove_qt())
 		{
 			print_tcmd(_shell()->head);
-			pipe_commands(_shell()->head);
+			//pipe_commands(_shell()->head);
+			do_pipe(_shell()->head);
 		}
 		else
 			free_arrays(matrix);

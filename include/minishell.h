@@ -35,6 +35,15 @@ enum					e_type
 	HEREDOC,
 };
 
+struct					s_pipe
+{
+	int					n_cmd;
+	int					*pipes;
+	int					i;
+	int					j;
+	char				*path;
+};
+
 struct					s_file
 {
 	char				*filename;
@@ -91,6 +100,7 @@ typedef struct s_vars
 
 }						t_vars;
 
+void					do_pipe(t_cmd *cmd);
 void					ft_handler(int signum);
 //array.c
 void					print_tcmd(t_cmd *cmd);
