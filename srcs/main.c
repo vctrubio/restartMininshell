@@ -86,9 +86,9 @@ void	minishell(void)
 		line = readline("minishell$> ");
 		if (line == NULL)
 			exit(0);
+		add_history(line);
 		if (readline_check(&line))
 			continue ;
-		add_history(line);
 		line = ft_var_expansion(line);
 		matrix = line_to_matrix(line);
 		if (add_cmds(matrix) && init_remove_qt())
