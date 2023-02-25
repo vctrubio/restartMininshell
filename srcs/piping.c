@@ -33,8 +33,6 @@ int	run_if_first_level_builtins_set_path(t_cmd **curr, char **path,
 	i[3] = 0;
 	if (*path)
 		free(*path);
-	if (check_if_builtin_not_pipe((*curr))) //PROBLEM HERE PROP
-		_shell()->exit_code = run_builtin((*curr));
 	*path = ft_get_exec_path((*curr)->args);
 	if (*path && access(*path, X_OK) != 0)
 	{
@@ -97,15 +95,20 @@ void	pipe_commands(t_cmd *cmd)
 	pipe_commands_build_pipes(pipes, i[2]);
 	curr = cmd;
 	i[0] = 0;
-	while (curr)
+	if (check_if_builtin_not_pipe(curr)) //PROBLEM HERE PROP
+		_shell()->exit_code = run_builtin((curr));
+	else
 	{
-		i[1] = i[0] * 2;
-		if (run_if_first_level_builtins_set_path(&curr, &path, &i[2], &i[0]))
-			continue ;
-		pid = fork();
-		pipe_commands_child_n_error(pid, curr, pipes, path, i);
-		i[0]++;
-		curr = curr->next;
+		while (curr)
+		{
+			i[1] = i[0] * 2;
+			if (run_if_first_level_builtins_set_path(&curr, &path, &i[2], &i[0]))
+				continue ;
+			pid = fork();
+			pipe_commands_child_n_error(pid, curr, pipes, path, i);
+			i[0]++;
+			curr = curr->next;
+		}
 	}
 	pipe_commands_cleanup(i[2], pipes, path);
 }
