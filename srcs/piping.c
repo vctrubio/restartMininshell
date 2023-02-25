@@ -95,7 +95,7 @@ void	pipe_commands(t_cmd *cmd)
 	pipe_commands_build_pipes(pipes, i[2]);
 	curr = cmd;
 	i[0] = 0;
-	if (check_if_builtin_not_pipe(curr)) //PROBLEM HERE PROP
+	if (check_if_builtin_not_pipe(curr))
 		_shell()->exit_code = run_builtin((curr));
 	else
 	{
@@ -112,7 +112,3 @@ void	pipe_commands(t_cmd *cmd)
 	}
 	pipe_commands_cleanup(i[2], pipes, path);
 }
-
-
-//cd srcs
-//-> cd is being ran twice man, cd srcs (success) cd srcs (failure becasue chdir has occured.)
