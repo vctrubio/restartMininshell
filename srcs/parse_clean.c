@@ -24,6 +24,7 @@ char	*parse_clean(char **p2str)
 	i = 0;
 	while (*str)
 	{
+		// printf("EVAL----%s\n", str);
 		if (*str == 2 || *str == '\'' || *str == '"')
 		{
 			c = *str++;

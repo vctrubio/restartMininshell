@@ -93,7 +93,7 @@ void	minishell(void)
 		matrix = line_to_matrix(line);
 		if (add_cmds(matrix) && init_remove_qt())
 		{
-			// print_tcmd(_shell()->head);
+			print_tcmd(_shell()->head);
 			pipe_commands(_shell()->head);
 		}
 		else

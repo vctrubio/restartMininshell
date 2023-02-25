@@ -30,6 +30,25 @@ void	ft_do_quote(char **output, char c)
 		ft_do_quote(output, c);
 }
 
+void	ft_do_pipe(char **output)
+{
+	char	*buff;
+	char	*tmp;
+
+	buff = readline("pipe> ");
+	if (ft_strlen(buff) == 0)
+		ft_do_pipe(output);
+	else
+	{
+		add_history(buff);
+		tmp = ft_strdup(buff);
+		ft_stradd(&(*output), tmp);
+		free(buff);
+		free(tmp);
+	}
+}
+
+
 int	readline_check(char **p2line)
 {
 	char	*line;

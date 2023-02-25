@@ -198,10 +198,10 @@ char					**line_to_matrix(char *line);
 
 //parse2.c
 void					ft_do_quote(char **output, char c);
+void					ft_do_pipe(char **output);
 int						readline_check(char **p2line);
 
 //parse_clean.c
-//for late to remove quotes- but we will do this at the very end
 char					*parse_clean(char **p2str);
 
 //parse_envp.c

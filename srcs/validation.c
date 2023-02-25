@@ -26,8 +26,6 @@ static void	ft_validate_pipe_matrix(char **line, int i, int j)
 				_shell()->valid_input = false;
 		}
 	}
-	if (line[i + 1] == NULL)
-		_shell()->valid_input = false;
 }
 
 static void	ft_validate_redir_output_matrix(char **line, int i)
@@ -64,9 +62,10 @@ void	validate_rl(char **matrix)
 		j = -1;
 		while (matrix[i][++j])
 		{
-			if (matrix[i][j] == '\"' || matrix[i][j] == '\'')
+
+			if (matrix[i][j] == '"' || matrix[i][j] == '\'')
 			{
-				c = matrix[i][j];
+				c = matrix[i][j++];
 				while (matrix[i][j] && matrix[i][j] != c)
 					j++;
 			}

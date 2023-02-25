@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vrubio < vrubio@student.42lisboa.com >     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/22 15:20:00 by vrubio            #+#    #+#             */
-/*   Updated: 2022/12/22 15:20:01 by vrubio           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
-//parsing of quotes
 
 static char	*buffer_quotes(char **buff, char c, char *str, int i)
 {
@@ -33,7 +20,6 @@ static char	*buffer_scan_for_quotes(char *str)
 	f = 0;
 	k = 0;
 	i = -1;
-	c = 0;
 	while (str[++i])
 	{
 		if ((str[i] == '\'' || str[i] == '"'))
@@ -49,25 +35,19 @@ static char	*buffer_scan_for_quotes(char *str)
 	return (str);
 }
 
-static void	buffer2string_quotes(char **buff, char **str, int *i)
+int		check_last_char_if_its_pipe(char *str)
 {
-	if (ft_strexist("'\"\2", **buff) && *(*buff) != '\0' && *(*buff
-			+ 1) == **buff)
-		(*buff) += 2;
-	if (ft_strexist("'\"\2", **buff) && *(*buff) != '\0' && (**buff
-			+ 1 != **buff))
-		(*str) = buffer_quotes(&(*buff), **buff, (*str), *i);
-	else if (**buff)
-		(*str)[(*i)++] = *(*buff)++;
-}
-
-static char	*buffer_to_string(char **buff)
-{
-	char	*str;
 	int		i;
 
-	str = ft_calloc(sizeof(char), (ft_strlen(*buff) + 1));
-	i = 0;
+	i = ft_strlen(str);
+	if (str[i - 1] == '|')
+		return (1);
+	return (0);
+}
+
+static char	*buffer_to_string(char **buff, int i, char *str)
+{
+	str = calloc(sizeof(char), (ft_strlen(*buff) + 1));
 	while (**buff)
 	{
 		i = ft_strlen(str);
@@ -82,7 +62,12 @@ static char	*buffer_to_string(char **buff)
 				str[i++] = *(*buff)++;
 			return (str);
 		}
-		buffer2string_quotes(buff, &str, &i);
+		if ((**buff == '\'' || **buff == '"') && *(*buff + 1) == **buff)
+			(*buff) += 2;
+		if ((**buff == '\'' || **buff == '"') && (**buff + 1 != **buff))
+			str = buffer_quotes(&(*buff), **buff, str, i);
+		else if (**buff)
+			str[i++] = *(*buff)++;
 	}
 	return (buffer_scan_for_quotes(str));
 }
@@ -91,8 +76,10 @@ char	**line_to_matrix(char *line)
 {
 	char	**matrix;
 	int		i;
+	char	*buff;
 
-	matrix = malloc(sizeof(char *) * (r_size(line) + 1));
+	buff = NULL;
+	matrix = malloc(sizeof(char *) * (r_size(line) + 4));
 	i = 0;
 	while (*line)
 	{
@@ -100,8 +87,17 @@ char	**line_to_matrix(char *line)
 			line++;
 		if (!line || ft_strlen(line) == 0)
 			break ;
-		matrix[i++] = buffer_to_string(&line);
+		matrix[i++] = buffer_to_string(&line, 0, NULL);
+	}
+	if (matrix[i - 1] && check_last_char_if_its_pipe(matrix[i - 1]))
+	{
+		while (!buff || ft_strlen(buff) == 0)
+			buff = readline("pipe> ");
+		add_history(buff);
+		matrix[i++] = ft_strdup(buff);
+		free (buff);
 	}
 	matrix[i] = 0;
+	print_arrays(matrix);
 	return (matrix);
 }

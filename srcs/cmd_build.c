@@ -77,7 +77,7 @@ bool	add_cmds(char **matrix)
 	validate_rl(matrix);
 	if (_shell()->valid_input == false)
 	{
-		printf("SYNTAX ERROR: unexpected token ...\n");
+		printf("\033[0;31msyntax error near unexpected token `newline'\033[0m\n");
 		return (false);
 	}
 	else
