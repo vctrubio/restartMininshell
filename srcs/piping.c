@@ -33,7 +33,7 @@ int	run_if_first_level_builtins_set_path(t_cmd **curr, char **path,
 	i[3] = 0;
 	if (*path)
 		free(*path);
-	if (check_if_builtin_not_pipe((*curr)))
+	if (check_if_builtin_not_pipe((*curr))) //PROBLEM HERE PROP
 		_shell()->exit_code = run_builtin((*curr));
 	*path = ft_get_exec_path((*curr)->args);
 	if (*path && access(*path, X_OK) != 0)
@@ -109,3 +109,7 @@ void	pipe_commands(t_cmd *cmd)
 	}
 	pipe_commands_cleanup(i[2], pipes, path);
 }
+
+
+//cd srcs
+//-> cd is being ran twice man, cd srcs (success) cd srcs (failure becasue chdir has occured.)
