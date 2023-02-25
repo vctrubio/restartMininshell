@@ -98,6 +98,5 @@ char	**line_to_matrix(char *line)
 		free (buff);
 	}
 	matrix[i] = 0;
-	print_arrays(matrix);
 	return (matrix);
 }

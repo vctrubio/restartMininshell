@@ -91,9 +91,10 @@ void	minishell(void)
 			continue ;
 		line = ft_var_expansion(line);
 		matrix = line_to_matrix(line);
-		if (add_cmds(matrix) && init_remove_qt())
+		if (add_cmds(matrix))
 		{
-			print_tcmd(_shell()->head);
+			init_remove_qt();
+			// print_tcmd(_shell()->head);
 			pipe_commands(_shell()->head);
 		}
 		else

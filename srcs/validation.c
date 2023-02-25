@@ -70,9 +70,7 @@ void	validate_rl(char **matrix)
 					j++;
 			}
 			if (matrix[i][j] == '|')
-			{
 				ft_validate_pipe_matrix(matrix, i, j);
-			}
 			if (matrix[i][j] == '>')
 				ft_validate_redir_output_matrix(matrix, i);
 			if (matrix[i][j] == '<')

@@ -74,6 +74,7 @@ void	build_cmds(char **matrix)
 
 bool	add_cmds(char **matrix)
 {
+	// print_arrays(matrix);
 	validate_rl(matrix);
 	if (_shell()->valid_input == false)
 	{
