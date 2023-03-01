@@ -48,12 +48,26 @@ void	ft_do_pipe(char **output)
 	}
 }
 
-
+int	vcheck(char *line)
+{
+	while (*line)
+	{
+		if (*line > 32 && *line < 127)
+			return (0);
+		line++;
+	}
+	return (1);
+}
 int	readline_check(char **p2line)
 {
 	char	*line;
 
 	line = *p2line;
+	if (vcheck(line))
+	{
+		free(*p2line);
+		return (1);
+	}
 	if (ft_strexact("''", line) || ft_strexact("\"\"", line)
 		|| ft_strexact("..", line) || ft_strexact(".", line))
 	{
